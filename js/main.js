@@ -1,1 +1,3 @@
-console.log("main.js");
+function run() {
+  alert("TODO: run");
+}
