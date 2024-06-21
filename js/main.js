@@ -161,9 +161,7 @@ function share() {
   const textarea = document.querySelector("textarea");
   const code = textarea.value;
 
-  console.log('value that is being copied ->' + code);
   const base64Encoded = btoa(code);
-
   var url = new URL(window.location.href);
   url.searchParams.append('code', base64Encoded);
   
