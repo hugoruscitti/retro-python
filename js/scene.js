@@ -45,6 +45,13 @@ class Scene extends Phaser.Scene {
     graphics.strokePath();
   }
 
+  fill(color, opacity=1) {
+    let graphics = this.graphics;
+    graphics.fillStyle(this.getColor(color), opacity);
+    graphics.fillRect(0, 0, canvasHeight, canvasWidth)
+    graphics.strokePath();
+  }
+
   drawCircle(x, y, radius, color) {
     let graphics = this.graphics;
     graphics.fillStyle(this.getColor(color));
