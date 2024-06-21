@@ -58,6 +58,11 @@ function run() {
     return nodo;
   });
 
+  // expone la función __bloque_while
+  // para indicarle al editor que el programa terminó.
+  const bloque_while = filbert.parse("window.__bloque_while = __bloque_while")
+  ast.body.push(bloque_while.body[0])
+
   // marca el fin del programa, llamando a una función 'done'
   // para indicarle al editor que el programa terminó.
   const fin = filbert.parse("done()")
