@@ -29,22 +29,42 @@
     </div>
   </section>
 
-  <div class="editor-panel">
+  <div style="display: flex; flex-direction: column;">
+    <section class="editor-panel">
 
-    <button id="run">RUN</button>
-    <button id="share">SHARE</button>
+      <button id="run">RUN</button>
+      <button id="share">SHARE</button>
 
-    <textarea cols="80" rows="15">
+      <textarea cols="80" rows="15">
 x = 0
 while True:
   x += 1
   # (x, y, length, angle, color)
   drawLine(0, 0, 100*x, 200, 11)
 </textarea>
+    </section>
+
+    <section title="Legend">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>drawLine(0, 0, 100, 200)</td>
+          </tr>
+          <tr>
+            <td>drawCircle(50, 50, 30)</td>
+          </tr>
+          <tr>
+            <td>drawRectangle(10, 10, 100, 50)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </div>
-
-  <div>
-
-    </body>
+  </body>
 
 </html>
