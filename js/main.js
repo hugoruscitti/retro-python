@@ -149,6 +149,10 @@ function run() {
 
     filbert.pythonRuntime.functions.print = print;
 
+    /*
+      *The following functions are exposed to the user code
+      * to be able to draw on the canvas in runtime.
+    */
     const clear = canvas.clear.bind(canvas);
     const drawLine = canvas.drawLine.bind(canvas);
     const fill = canvas.fill.bind(canvas);

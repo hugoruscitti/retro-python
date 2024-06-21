@@ -11,6 +11,21 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid black;
+    }
+
+    tr {
+      border: 1px solid blue;
+    }
+  </style>
 </head>
 
 <div class="main">
@@ -44,22 +59,21 @@ while True:
 </textarea>
     </section>
 
-    <section title="Legend">
-      <table>
+    <section title="Legend" style="margin: 10px 0 0 10px; ">
+      <table style="border: 1.5px solid black; border-collapse: collapse;">
         <thead>
           <tr>
             <th>Feature</th>
+            <th>Example</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>drawLine(0, 0, 100, 200)</td>
+            <td>drawLine(x, y, length, angle, color)</td>
+            <td>drawLine(0, 0, 100, 200, 12)</td>
           </tr>
           <tr>
             <td>drawCircle(50, 50, 30)</td>
-          </tr>
-          <tr>
-            <td>drawRectangle(10, 10, 100, 50)</td>
           </tr>
         </tbody>
       </table>

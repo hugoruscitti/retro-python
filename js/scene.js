@@ -24,6 +24,10 @@ class Scene extends Phaser.Scene {
     }
   }
 
+  _getColor(key, defaultValue = 0x000000) {
+    return this.bitColors[key] || defaultValue;
+  }
+
   preload() {
     this.graphics = this.add.graphics(canvasHeight, canvasWidth);
   }
@@ -32,13 +36,10 @@ class Scene extends Phaser.Scene {
     window.canvas = this;
   }
 
-  getColor(key, defaultValue = 0x000000) {
-    return this.bitColors[key] || defaultValue;
-  }
 
   drawLine(x, y, x2, y2, color) {
     let graphics = this.graphics;
-    graphics.lineStyle(1, this.getColor(color));
+    graphics.lineStyle(1, this._getColor(color));
     graphics.beginPath();
     graphics.moveTo(x, y);
     graphics.lineTo(x2, y2);
@@ -54,7 +55,7 @@ class Scene extends Phaser.Scene {
 
   drawCircle(x, y, radius, color) {
     let graphics = this.graphics;
-    graphics.fillStyle(this.getColor(color));
+    graphics.fillStyle(this._getColor(color));
     graphics.fillCircle(canvasHeight / 2, canvasWidth / 2, radius);
   }
 
