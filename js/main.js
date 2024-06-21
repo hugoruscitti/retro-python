@@ -4,6 +4,8 @@ customElements.define("retro-canvas", Canvas);
 
 // indica si el código está en un loop ejecutando.
 var running = false;
+var timer = null;
+var speed = 30; // velocidad en cuadros por segundo
 
 function updateButton() {
   const runButton = document.querySelector("#run");
@@ -16,16 +18,26 @@ function updateButton() {
 
 }
 
+function stopTimer() {
+  timer.destroy()
+  timer = null;
+}
+
+function step() {
+  if (running) {
+    __bloque_while();
+  }
+}
+
 function run() {
   const textarea = document.querySelector("textarea");
   filbert.defaultOptions.runtimeParamName = "py";
 
   if (running) {
-    console.log("TODO: detener el mainloop");
     running = false;
     updateButton();
+    stopTimer();
   } else {
-
 
     running = true;
     updateButton();
@@ -37,6 +49,7 @@ function run() {
 
     const codigo = textarea.value;
     const ast = filbert.parse(codigo, opciones);
+    const hasMainLoop = ast.body.filter(e => e.type === "WhileStatement").length > 0
 
 
     // debug log para mostrar el programa original
@@ -46,47 +59,63 @@ function run() {
 
     //console.log(JSON.stringify(ast, null, 2));
 
-
     // Agrega una llamada a la función 'clear()' automáticamente
     // al principio del programa
     const inicio = filbert.parse("clear()")
     ast.body.splice(0, 0, inicio.body[0])
 
-    ast.body = ast.body.map(nodo => {
+    let acumulador = 0;
 
-      // si encuentra un bloque while asume que
-      // es el mainloop y lo reemplaza por una
-      // declaración de función.
-      // 
-      // por ejemplo:
-      //
-      // while True:
-      //    1 + 1
-      //    print("test")
-      //
-      // se tiene que transformar en:
-      //
-      // def __bloque_while():
-      //    1 + 1
-      //    print("test")
-      //
-      if (nodo.type === "WhileStatement") {
-        const nodo_funcion = filbert.parse("def __bloque_while():\n\tpass");
-        const declaracion = nodo_funcion.body[0];
-        const cuerpo_while = nodo.body;
+    if (hasMainLoop) {
+      // si tiene mainloop intenta crear un temporizador
+      timer = canvas.time.addEvent({
+        delay: 1000/30,
+        loop: true,
+        callback: () => {
 
-        declaracion.body.body = cuerpo_while.body
-        return declaracion;
-      }
+          acumulador += 33;
 
-      return nodo;
-    });
+          if (acumulador >= 1000 / speed) {
+            acumulador = 0;
+            __bloque_while();
+            //draw_step();
+          }
 
+        }
+      });
+    }
 
-    const hasMainLoop = ast.body
-      .filter(e => e.type == "FunctionDeclaration")
-      .map(e => e.id.name == "__bloque_while")
-      .length > 0;
+    if (hasMainLoop) {
+      ast.body = ast.body.map(nodo => {
+
+        // si encuentra un bloque while asume que
+        // es el mainloop y lo reemplaza por una
+        // declaración de función.
+        // 
+        // por ejemplo:
+        //
+        // while True:
+        //    1 + 1
+        //    print("test")
+        //
+        // se tiene que transformar en:
+        //
+        // def __bloque_while():
+        //    1 + 1
+        //    print("test")
+        //
+        if (nodo.type === "WhileStatement") {
+          const nodo_funcion = filbert.parse("def __bloque_while():\n\tpass");
+          const declaracion = nodo_funcion.body[0];
+          const cuerpo_while = nodo.body;
+
+          declaracion.body.body = cuerpo_while.body
+          return declaracion;
+        }
+
+        return nodo;
+      });
+    }
 
     // si el programa tiene main-loop, espone la función para
     // que se pueda llamar desde un temporizador.
@@ -115,6 +144,7 @@ function run() {
     function done() {
       running = false;
       updateButton();
+      stopTimer();
     }
 
     filbert.pythonRuntime.functions.print = print;
@@ -129,15 +159,26 @@ function run() {
 
 document.addEventListener("DOMContentLoaded", function() {
   const runButton = document.querySelector("#run");
-  const speed = document.querySelector("#speed");
+  const speedInput = document.querySelector("#speed");
+  const stepButton = document.querySelector("#step");
 
   runButton.addEventListener("click", function() {
     run();
   });
 
-  speed.addEventListener("input", function(e) {
-    const speed = +e.target.value;
-    console.log(`TODO: usar este valor de velocidad para el mainloop ${speed} FPS`);
+  stepButton.addEventListener("click", function() {
+    step();
   });
 
+  speedInput.addEventListener("input", function(e) {
+    speed = +e.target.value;
+    console.log(`TODO: usar este valor de velocidad para el mainloop ${speed} FPS`);
+
+    if (speed > 0) {
+      stepButton.setAttribute("disabled", "disabled")
+    } else {
+      stepButton.removeAttribute("disabled")
+    }
+
+  });
 });
