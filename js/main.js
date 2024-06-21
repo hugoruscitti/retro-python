@@ -157,10 +157,31 @@ function run() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+function share() {
+  const textarea = document.querySelector("textarea");
+  const code = textarea.value;
+
+  const base64Encoded = btoa(code);
+  var url = new URL(window.location.origin);
+  url.searchParams.append('code', base64Encoded);
+  
+  navigator.clipboard.writeText(url.toString());
+  alert("coppied url to clipboard");
+}
+
+function loadCode() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const base64Encoded = urlParams.get('code');
+  if (base64Encoded != null) {
+    document.querySelector("textarea").value = atob(base64Encoded);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
   const runButton = document.querySelector("#run");
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
+  const shareButton = document.querySelector("#share");
 
   runButton.addEventListener("click", function () {
     run();
@@ -168,6 +189,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   stepButton.addEventListener("click", function () {
     step();
+  });
+
+  shareButton.addEventListener("click", function () {
+    share();
   });
 
   speedInput.addEventListener("input", function (e) {
@@ -182,3 +207,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
 });
+
+
+window.run = run;
+window.share = share;
+loadCode();
