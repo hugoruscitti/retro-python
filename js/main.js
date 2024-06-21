@@ -43,7 +43,7 @@ function run() {
     updateButton();
 
     const opciones = {
-      locations: false, 
+      locations: false,
       ranges: false,
     }
 
@@ -69,7 +69,7 @@ function run() {
     if (hasMainLoop) {
       // si tiene mainloop intenta crear un temporizador
       timer = canvas.time.addEvent({
-        delay: 1000/30,
+        delay: 1000 / 30,
         loop: true,
         callback: () => {
 
@@ -149,28 +149,28 @@ function run() {
 
     filbert.pythonRuntime.functions.print = print;
 
-    const dibujar = canvas.dibujar.bind(canvas);
     const clear = canvas.clear.bind(canvas);
+    const drawLine = canvas.drawLine.bind(canvas);
 
     let eval_string = "(function(py){" + js + "})(filbert.pythonRuntime);"
     eval(eval_string);
   }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const runButton = document.querySelector("#run");
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
 
-  runButton.addEventListener("click", function() {
+  runButton.addEventListener("click", function () {
     run();
   });
 
-  stepButton.addEventListener("click", function() {
+  stepButton.addEventListener("click", function () {
     step();
   });
 
-  speedInput.addEventListener("input", function(e) {
+  speedInput.addEventListener("input", function (e) {
     speed = +e.target.value;
     console.log(`TODO: usar este valor de velocidad para el mainloop ${speed} FPS`);
 

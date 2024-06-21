@@ -1,43 +1,43 @@
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>retro-python</title>
-    <script src="js/vendor/filbert.js"></script>
-    <script src="js/vendor/escodegen.browser.js"></script>
-    <script src="js/vendor/code-mirror.js"></script>
-    <script src="js/vendor/phaser.min.js"></script>
-    <script type="module" src="js/main.js"></script>
-    <link rel="stylesheet" href="css/style.css">
 
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <title>retro-python</title>
+  <script src="js/vendor/filbert.js"></script>
+  <script src="js/vendor/escodegen.browser.js"></script>
+  <script src="js/vendor/code-mirror.js"></script>
+  <script src="js/vendor/phaser.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
 
-  <div class="main">
+<div class="main">
 
-    <div class="canvas-panel">
-      <retro-canvas></retro-canvas>
+  <div class="canvas-panel">
+    <retro-canvas></retro-canvas>
 
-      <div class="speed">
-        <button id="step" disabled="disabled">step</button>
-        🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
-      </div>
+    <div class="speed">
+      <button id="step" disabled="disabled">step</button>
+      🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
     </div>
+  </div>
 
-    <div class="editor-panel">
+  <div class="editor-panel">
 
-      <button id="run">RUN</button>
+    <button id="run">RUN</button>
 
     <textarea cols="80" rows="15">
 x = 0
 while True:
   x += 1
-  dibujar(0, 0, 100*x, 200)
+  drawLine(0, 0, 100*x, 200)
 </textarea>
-    </div>
+  </div>
 
-    <div>
+  <div>
 
-  </body>
+    </body>
+
 </html>
