@@ -151,6 +151,7 @@ function run() {
 
     const clear = canvas.clear.bind(canvas);
     const drawLine = canvas.drawLine.bind(canvas);
+    const fill = canvas.fill.bind(canvas);
 
     let eval_string = "(function(py){" + js + "})(filbert.pythonRuntime);"
     eval(eval_string);
