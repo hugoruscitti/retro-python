@@ -14,26 +14,32 @@
 </head>
 
 <div class="main">
+  <section>
+    <div class="canvas-panel">
+      <retro-canvas></retro-canvas>
 
-  <div class="canvas-panel">
-    <retro-canvas></retro-canvas>
-
-    <div class="speed">
-      <button id="step" disabled="disabled">step</button>
-      🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+      <div style="margin-top: 5%;" class="speed">
+        <button id="step" style="margin-right: 5%;" disabled="disabled">step</button>
+        🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+      </div>
     </div>
-  </div>
+
+    <div>
+      <img style="height: 30%; width: 50%; margin-top: 10%;" src="static/img/pallet-color.png" alt="Pallet Color">
+    </div>
+  </section>
 
   <div class="editor-panel">
 
-      <button id="run">RUN</button>
-      <button id="share">SHARE</button>
+    <button id="run">RUN</button>
+    <button id="share">SHARE</button>
 
     <textarea cols="80" rows="15">
 x = 0
 while True:
   x += 1
-  drawLine(0, 0, 100*x, 200)
+  # (x, y, length, angle, color)
+  drawLine(0, 0, 100*x, 200, 11)
 </textarea>
   </div>
 

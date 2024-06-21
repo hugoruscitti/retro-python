@@ -5,13 +5,25 @@ class Scene extends Phaser.Scene {
   constructor() {
     super({ key: "Scene" });
     this.bitColors = {
-      black: 0x000000,
-      blue: 0x0000ff,
-      green: 0x00ff00,
-      red: 0xff0000,
-      white: 0xffffff,
+      0: "0x000000",
+      1: "0x1D2B53",
+      2: "0x7E2553",
+      3: "0x008751",
+      4: "0xAB5236",
+      5: "0x5F574F",
+      6: "0xC2C3C7",
+      7: "0xFFF1E8",
+      8: "0xFF004D",
+      9: "0xFFA300",
+      10: "0xFFEC27",
+      11: "0x00E436",
+      12: "0x29ADFF",
+      13: "0x83769C",
+      14: "0xFF77A8",
+      15: "0xFFCCAA"
     }
   }
+
   preload() {
     this.graphics = this.add.graphics(canvasHeight, canvasWidth);
   }
