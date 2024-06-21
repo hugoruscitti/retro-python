@@ -16,12 +16,59 @@ function run() {
 
   console.log(ast);
   console.log(JSON.stringify(ast, null, 2));
-  
+
+
+  // Agrega una llamada a la función 'clear()' automáticamente
+  // al principio del programa
+  const inicio = filbert.parse("clear()")
+  ast.body.splice(0, 0, inicio.body[0])
+
+  ast.body = ast.body.map(nodo => {
+
+    // si encuentra un bloque while asume que
+    // es el mainloop y lo reemplaza por una
+    // declaración de función.
+    // 
+    // por ejemplo:
+    //
+    // while True:
+    //    1 + 1
+    //    print("test")
+    //
+    // se tiene que transformar en:
+    //
+    // def __bloque_while():
+    //    1 + 1
+    //    print("test")
+    //
+    if (nodo.type === "WhileStatement") {
+      const nodo_funcion = filbert.parse("def __bloque_while():\n\tpass");
+      const declaracion = nodo_funcion.body[0];
+      const cuerpo_while = nodo.body;
+
+      declaracion.body.body = cuerpo_while.body
+      return declaracion;
+    }
+
+    return nodo;
+  });
+
+  // marca el fin del programa, llamando a una función 'done'
+  // para indicarle al editor que el programa terminó.
+  const fin = filbert.parse("done()")
+  ast.body.push(fin.body[0])
+
+  console.log(ast)
+
   const js = escodegen.generate(ast);
   console.log(js)
 
   function print(args) {
     alert(args);
+  }
+
+  function done() {
+    console.log("Finalizó la ejecución del código");
   }
 
   filbert.pythonRuntime.functions.print = print;
