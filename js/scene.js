@@ -1,4 +1,5 @@
 // VER: https://newdocs.phaser.io/docs/3.55.1/Phaser.GameObjects.Graphics
+import { canvasHeight, canvasWidth } from "./constants.js";
 
 class Scene extends Phaser.Scene {
   constructor() {
@@ -12,7 +13,7 @@ class Scene extends Phaser.Scene {
     }
   }
   preload() {
-    this.graphics = this.add.graphics(200, 200);
+    this.graphics = this.add.graphics(canvasHeight, canvasWidth);
   }
 
   create() {
@@ -30,6 +31,12 @@ class Scene extends Phaser.Scene {
     graphics.moveTo(x, y);
     graphics.lineTo(x2, y2);
     graphics.strokePath();
+  }
+
+  drawCircle(x, y, radius, color) {
+    let graphics = this.graphics;
+    graphics.fillStyle(this.getColor(color));
+    graphics.fillCircle(canvasHeight / 2, canvasWidth / 2, radius);
   }
 
   clear() {
