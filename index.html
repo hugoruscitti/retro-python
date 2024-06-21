@@ -14,14 +14,19 @@
   </head>
   <body>
 
+    <div class="speed">
+      🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+    </div>
+
     <retro-canvas></retro-canvas>
 
-    <button onclick="run();">RUN</button>
+    <button id="run">RUN</button>
 
     <textarea cols="80" rows="15">
 for x in range(10):
   dibujar(0, 0, 100*x, 200)
 </textarea>
+
 
   </body>
 </html>

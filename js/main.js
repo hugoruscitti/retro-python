@@ -92,4 +92,17 @@ function run() {
   eval(eval_string);
 }
 
-window.run = run;
+document.addEventListener("DOMContentLoaded", function() {
+  const runButton = document.querySelector("#run");
+  const speed = document.querySelector("#speed");
+
+  runButton.addEventListener("click", function() {
+    run();
+  });
+
+  speed.addEventListener("input", function(e) {
+    const speed = +e.target.value;
+    console.log(`TODO: usar este valor de velocidad para el mainloop ${speed} FPS`);
+  });
+
+});
