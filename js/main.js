@@ -92,4 +92,29 @@ function run() {
   eval(eval_string);
 }
 
+function share() {
+  const textarea = document.querySelector("textarea");
+  const code = textarea.value;
+
+  console.log('value that is being copied ->' + code);
+  const base64Encoded = btoa(code);
+
+  var url = new URL(window.location.href);
+  url.searchParams.append('code', base64Encoded);
+  
+  navigator.clipboard.writeText(url.toString());
+  alert("coppied url to clipboard");
+}
+
+function loadCode() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const base64Encoded = urlParams.get('code');
+  if (base64Encoded != null) {
+    document.querySelector("textarea").value = atob(base64Encoded);
+  }
+}
+
 window.run = run;
+window.share = share;
+
+loadCode();
