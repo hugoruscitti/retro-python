@@ -14,8 +14,13 @@ function run() {
   const codigo = textarea.value;
   const ast = filbert.parse(codigo, opciones);
 
+
+  // debug log para mostrar el programa original
+  console.log("%cPrograma original:", "color: #389aff; font-size: large")
+  console.log(escodegen.generate(ast))
   console.log(ast);
-  console.log(JSON.stringify(ast, null, 2));
+
+  //console.log(JSON.stringify(ast, null, 2));
 
 
   // Agrega una llamada a la función 'clear()' automáticamente
@@ -58,10 +63,12 @@ function run() {
   const fin = filbert.parse("done()")
   ast.body.push(fin.body[0])
 
-  console.log(ast)
 
   const js = escodegen.generate(ast);
+
+  console.log("%cPrograma modificado:", "color: #389aff; font-size: large")
   console.log(js)
+  console.log(ast)
 
   function print(args) {
     alert(args);
