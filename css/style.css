@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 canvas {
   width: 400px;
   height: 400px;
@@ -6,4 +10,22 @@ canvas {
 .speed {
   display: flex;
   align-items: center;
+}
+
+.main {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  padding: 8px;
+}
+
+.canvas-panel {
+}
+
+.editor-panel {
+  padding-left: 8px;
+}
+
+textarea {
+  width: 100%;
 }

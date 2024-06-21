@@ -13,19 +13,31 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 
-<body>
-  <div class="speed">
-    🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+<div class="main">
+
+  <div class="canvas-panel">
+    <retro-canvas></retro-canvas>
+
+    <div class="speed">
+      <button id="step" disabled="disabled">step</button>
+      🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+    </div>
   </div>
 
-  <retro-canvas></retro-canvas>
+  <div class="editor-panel">
 
-  <button id="run">RUN</button>
+    <button id="run">RUN</button>
 
-  <textarea cols="80" rows="15">
-for x in range(10):
-  drawLine(0, 0, 100*x, 200, "white")
+    <textarea cols="80" rows="15">
+x = 0
+while True:
+  x += 1
+  drawLine(0, 0, 100*x, 200)
 </textarea>
-</body>
+  </div>
+
+  <div>
+
+    </body>
 
 </html>
