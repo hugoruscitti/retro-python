@@ -6,14 +6,19 @@
     <script src="js/vendor/escodegen.browser.js"></script>
     <script src="js/vendor/code-mirror.js"></script>
     <script src="js/vendor/phaser.min.js"></script>
-    <script src="js/main.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
 
-    <button onclick="run()">RUN</button>
+    <retro-canvas></retro-canvas>
 
-    <textarea cols="80" rows="15">cls(1);
-rect(10, 10, 20, 20, 3);
+    <button onclick="run();">RUN</button>
+
+    <textarea cols="80" rows="15">
+for x in range(10):
+  canvas.dibujar(0, 0, 100*x, 200)
 </textarea>
+
   </body>
 </html>
