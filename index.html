@@ -14,15 +14,31 @@
   </head>
   <body>
 
-    <retro-canvas></retro-canvas>
+  <div class="main">
 
-    <button onclick="run();">RUN</button>
-    <button onclick="share();">SHARE</button>
+    <div class="canvas-panel">
+      <retro-canvas></retro-canvas>
+
+      <div class="speed">
+        <button id="step">step</button>
+        🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+      </div>
+    </div>
+
+    <div class="editor-panel">
+
+      <button id="run">RUN</button>
+      <button onclick="share();">SHARE</button>
 
     <textarea cols="80" rows="15">
-for x in range(10):
+x = 0
+while True:
+  x += 1
   dibujar(0, 0, 100*x, 200)
 </textarea>
+    </div>
+
+    <div>
 
   </body>
 </html>
