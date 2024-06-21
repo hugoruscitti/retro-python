@@ -9,22 +9,23 @@
   <script src="js/vendor/phaser.min.js"></script>
   <script type="module" src="js/main.js"></script>
   <link rel="stylesheet" href="css/style.css">
-
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
+  <div class="speed">
+    🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+  </div>
 
   <retro-canvas></retro-canvas>
 
-  <button onclick="run();">RUN</button>
+  <button id="run">RUN</button>
 
   <textarea cols="80" rows="15">
 for x in range(10):
   drawLine(0, 0, 100*x, 200, "white")
 </textarea>
-
 </body>
 
 </html>
