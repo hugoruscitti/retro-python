@@ -14,31 +14,57 @@
 </head>
 
 <div class="main">
+  <section>
+    <div class="canvas-panel">
+      <retro-canvas></retro-canvas>
 
-  <div class="canvas-panel">
-    <retro-canvas></retro-canvas>
-
-    <div class="speed">
-      <button id="step" disabled="disabled">step</button>
-      🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+      <div style="margin-top: 5%;" class="speed">
+        <button id="step" style="margin-right: 5%;" disabled="disabled">step</button>
+        🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+      </div>
     </div>
-  </div>
 
-  <div class="editor-panel">
+    <div>
+      <img style="height: 30%; width: 50%; margin-top: 10%;" src="static/img/pallet-color.png" alt="Pallet Color">
+    </div>
+  </section>
+
+  <div style="display: flex; flex-direction: column;">
+    <section class="editor-panel">
 
       <button id="run">RUN</button>
       <button id="share">SHARE</button>
 
-    <textarea cols="80" rows="15">
+      <textarea cols="80" rows="15">
 x = 0
 while True:
   x += 1
-  drawLine(0, 0, 100*x, 200)
+  # (x, y, length, angle, color)
+  drawLine(0, 0, 100*x, 200, 11)
 </textarea>
+    </section>
+
+    <section title="Legend">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>drawLine(0, 0, 100, 200)</td>
+          </tr>
+          <tr>
+            <td>drawCircle(50, 50, 30)</td>
+          </tr>
+          <tr>
+            <td>drawRectangle(10, 10, 100, 50)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </div>
-
-  <div>
-
-    </body>
+  </body>
 
 </html>
