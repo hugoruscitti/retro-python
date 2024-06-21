@@ -162,7 +162,7 @@ function share() {
   const code = textarea.value;
 
   const base64Encoded = btoa(code);
-  var url = new URL(window.location.href);
+  var url = new URL(window.location.origin);
   url.searchParams.append('code', base64Encoded);
   
   navigator.clipboard.writeText(url.toString());
