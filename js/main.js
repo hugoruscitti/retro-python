@@ -11,6 +11,7 @@ customElements.define("retro-canvas", Canvas);
 var running = false;
 var timer = null;
 var speed = 30; // velocidad en cuadros por segundo
+var saveSlot = 1;
 
 function createEditor() {
   const theme = EditorView.theme({
@@ -243,6 +244,30 @@ function loadCode() {
   return base64Encoded != null ? atob(base64Encoded) : null;
 }
 
+function goToSlot(slotNumber) {
+  saveSlot = slotNumber;
+  changeSlotToActiveStatus(slotNumber);
+  inactivateOtherSlots(slotNumber);
+}
+
+function changeSlotToActiveStatus(slotNumber) {
+  const slotButton = document.querySelector(`#save-slot-${slotNumber}`);
+  slotButton.style.color = "red";
+}
+
+function inactivateOtherSlots(slotNumber) {
+  const slotButtons = document.querySelectorAll(".save-slot");
+  slotButtons.forEach(button => {
+    if (button.id !== `save-slot-${slotNumber}`) {
+      button.style.color = "grey";
+    }
+  });
+}
+
+function loadSlot() {
+  goToSlot(1);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const runButton = document.querySelector("#run");
   const stopButton = document.querySelector("#stop");
@@ -250,6 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const stepButton = document.querySelector("#step");
   const shareButton = document.querySelector("#share");
   const tooltip = document.querySelector("#tooltip");
+  const saveSlots = document.querySelectorAll(".save-slot");
 
   window.editor = createEditor();
 
@@ -261,6 +287,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   stepButton.addEventListener("click", function () {
     step();
+  });
+  saveSlots.forEach(slotButton => {
+    slotButton.addEventListener("click", function (e) {
+      goToSlot(e.currentTarget.id.charAt(10));
+    });
   });
 
   shareButton.addEventListener("click", function () {
