@@ -224,6 +224,7 @@ function run() {
 
 function share() {
   const code = editor.state.doc.text;
+
   const base64Encoded = btoa(code.join("\n"));
   var url = new URL(window.location.origin);
   url.searchParams.append('code', base64Encoded);

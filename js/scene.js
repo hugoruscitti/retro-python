@@ -51,7 +51,6 @@ class Scene extends Phaser.Scene {
     }
 
     this.input.keyboard.on('keydown', event => {
-      console.log(event.code);
       this.setKeymap(event.code, "Space", "space", true);
       this.setKeymap(event.code, "ArrowUp", "up", true);
       this.setKeymap(event.code, "ArrowDown", "down", true);
