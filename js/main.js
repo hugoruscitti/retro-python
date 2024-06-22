@@ -56,7 +56,6 @@ function show_error(error) {
  * función.
  */
 function updateMainLoop(code) {
-  /*
   const ast = createASTFromPython(code);
 
   const newAst = replaceMainLoopWithFunction(ast);
@@ -66,12 +65,11 @@ function updateMainLoop(code) {
   const exportAsGlobal = "window.__bloque_while = __bloque_while";
 
   let eval_string = js + exportAsGlobal;
-  */
-  //eval(eval_string);
+
+  eval(eval_string);
 }
 
 function run() {
-  debugger
   const code = editor.state.doc.text;
   filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
   if (running) {
@@ -86,9 +84,6 @@ function run() {
       show_error(e);
       return;
     }
-    const codigo = editor.state.doc.text;
-    // codigo is a list of strings, join them to get the full code
-
     running = true;
     updateButtons();
 
