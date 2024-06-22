@@ -26,6 +26,7 @@ canvas {
 
 .editor-panel {
   padding-left: 8px;
+  flex-grow: 1;
 }
 
 textarea {

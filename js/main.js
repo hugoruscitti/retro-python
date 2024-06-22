@@ -8,12 +8,43 @@ var running = false;
 var timer = null;
 var speed = 30; // velocidad en cuadros por segundo
 
-const editor = new EditorView({
-  extensions: [basicSetup, python()],
-  parent: document.getElementById("editor"),
-  value: "x = 0\nwhile True:\n    x += 1\n    # (x, y, length, angle, color)\n    drawLine(0, 0, 100*x, 200, 11)",
-  mode: "python",
-});
+function createEditor() {
+   const theme = EditorView.theme({
+     "&": {
+       fontSize: "20px",
+       border: "1px solid #c0c0c0"
+     },
+     ".cm-content": {
+       fontFamily: "pixelart",
+       minHeight: "250px",
+     },
+   });
+
+   const minHeightEditor = EditorView.theme({
+     ".cm-content, .cm-gutter": {minHeight: "200px"}
+   });
+
+  const code = `
+x = 0
+while True:
+  x += 1
+  draw_line(0, 0, 100*x, 200, 11)
+`
+
+  const editor = new EditorView({
+    extensions: [
+      basicSetup, 
+      theme,
+      python(),
+      minHeightEditor,
+    ],
+    parent: document.querySelector("#editor"),
+    doc: code,
+    mode: "python",
+  });
+
+  return editor;
+}
 
 
 function updateButtons() {
@@ -229,6 +260,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const stepButton = document.querySelector("#step");
   const shareButton = document.querySelector("#share");
   const tooltip = document.querySelector("#tooltip");
+
+  window.editor = createEditor();
 
   runButton.addEventListener("click", function () {
     run();
