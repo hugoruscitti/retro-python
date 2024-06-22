@@ -1,5 +1,5 @@
 import Canvas from "./canvas.js";
-import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction }  from "./ast.js";
+import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction } from "./ast.js";
 
 customElements.define("retro-canvas", Canvas);
 
@@ -8,16 +8,12 @@ var running = false;
 var timer = null;
 var speed = 30; // velocidad en cuadros por segundo
 
-function updateButtons() {
-  const runButton = document.querySelector("#run");
-
-  if (running) {
-    runButton.innerText = "STOP";
-  } else {
-    runButton.innerText = "RUN";
-  }
-
-}
+const editor = new EditorView({
+  extensions: [basicSetup, python()],
+  parent: document.getElementById("editor"),
+  value: "x = 0\nwhile True:\n    x += 1\n    # (x, y, length, angle, color)\n    drawLine(0, 0, 100*x, 200, 11)",
+  mode: "python",
+});
 
 function stopTimer() {
   if (timer) {
@@ -48,7 +44,6 @@ function show_error(error) {
  * función.
  */
 function updateMainLoop(code) {
-  /*
   const ast = createASTFromPython(code);
 
   const newAst = replaceMainLoopWithFunction(ast);
@@ -58,13 +53,12 @@ function updateMainLoop(code) {
   const exportAsGlobal = "window.__bloque_while = __bloque_while";
 
   let eval_string = js + exportAsGlobal;
-  */
-  //eval(eval_string);
+
+  eval(eval_string);
 }
 
 function run() {
-  const textarea = document.querySelector("textarea");
-  const code = textarea.value;
+  const code = editor.state.doc.text;
   filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
 
   if (!running) {
@@ -76,7 +70,6 @@ function run() {
       show_error(e);
       return;
     }
-
     running = true;
 
     const hasMainLoop = hasMainLoopInThisAST(ast);
@@ -148,7 +141,6 @@ function run() {
 
     function done() {
       running = false;
-      updateButtons();
       stopTimer();
     }
 
@@ -195,8 +187,8 @@ function run() {
 }
 
 function share() {
-  const textarea = document.querySelector("textarea");
-  const code = textarea.value;
+  const editor = document.getElementById("editor");
+  const code = editor.value;
 
   const base64Encoded = btoa(code);
   var url = new URL(window.location.origin);
@@ -212,7 +204,7 @@ function loadCode() {
   const urlParams = new URLSearchParams(window.location.search);
   const base64Encoded = urlParams.get('code');
   if (base64Encoded != null) {
-    document.querySelector("textarea").value = atob(base64Encoded);
+    document.getElementById("editor").value = atob(base64Encoded);
   }
 }
 
@@ -228,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
     run();
   });
   stopButton.addEventListener("click", function () {
+    updateMainLoop(code);
     stop();
   });
   stepButton.addEventListener("click", function () {

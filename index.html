@@ -5,32 +5,48 @@
   <title>retro-python</title>
   <script src="js/vendor/filbert.js"></script>
   <script src="js/vendor/escodegen.browser.js"></script>
-  <script src="js/vendor/code-mirror.js"></script>
+  <script src="/js/vendor/code-mirror.js"></script>
   <script src="js/vendor/phaser.min.js"></script>
   <script type="module" src="js/main.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <script src="editor.bundle.js"></script>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid black;
+    }
+
+    tr {
+      border: 1px solid blue;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="main">
+  <div class="main">
     <div class="canvas-panel">
-     <retro-canvas></retro-canvas>
+      <retro-canvas></retro-canvas>
 
-    <div class="speed">
-      <button id="step" disabled="disabled">step</button>
-      &nbsp;
-      🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+      <div class="speed">
+        <button id="step" disabled="disabled">step</button>
+        &nbsp;
+        🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
+      </div>
+
+      <div>
+        <img class="colors" src="./static/img/pallet-color.png" alt="Pallet Color">
+      </div>
+
     </div>
 
-    <div>
-      <img class="colors" src="./static/img/pallet-color.png" alt="Pallet Color">
-    </div>
-
-  </div>
-  
     <div class="editor-panel">
 
     <div class="buttons">
@@ -46,18 +62,18 @@
       <span id="tooltip" class="tooltip pixelart">URL saved to clipboard</span>
     </div>
 
-      <textarea cols="80" rows="15">
-x = 0
-while True:
-  clear()
-  x += 1
-  draw_line(0, 0, 100*x, 200, 11)
-  draw_sprite(64, 64, x)
-</textarea>
+      <div id="editor" cols="80" rows="15">
+        <!-- x = 0
+        while True:
+        x += 1
+        # (x, y, length, angle, color)
+        drawLine(0, 0, 100*x, 200, 11) -->
+      </div>
+      </section>
 
-    <iframe src="reference.html"></iframe>
+      <iframe src="reference.html"></iframe>
 
-  </div>
-  </body>
+    </div>
+</body>
 
 </html>
