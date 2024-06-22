@@ -1,4 +1,5 @@
 import Scene from "./scene.js";
+import { canvasHeight, canvasWidth, backgroundColor } from "./constants.js";
 
 class Canvas extends HTMLElement {
 
@@ -6,9 +7,9 @@ class Canvas extends HTMLElement {
     this.innerHTML = "<div id='canvas'></div>";
     const config = {
       type: Phaser.AUTO,
-      width: 128,
-      height: 128,
-      backgroundColor: '#777777',
+      width: canvasWidth,
+      height: canvasHeight,
+      backgroundColor: backgroundColor,
       pixelArt: true,
       parent: 'canvas',
       scene: Scene

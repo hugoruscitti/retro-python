@@ -39,3 +39,17 @@ button {
 .buttons {
   padding-bottom: 8px;
 }
+
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+tr {
+  border: 1px solid blue;
+}

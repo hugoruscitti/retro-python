@@ -138,8 +138,15 @@ function run() {
 
     filbert.pythonRuntime.functions.print = print;
 
+    /*
+      *The following functions are exposed to the user code
+      * to be able to draw on the canvas in runtime.
+    */
     const clear = canvas.clear.bind(canvas);
     const drawLine = canvas.drawLine.bind(canvas);
+    const fill = canvas.fill.bind(canvas);
+    const drawCircle = canvas.drawCircle.bind(canvas);
+    const drawSprite = canvas.drawSprite.bind(canvas);
 
     let eval_string = "(function(py){" + js + "})(filbert.pythonRuntime);"
     eval(eval_string);
@@ -160,7 +167,7 @@ function share() {
   const base64Encoded = btoa(code);
   var url = new URL(window.location.origin);
   url.searchParams.append('code', base64Encoded);
-  
+
   navigator.clipboard.writeText(url.toString());
   alert("coppied url to clipboard");
 }
@@ -173,7 +180,7 @@ function loadCode() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const runButton = document.querySelector("#run");
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
