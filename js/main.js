@@ -1,5 +1,9 @@
 import Canvas from "./canvas.js";
-import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction } from "./ast.js";
+import {
+  hasMainLoopInThisAST,
+  createASTFromPython,
+  replaceMainLoopWithFunction,
+} from "./ast.js";
 
 customElements.define("retro-canvas", Canvas);
 
@@ -9,37 +13,37 @@ var timer = null;
 var speed = 30; // velocidad en cuadros por segundo
 
 function createEditor() {
-   const theme = EditorView.theme({
-     "&": {
-       fontSize: "20px",
-       border: "1px solid #c0c0c0"
-     },
-     ".cm-content": {
-       fontFamily: "pixelart",
-       minHeight: "250px",
-     },
-   });
+  const theme = EditorView.theme({
+    "&": {
+      fontSize: "20px",
+      border: "1px solid #c0c0c0"
+    },
+    ".cm-content": {
+      fontFamily: "pixelart",
+      minHeight: "250px",
+    },
+  });
 
-   const minHeightEditor = EditorView.theme({
-     ".cm-content, .cm-gutter": {minHeight: "200px"}
-   });
+  const minHeightEditor = EditorView.theme({
+    ".cm-content, .cm-gutter": { minHeight: "200px" }
+  });
 
-  const code = `
-x = 0
-while True:
-  x += 1
-  draw_line(0, 0, 100*x, 200, 11)
-`
+  const defaultCode = loadCode() != null ? loadCode() : `
+  x = 0
+  while True:
+    x += 1
+    draw_line(0, 0, 100*x, 200, 11)
+  `
 
   const editor = new EditorView({
     extensions: [
-      basicSetup, 
+      basicSetup,
       theme,
       python(),
       minHeightEditor,
     ],
     parent: document.querySelector("#editor"),
-    doc: code,
+    doc: defaultCode,
     mode: "python",
   });
 
@@ -218,10 +222,8 @@ function run() {
 }
 
 function share() {
-  const editor = document.getElementById("editor");
-  const code = editor.value;
-
-  const base64Encoded = btoa(code);
+  const code = editor.state.doc.text;
+  const base64Encoded = btoa(code.join("\n"));
   var url = new URL(window.location.origin);
   url.searchParams.append('code', base64Encoded);
 
@@ -234,9 +236,8 @@ function share() {
 function loadCode() {
   const urlParams = new URLSearchParams(window.location.search);
   const base64Encoded = urlParams.get('code');
-  if (base64Encoded != null) {
-    document.getElementById("editor").value = atob(base64Encoded);
-  }
+
+  return base64Encoded != null ? atob(base64Encoded) : null;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -282,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  window.addEventListener("onload-phaserjs", function(evento) {
+  window.addEventListener("onload-phaserjs", function (evento) {
     run();
   });
 
@@ -291,4 +292,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 window.run = run;
 window.share = share;
-loadCode();
+

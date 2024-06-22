@@ -48,4 +48,8 @@ function replaceMainLoopWithFunction(ast) {
   });
 }
 
-export { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction };
+export {
+  hasMainLoopInThisAST,
+  createASTFromPython,
+  replaceMainLoopWithFunction,
+};
