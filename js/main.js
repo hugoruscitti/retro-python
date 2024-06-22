@@ -1,5 +1,9 @@
 import Canvas from "./canvas.js";
-import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction } from "./ast.js";
+import {
+  hasMainLoopInThisAST,
+  createASTFromPython,
+  replaceMainLoopWithFunction,
+} from "./ast.js";
 
 customElements.define("retro-canvas", Canvas);
 
@@ -203,10 +207,8 @@ function run() {
 }
 
 function share() {
-  const editor = document.getElementById("editor");
-  const code = editor.value;
-
-  const base64Encoded = btoa(code);
+  const code = editor.state.doc.text;
+  const base64Encoded = btoa(code.join("\n"));
   var url = new URL(window.location.origin);
   url.searchParams.append('code', base64Encoded);
 
@@ -219,8 +221,12 @@ function share() {
 function loadCode() {
   const urlParams = new URLSearchParams(window.location.search);
   const base64Encoded = urlParams.get('code');
+
   if (base64Encoded != null) {
-    document.getElementById("editor").value = atob(base64Encoded);
+    const decodedContent = atob(base64Encoded);
+    editor.dispatch({
+      changes: { from: 0, to: editor.state.doc.length, insert: decodedContent }
+    });
   }
 }
 
