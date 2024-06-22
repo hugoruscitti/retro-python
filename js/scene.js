@@ -126,6 +126,14 @@ class Scene extends Phaser.Scene {
     renderTexture.draw(`sprite-${index}`, x, y);
   }
 
+  drawRectangle(x, y, width, height, color = 0) {
+    let graphics = this.graphics;
+    graphics.fillStyle(this._getColor(color));
+    graphics.fillRect(x, y, width, height);
+
+    this.flip();
+  }
+
   clear() {
     let graphics = this.graphics;
     let renderTexture = this.renderTexture;

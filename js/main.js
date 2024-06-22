@@ -192,6 +192,7 @@ function run() {
     const fill = canvas.fill.bind(canvas);
     const draw_circle = canvas.drawCircle.bind(canvas);
     const draw_sprite = canvas.drawSprite.bind(canvas);
+    const draw_rectangle = canvas.drawRectangle.bind(canvas);
     const randint = canvas.randint.bind(canvas);
     const random = canvas.random.bind(canvas);
     const sin = canvas.sin.bind(canvas);
