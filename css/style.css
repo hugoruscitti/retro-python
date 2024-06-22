@@ -10,6 +10,7 @@ canvas {
 .speed {
   display: flex;
   align-items: center;
+  padding-top: 8px;
 }
 
 .main {
@@ -20,6 +21,7 @@ canvas {
 }
 
 .canvas-panel {
+  min-width: 400px;
 }
 
 .editor-panel {
@@ -28,4 +30,12 @@ canvas {
 
 textarea {
   width: 100%;
+}
+
+button {
+  min-width: 80px;
+}
+
+.buttons {
+  padding-bottom: 8px;
 }

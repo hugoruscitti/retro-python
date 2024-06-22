@@ -1,4 +1,5 @@
 import Canvas from "./canvas.js";
+import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction }  from "./ast.js";
 
 customElements.define("retro-canvas", Canvas);
 
@@ -7,13 +8,16 @@ var running = false;
 var timer = null;
 var speed = 30; // velocidad en cuadros por segundo
 
-function updateButton() {
+function updateButtons() {
   const runButton = document.querySelector("#run");
+  const stopButton = document.querySelector("#stop");
 
   if (running) {
-    runButton.innerText = "STOP";
+    runButton.innerText = "UPDATE";
+    stopButton.removeAttribute("disabled");
   } else {
     runButton.innerText = "RUN";
+    stopButton.setAttribute("disabled", "disabled");
   }
 
 }
@@ -29,28 +33,42 @@ function step() {
   }
 }
 
+function stop() {
+  running = false;
+  updateButtons();
+  stopTimer();
+}
+
+/*
+ * Toma el código en python, extrae el mainloop en una
+ * función llamada `__bloque_while` y sobre-escribe la
+ * función.
+ */
+function updateMainLoop(code) {
+  const ast = createASTFromPython(code);
+  const newAst = replaceMainLoopWithFunction(ast);
+  const functionAST = newAst.filter(e => e.id).filter(e => e.id.name === "__bloque_while")[0];
+
+  const js = escodegen.generate(functionAST);
+  const exportAsGlobal = "window.__bloque_while = __bloque_while";
+
+  let eval_string = "(function(py){" + js + exportAsGlobal + "})(filbert.pythonRuntime);"
+  eval(eval_string);
+}
+
 function run() {
   const textarea = document.querySelector("textarea");
+  const code = textarea.value;
   filbert.defaultOptions.runtimeParamName = "py";
 
   if (running) {
-    running = false;
-    updateButton();
-    stopTimer();
+    updateMainLoop(code);
   } else {
-
     running = true;
-    updateButton();
+    updateButtons();
 
-    const opciones = {
-      locations: false,
-      ranges: false,
-    }
-
-    const codigo = textarea.value;
-    const ast = filbert.parse(codigo, opciones);
-    const hasMainLoop = ast.body.filter(e => e.type === "WhileStatement").length > 0
-
+    const ast = createASTFromPython(code);
+    const hasMainLoop = hasMainLoopInThisAST(ast);
 
     // debug log para mostrar el programa original
     console.log("%cPrograma original:", "color: #389aff; font-size: large")
@@ -78,7 +96,6 @@ function run() {
           if (acumulador >= 1000 / speed) {
             acumulador = 0;
             __bloque_while();
-            //draw_step();
           }
 
         }
@@ -86,35 +103,7 @@ function run() {
     }
 
     if (hasMainLoop) {
-      ast.body = ast.body.map(nodo => {
-
-        // si encuentra un bloque while asume que
-        // es el mainloop y lo reemplaza por una
-        // declaración de función.
-        // 
-        // por ejemplo:
-        //
-        // while True:
-        //    1 + 1
-        //    print("test")
-        //
-        // se tiene que transformar en:
-        //
-        // def __bloque_while():
-        //    1 + 1
-        //    print("test")
-        //
-        if (nodo.type === "WhileStatement") {
-          const nodo_funcion = filbert.parse("def __bloque_while():\n\tpass");
-          const declaracion = nodo_funcion.body[0];
-          const cuerpo_while = nodo.body;
-
-          declaracion.body.body = cuerpo_while.body
-          return declaracion;
-        }
-
-        return nodo;
-      });
+      ast.body = replaceMainLoopWithFunction(ast);
     }
 
     // si el programa tiene main-loop, espone la función para
@@ -138,12 +127,12 @@ function run() {
     console.log(ast)
 
     function print(args) {
-      alert(args);
+      console.log(args);
     }
 
     function done() {
       running = false;
-      updateButton();
+      updateButtons();
       stopTimer();
     }
 
@@ -154,6 +143,13 @@ function run() {
 
     let eval_string = "(function(py){" + js + "})(filbert.pythonRuntime);"
     eval(eval_string);
+
+    // Caso particular, si está usando el modo manual para avanzar paso
+    // a paso, se ejecuta el primer cuadro para que la pantalla no se
+    // vea completamente vacía.
+    if (hasMainLoop && speed == 0) {
+      step();
+    }
   }
 }
 
@@ -182,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
   const shareButton = document.querySelector("#share");
+  const stopButton = document.querySelector("#stop");
 
   runButton.addEventListener("click", function () {
     run();
@@ -205,6 +202,10 @@ document.addEventListener("DOMContentLoaded", function() {
       stepButton.removeAttribute("disabled")
     }
 
+  });
+
+  stopButton.addEventListener("click", function () {
+    stop();
   });
 });
 
