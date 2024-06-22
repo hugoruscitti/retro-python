@@ -25,7 +25,7 @@ class Scene extends Phaser.Scene {
   }
 
   _getColor(key, defaultValue = 0x000000) {
-    return this.bitColors[key] || defaultValue;
+    return this.bitColors[key % 16] || defaultValue;
   }
 
   preload() {
