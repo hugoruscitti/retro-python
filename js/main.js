@@ -46,18 +46,6 @@ while True:
   return editor;
 }
 
-
-function updateButtons() {
-  const runButton = document.querySelector("#run");
-
-  if (running) {
-    runButton.innerText = "STOP";
-  } else {
-    runButton.innerText = "RUN";
-  }
-
-}
-
 function stopTimer() {
   if (timer) {
     timer.destroy()
@@ -72,8 +60,8 @@ function step() {
 }
 
 function stop() {
+  document.getElementById("#stop")
   running = false;
-  updateButtons();
   stopTimer();
 }
 
@@ -103,9 +91,8 @@ function updateMainLoop(code) {
 function run() {
   const code = editor.state.doc.text;
   filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
-  if (running) {
-    stop();
-  } else {
+
+  if (!running) {
     let ast = null;
 
     try {
@@ -115,7 +102,6 @@ function run() {
       return;
     }
     running = true;
-    updateButtons();
 
     const hasMainLoop = hasMainLoopInThisAST(ast);
 
@@ -186,7 +172,6 @@ function run() {
 
     function done() {
       running = false;
-      updateButtons();
       stopTimer();
     }
 
@@ -256,6 +241,7 @@ function loadCode() {
 
 document.addEventListener("DOMContentLoaded", function () {
   const runButton = document.querySelector("#run");
+  const stopButton = document.querySelector("#stop");
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
   const shareButton = document.querySelector("#share");
@@ -266,7 +252,9 @@ document.addEventListener("DOMContentLoaded", function () {
   runButton.addEventListener("click", function () {
     run();
   });
-
+  stopButton.addEventListener("click", function () {
+    stop();
+  });
   stepButton.addEventListener("click", function () {
     step();
   });
