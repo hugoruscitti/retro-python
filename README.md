@@ -53,7 +53,7 @@ window.basicSetup = basicSetup;
 luego, hay que compilar:
 
 ```
-node_modules/.bin/rollup editor.mjs -f iife -o editor.bundle.js \\n  -p @rollup/plugin-node-resolve\n
+node_modules/.bin/rollup editor.mjs -f iife -o js/vendor/code-mirror.js -p @rollup/plugin-node-resolve
 ```
 
 Esto crea el archivo editor.bundle.js, este es el archivo que se

@@ -41,6 +41,7 @@ while True:
       basicSetup,
       theme,
       python(),
+      keymap.of([indentWithTab]),
       minHeightEditor,
     ],
     parent: document.querySelector("#editor"),
