@@ -150,6 +150,14 @@ function run() {
     const fill = canvas.fill.bind(canvas);
     const drawCircle = canvas.drawCircle.bind(canvas);
     const drawSprite = canvas.drawSprite.bind(canvas);
+    const randint = canvas.randint.bind(canvas);
+    const random = canvas.random.bind(canvas);
+    const sin = canvas.sin.bind(canvas);
+    const cos = canvas.cos.bind(canvas);
+    const tan = canvas.tan.bind(canvas);
+    const atan = canvas.atan.bind(canvas);
+    const atan2 = canvas.atan2.bind(canvas);
+    const pi = Math.PI;
 
 
     let eval_string = js;

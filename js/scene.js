@@ -66,7 +66,7 @@ class Scene extends Phaser.Scene {
   fill(color, opacity) {
     opacity = opacity || 1;
     let graphics = this.graphics;
-    graphics.fillStyle(this.getColor(color), opacity);
+    graphics.fillStyle(this._getColor(color), opacity);
     graphics.fillRect(0, 0, canvasHeight, canvasWidth)
     graphics.strokePath();
 
@@ -83,6 +83,7 @@ class Scene extends Phaser.Scene {
 
   drawSprite(x, y, index) {
     index = index % this.spriteCount || 0;
+    index = parseInt(index, 10);
     let renderTexture = this.renderTexture;
     renderTexture.draw(`sprite-${index}`, x, y);
   }
@@ -93,6 +94,36 @@ class Scene extends Phaser.Scene {
     graphics.clear();
     renderTexture.clear();
   }
+
+  randint(a, b) {
+    return Math.floor(Math.random() * (b - a + 1) + a);
+  }
+
+  random() {
+    return Math.random();
+  }
+
+  sin(r) {
+    return Math.sin(r);
+  }
+
+  cos(r) {
+    return Math.cos(r);
+  }
+
+  tan(r) {
+    return Math.tan(r);
+  }
+
+  atan(r) {
+    return Math.atan(r);
+  }
+
+  atan2(r) {
+    return Math.atan2(r);
+  }
+
 }
+
 
 export default Scene;
