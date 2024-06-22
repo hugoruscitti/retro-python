@@ -30,6 +30,7 @@ canvas {
 
 textarea {
   width: 100%;
+  font-size: x-large;
 }
 
 button {
@@ -42,6 +43,8 @@ button {
 
 table {
   border-collapse: collapse;
+  border: 1.5px solid black;
+  font-size: x-large;
 }
 
 th,
@@ -62,9 +65,26 @@ iframe {
 
 .tooltip {
   opacity: 0;
-  transition: opacity 0.25s linear;
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 1, 1);
+  display: inline-block;
+  color: blue;
+  padding: 5px;
 }
 
 .show-tooltip {
   opacity: 1;
+}
+
+@font-face {
+  font-family: 'pixelart';
+  src: url('../static/DisposableDroidBB.ttf') format('truetype');
+}
+
+.pixelart {
+  font-family: "pixelart";
+}
+
+button {
+  font-family: "pixelart";
+  font-size: x-large;
 }
