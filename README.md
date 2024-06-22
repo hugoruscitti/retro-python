@@ -68,3 +68,11 @@ let editor = new EditorView({
 ```
 
 
+# Sprites
+
+retro-python tiene varios sprites para dibujar llamando a la función
+`drawSprite(x, y, index)`, donde index es el número de sprite.
+
+Para cargar más sprites, se tiene que incrementar el valor del atributo
+`spriteCount` dentro del archivo `js/scene.js` y crear una imágen dentro
+del directorio `static/sprites`.

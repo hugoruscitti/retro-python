@@ -22,6 +22,8 @@ class Scene extends Phaser.Scene {
       14: "0xFF77A8",
       15: "0xFFCCAA"
     }
+
+    this.spriteCount = 31 + 1;
   }
 
   _getColor(key, defaultValue = 0x000000) {
@@ -32,7 +34,11 @@ class Scene extends Phaser.Scene {
     this.graphics = this.add.graphics(canvasHeight, canvasWidth);
     this.graphics.x = 2000;
     this.renderTexture = this.add.renderTexture(0, 0, canvasHeight, canvasWidth).setOrigin(0, 0);
-    this.load.image('dude', '../static/sprites/phaser-dude.png');
+
+
+    for (let i=0; i<this.spriteCount; i++) {
+      this.load.image(`sprite-${i}`, `../static/sprites/sprite-${i}.png`);
+    }
   }
 
   create() {
@@ -74,9 +80,10 @@ class Scene extends Phaser.Scene {
     this.flip();
   }
 
-  drawSprite(x, y) {
+  drawSprite(x, y, index) {
+    index = index % this.spriteCount || 0;
     let renderTexture = this.renderTexture;
-    renderTexture.draw('dude', x, y);
+    renderTexture.draw(`sprite-${index}`, x, y);
   }
 
   clear() {
