@@ -123,6 +123,14 @@ class Scene extends Phaser.Scene {
     return Math.atan2(r);
   }
 
+  put_pixel(x, y, color) {
+    let graphics = this.graphics;
+    graphics.fillStyle(this._getColor(color));
+    graphics.fillRect(x, y, 1, 1);
+
+    this.flip();
+  }
+
 }
 
 

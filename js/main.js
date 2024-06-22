@@ -158,6 +158,7 @@ function run() {
     const atan = canvas.atan.bind(canvas);
     const atan2 = canvas.atan2.bind(canvas);
     const pi = Math.PI;
+    const put_pixel = canvas.put_pixel.bind(canvas);
 
 
     let eval_string = js;
