@@ -34,6 +34,7 @@ class Scene extends Phaser.Scene {
     this.graphics = this.add.graphics(canvasHeight, canvasWidth);
     this.graphics.x = 2000;
     this.renderTexture = this.add.renderTexture(0, 0, canvasHeight, canvasWidth).setOrigin(0, 0);
+    this.keys = this.input.keyboard.createCursorKeys();
 
     for (let i=0; i<this.spriteCount; i++) {
       this.load.image(`sprite-${i}`, `../static/sprites/sprite-${i}.png`);
@@ -129,6 +130,26 @@ class Scene extends Phaser.Scene {
     graphics.fillRect(x, y, 1, 1);
 
     this.flip();
+  }
+
+  get_mouse() {
+    const p = this.input.mousePointer;
+    return {
+      x: parseInt(p.worldX, 10),
+      y: parseInt(p.worldY, 10),
+      left: p.leftButtonDown(),
+      right: p.rightButtonDown(),
+    }
+  }
+
+  get_keys() {
+    return {
+      up: this.keys.up.isDown,
+      down: this.keys.down.isDown,
+      left: this.keys.left.isDown,
+      right: this.keys.left.isDown,
+      space: this.keys.space.isDown,
+    }
   }
 
 }
