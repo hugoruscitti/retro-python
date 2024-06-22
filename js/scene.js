@@ -24,6 +24,7 @@ class Scene extends Phaser.Scene {
     }
 
     this.spriteCount = 31 + 1;
+    this.soundCount = 21 + 1;
   }
 
   _getColor(key, defaultValue = 0x000000) {
@@ -38,6 +39,10 @@ class Scene extends Phaser.Scene {
 
     for (let i=0; i<this.spriteCount; i++) {
       this.load.image(`sprite-${i}`, `../static/sprites/sprite-${i}.png`);
+    }
+
+    for (let i=0; i<this.soundCount; i++) {
+      this.load.audio(`sound-${i}`, `../static/sounds/sound-${i}.wav`);
     }
   }
 
@@ -150,6 +155,12 @@ class Scene extends Phaser.Scene {
       right: this.keys.left.isDown,
       space: this.keys.space.isDown,
     }
+  }
+
+  play_sound(index) {
+    index = index % this.soundCount || 0;
+    index = parseInt(index, 10);
+    this.sound.play(`sound-${index}`);
   }
 
 }
