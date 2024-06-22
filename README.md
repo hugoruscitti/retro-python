@@ -1,5 +1,5 @@
 # retro-python
- 
+
 El emulador de la mejor computadora creativa que nunca existió
 
 Puedes ver la versión más reciente online acá:
@@ -32,6 +32,14 @@ npm i rollup @rollup/plugin-node-resolve
 
 Luego creamos el archivo editor.mjs con este contenido:
 
+
+En caso de estar usando Windows se debe instalar el plugin de node resolve de la siguiente manera:
+
+```
+npm install @rollup/plugin-node-resolve --save-dev
+```
+
+Luego creamos el archivo editor.mjs con este contenido:
 
 ```
 import {EditorView, basicSetup} from "codemirror"

@@ -4,12 +4,16 @@ function hasMainLoopInThisAST(ast) {
 
 
 function createASTFromPython(code) {
+  /*
+    @param code: string[] - Python code separated by lines.
+
+    @return: object - AST of the Python code.
+  */
   const options = {
     locations: false,
     ranges: false,
   }
-
-  return filbert.parse(code, options);
+  return filbert.parse(code.join("\n"), options);
 }
 
 function replaceMainLoopWithFunction(ast) {

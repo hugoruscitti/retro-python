@@ -3,3 +3,6 @@ Scripts
 Lib
 pyvenv.cfg
 Include
+node_modules
+package.json
+package-lock.json
