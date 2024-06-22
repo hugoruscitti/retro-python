@@ -28,18 +28,12 @@ function createEditor() {
     ".cm-content, .cm-gutter": { minHeight: "200px" }
   });
 
-  let code = null;
-
-  if (loadCode() != null) {
-    code = loadCode();
-  } else {
-    code = `
-x = 0
-while True:
-  x += 1
-  draw_line(0, 0, 100*x, 200, 11)
-      `
-  }
+  const defaultCode = loadCode() != null ? loadCode() : `
+  x = 0
+  while True:
+    x += 1
+    draw_line(0, 0, 100*x, 200, 11)
+  `
 
   const editor = new EditorView({
     extensions: [
@@ -49,10 +43,9 @@ while True:
       minHeightEditor,
     ],
     parent: document.querySelector("#editor"),
-    doc: code,
+    doc: defaultCode,
     mode: "python",
   });
-
 
   return editor;
 }
