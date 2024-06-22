@@ -33,8 +33,8 @@ function step() {
 }
 
 function stop() {
+  document.getElementById("#stop")
   running = false;
-  updateButtons();
   stopTimer();
 }
 
@@ -67,10 +67,7 @@ function run() {
   const code = textarea.value;
   filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
 
-  if (running) {
-    //updateMainLoop(code);
-    stop();
-  } else {
+  if (!running) {
     let ast = null;
 
     try {
@@ -81,7 +78,6 @@ function run() {
     }
 
     running = true;
-    updateButtons();
 
     const hasMainLoop = hasMainLoopInThisAST(ast);
 
@@ -222,6 +218,7 @@ function loadCode() {
 
 document.addEventListener("DOMContentLoaded", function () {
   const runButton = document.querySelector("#run");
+  const stopButton = document.querySelector("#stop");
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
   const shareButton = document.querySelector("#share");
@@ -230,7 +227,9 @@ document.addEventListener("DOMContentLoaded", function () {
   runButton.addEventListener("click", function () {
     run();
   });
-
+  stopButton.addEventListener("click", function () {
+    stop();
+  });
   stepButton.addEventListener("click", function () {
     step();
   });

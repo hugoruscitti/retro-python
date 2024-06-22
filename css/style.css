@@ -1,4 +1,10 @@
+@font-face {
+  font-family: 'pixelart';
+  src: url('../static/DisposableDroidBB.ttf') format('truetype');
+}
+
 body {
+  font-family: 'pixelart';
   margin: 0;
 }
 
@@ -76,11 +82,6 @@ iframe {
   opacity: 1;
 }
 
-@font-face {
-  font-family: 'pixelart';
-  src: url('../static/DisposableDroidBB.ttf') format('truetype');
-}
-
 .pixelart {
   font-family: "pixelart";
 }
@@ -88,6 +89,34 @@ iframe {
 button {
   font-family: "pixelart";
   font-size: x-large;
+}
+
+.btn-icon {
+  height: 48px;
+  width: 48px;
+  min-width: fit-content;
+  border: 2px solid black;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  transition: 0.6s ease;
+}
+
+.btn-icon:hover {
+  background-color: gainsboro;
+}
+.btn-icon-play:hover {
+  background-color: palegreen;
+}
+.btn-icon-stop:hover {
+  background-color: palevioletred;
+}
+.btn-icon-share:hover {
+  background-color: paleturquoise;
+}
+.btn-icon .icon {
+  width: 24px;
+  height: 24px;
 }
 
 .colors {
