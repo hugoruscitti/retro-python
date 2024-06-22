@@ -11,73 +11,45 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <style>
-    table {
-      border-collapse: collapse;
-    }
-
-    th,
-    td {
-      padding: 10px;
-      border: 1px solid black;
-    }
-
-    tr {
-      border: 1px solid blue;
-    }
-  </style>
 </head>
 
-<div class="main">
-  <section>
-    <div class="canvas-panel">
-      <retro-canvas></retro-canvas>
+<body>
 
-      <div style="margin-top: 5%;" class="speed">
-        <button id="step" style="margin-right: 5%;" disabled="disabled">step</button>
-        🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
-      </div>
+<div class="main">
+    <div class="canvas-panel">
+     <retro-canvas></retro-canvas>
+
+    <div class="speed">
+      <button id="step" disabled="disabled">step</button>
+      &nbsp;
+      🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
     </div>
 
     <div>
-      <img style="height: 30%; width: 50%; margin-top: 10%;" src="static/img/pallet-color.png" alt="Pallet Color">
+      <img class="colors" src="./static/img/pallet-color.png" alt="Pallet Color">
     </div>
-  </section>
 
-  <div style="display: flex; flex-direction: column;">
-    <section class="editor-panel">
+  </div>
+  
+    <div class="editor-panel">
 
+    <div class="buttons">
       <button id="run">RUN</button>
       <button id="share">SHARE</button>
+      <span id="tooltip" class="tooltip pixelart">URL saved to clipboard</span>
+    </div>
 
       <textarea cols="80" rows="15">
 x = 0
 while True:
+  clear()
   x += 1
-  # (x, y, length, angle, color)
-  drawLine(0, 0, 100*x, 200, 11)
+  draw_line(0, 0, 100*x, 200, 11)
+  draw_sprite(64, 64, x)
 </textarea>
-    </section>
 
-    <section title="Legend" style="margin: 10px 0 0 10px; ">
-      <table style="border: 1.5px solid black; border-collapse: collapse;">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Example</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>drawLine(x, y, length, angle, color)</td>
-            <td>drawLine(0, 0, 100, 200, 12)</td>
-          </tr>
-          <tr>
-            <td>drawCircle(50, 50, 30)</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <iframe src="reference.html"></iframe>
+
   </div>
   </body>
 

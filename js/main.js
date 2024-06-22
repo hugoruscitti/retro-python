@@ -1,4 +1,5 @@
 import Canvas from "./canvas.js";
+import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction }  from "./ast.js";
 
 customElements.define("retro-canvas", Canvas);
 
@@ -7,7 +8,7 @@ var running = false;
 var timer = null;
 var speed = 30; // velocidad en cuadros por segundo
 
-function updateButton() {
+function updateButtons() {
   const runButton = document.querySelector("#run");
 
   if (running) {
@@ -19,8 +20,10 @@ function updateButton() {
 }
 
 function stopTimer() {
-  timer.destroy()
-  timer = null;
+  if (timer) {
+    timer.destroy()
+    timer = null;
+  }
 }
 
 function step() {
@@ -29,28 +32,58 @@ function step() {
   }
 }
 
+function stop() {
+  running = false;
+  updateButtons();
+  stopTimer();
+}
+
+function show_error(error) {
+  alert(error);
+}
+
+/*
+ * Toma el código en python, extrae el mainloop en una
+ * función llamada `__bloque_while` y sobre-escribe la
+ * función.
+ */
+function updateMainLoop(code) {
+  /*
+  const ast = createASTFromPython(code);
+
+  const newAst = replaceMainLoopWithFunction(ast);
+  const functionAST = newAst.filter(e => e.id).filter(e => e.id.name === "__bloque_while")[0];
+
+  const js = escodegen.generate(functionAST);
+  const exportAsGlobal = "window.__bloque_while = __bloque_while";
+
+  let eval_string = js + exportAsGlobal;
+  */
+  //eval(eval_string);
+}
+
 function run() {
   const textarea = document.querySelector("textarea");
-  filbert.defaultOptions.runtimeParamName = "py";
+  const code = textarea.value;
+  filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
 
   if (running) {
-    running = false;
-    updateButton();
-    stopTimer();
+    //updateMainLoop(code);
+    stop();
   } else {
+    let ast = null;
 
-    running = true;
-    updateButton();
-
-    const opciones = {
-      locations: false,
-      ranges: false,
+    try {
+      ast = createASTFromPython(code);
+    } catch (e) {
+      show_error(e);
+      return;
     }
 
-    const codigo = textarea.value;
-    const ast = filbert.parse(codigo, opciones);
-    const hasMainLoop = ast.body.filter(e => e.type === "WhileStatement").length > 0
+    running = true;
+    updateButtons();
 
+    const hasMainLoop = hasMainLoopInThisAST(ast);
 
     // debug log para mostrar el programa original
     console.log("%cPrograma original:", "color: #389aff; font-size: large")
@@ -77,8 +110,12 @@ function run() {
 
           if (acumulador >= 1000 / speed) {
             acumulador = 0;
-            __bloque_while();
-            //draw_step();
+            try {
+              __bloque_while();
+            } catch (e) {
+              stop();
+              show_error(e);
+            }
           }
 
         }
@@ -86,35 +123,7 @@ function run() {
     }
 
     if (hasMainLoop) {
-      ast.body = ast.body.map(nodo => {
-
-        // si encuentra un bloque while asume que
-        // es el mainloop y lo reemplaza por una
-        // declaración de función.
-        // 
-        // por ejemplo:
-        //
-        // while True:
-        //    1 + 1
-        //    print("test")
-        //
-        // se tiene que transformar en:
-        //
-        // def __bloque_while():
-        //    1 + 1
-        //    print("test")
-        //
-        if (nodo.type === "WhileStatement") {
-          const nodo_funcion = filbert.parse("def __bloque_while():\n\tpass");
-          const declaracion = nodo_funcion.body[0];
-          const cuerpo_while = nodo.body;
-
-          declaracion.body.body = cuerpo_while.body
-          return declaracion;
-        }
-
-        return nodo;
-      });
+      ast.body = replaceMainLoopWithFunction(ast);
     }
 
     // si el programa tiene main-loop, espone la función para
@@ -138,12 +147,12 @@ function run() {
     console.log(ast)
 
     function print(args) {
-      alert(args);
+      console.log(args);
     }
 
     function done() {
       running = false;
-      updateButton();
+      updateButtons();
       stopTimer();
     }
 
@@ -154,12 +163,38 @@ function run() {
       * to be able to draw on the canvas in runtime.
     */
     const clear = canvas.clear.bind(canvas);
-    const drawLine = canvas.drawLine.bind(canvas);
+    const draw_line = canvas.drawLine.bind(canvas);
     const fill = canvas.fill.bind(canvas);
-    const drawCircle = canvas.drawCircle.bind(canvas);
+    const draw_circle = canvas.drawCircle.bind(canvas);
+    const draw_sprite = canvas.drawSprite.bind(canvas);
+    const randint = canvas.randint.bind(canvas);
+    const random = canvas.random.bind(canvas);
+    const sin = canvas.sin.bind(canvas);
+    const cos = canvas.cos.bind(canvas);
+    const tan = canvas.tan.bind(canvas);
+    const atan = canvas.atan.bind(canvas);
+    const atan2 = canvas.atan2.bind(canvas);
+    const pi = Math.PI;
+    const put_pixel = canvas.put_pixel.bind(canvas);
+    const get_mouse = canvas.get_mouse.bind(canvas);
+    const get_keys = canvas.get_keys.bind(canvas);
+    const play_sound = canvas.play_sound.bind(canvas);
 
-    let eval_string = "(function(py){" + js + "})(filbert.pythonRuntime);"
-    eval(eval_string);
+
+    let eval_string = js;
+
+    try {
+      eval(eval_string);
+    } catch (e) {
+      console.log(e);
+    }
+
+    // Caso particular, si está usando el modo manual para avanzar paso
+    // a paso, se ejecuta el primer cuadro para que la pantalla no se
+    // vea completamente vacía.
+    if (hasMainLoop && speed == 0) {
+      step();
+    }
   }
 }
 
@@ -171,8 +206,10 @@ function share() {
   var url = new URL(window.location.origin);
   url.searchParams.append('code', base64Encoded);
 
-  navigator.clipboard.writeText(url.toString());
-  alert("coppied url to clipboard");
+  const newURL = url.toString();
+
+  navigator.clipboard.writeText(newURL);
+  window.history.replaceState({}, window.title, newURL)
 }
 
 function loadCode() {
@@ -188,6 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
   const shareButton = document.querySelector("#share");
+  const tooltip = document.querySelector("#tooltip");
 
   runButton.addEventListener("click", function () {
     run();
@@ -199,6 +237,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   shareButton.addEventListener("click", function () {
     share();
+    tooltip.classList.add("show-tooltip");
+    shareButton.setAttribute("disabled", "disabled");
+
+    setTimeout(() => {
+      tooltip.classList.remove("show-tooltip");
+      shareButton.removeAttribute("disabled");
+    }, 1000);
   });
 
   speedInput.addEventListener("input", function (e) {
@@ -206,12 +251,12 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(`TODO: usar este valor de velocidad para el mainloop ${speed} FPS`);
 
     if (speed > 0) {
-      stepButton.setAttribute("disabled", "disabled")
+      stepButton.setAttribute("disabled", "disabled");
     } else {
-      stepButton.removeAttribute("disabled")
+      stepButton.removeAttribute("disabled");
     }
-
   });
+
 });
 
 
