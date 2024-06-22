@@ -13,8 +13,9 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 
+<body>
+
 <div class="main">
-  <section>
     <div class="canvas-panel">
      <retro-canvas></retro-canvas>
 
@@ -25,12 +26,12 @@
     </div>
 
     <div>
-      <img style="height: 30%; width: 50%; margin-top: 10%;" src="static/img/pallet-color.png" alt="Pallet Color">
+      <img class="colors" src="./static/img/pallet-color.png" alt="Pallet Color">
     </div>
-  </section>
 
-  <div style="display: flex; flex-direction: column;">
-    <section class="editor-panel">
+  </div>
+  
+    <div class="editor-panel">
 
     <div class="buttons">
       <button id="run">RUN</button>
@@ -45,33 +46,9 @@ while True:
   # (x, y, length, angle, color)
   drawLine(0, 0, 100*x, 200, 11)
 </textarea>
-    </section>
 
-    <section title="Legend" style="margin: 10px 0 0 10px; ">
-      <table class="pixelart">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Example</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>drawLine(x, y, length, angle, color)</td>
-            <td>drawLine(0, 0, 100, 200, 12)</td>
-          </tr>
-          <tr>
-            <td>drawCircle(x, y, radius, color)</td>
-            <td>drawCircle(50, 50, 30, 2)</td>
-          </tr>
-          <tr>
-            <td>drawSprite(x, y, index)</td>
-            <td>drawSprite(64, 64, 0)</td>
-          </tr>
+    <iframe src="reference.html"></iframe>
 
-        </tbody>
-      </table>
-    </section>
   </div>
   </body>
 

@@ -58,9 +58,10 @@ tr {
 }
 
 iframe {
-  overflow: hidden;
-  width: 320px;
-  height: 200px;
+  border: 0;
+  width: 100%;
+  padding-top: 8px;
+  height: 250px;
 }
 
 .tooltip {
@@ -87,4 +88,10 @@ iframe {
 button {
   font-family: "pixelart";
   font-size: x-large;
+}
+
+.colors {
+  height: 30%;
+  width: 50%;
+  margin-top: 8px;
 }

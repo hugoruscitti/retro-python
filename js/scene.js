@@ -35,7 +35,6 @@ class Scene extends Phaser.Scene {
     this.graphics.x = 2000;
     this.renderTexture = this.add.renderTexture(0, 0, canvasHeight, canvasWidth).setOrigin(0, 0);
 
-
     for (let i=0; i<this.spriteCount; i++) {
       this.load.image(`sprite-${i}`, `../static/sprites/sprite-${i}.png`);
     }
@@ -45,7 +44,8 @@ class Scene extends Phaser.Scene {
     window.canvas = this;
   }
 
-
+  // función interna para volcar los gráficos sobre
+  // el buffer principal.
   flip() {
     this.graphics.x = 0;
     this.renderTexture.draw(this.graphics);
@@ -63,7 +63,8 @@ class Scene extends Phaser.Scene {
     this.flip();
   }
 
-  fill(color, opacity=1) {
+  fill(color, opacity) {
+    opacity = opacity || 1;
     let graphics = this.graphics;
     graphics.fillStyle(this.getColor(color), opacity);
     graphics.fillRect(0, 0, canvasHeight, canvasWidth)
