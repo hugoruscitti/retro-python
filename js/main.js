@@ -253,7 +253,6 @@ document.addEventListener("DOMContentLoaded", function () {
     run();
   });
   stopButton.addEventListener("click", function () {
-    updateMainLoop(code);
     stop();
   });
   stepButton.addEventListener("click", function () {
