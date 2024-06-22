@@ -53,3 +53,18 @@ td {
 tr {
   border: 1px solid blue;
 }
+
+iframe {
+  overflow: hidden;
+  width: 320px;
+  height: 200px;
+}
+
+.tooltip {
+  opacity: 0;
+  transition: opacity 0.25s linear;
+}
+
+.show-tooltip {
+  opacity: 1;
+}

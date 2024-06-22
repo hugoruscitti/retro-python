@@ -10,21 +10,20 @@ var speed = 30; // velocidad en cuadros por segundo
 
 function updateButtons() {
   const runButton = document.querySelector("#run");
-  const stopButton = document.querySelector("#stop");
 
   if (running) {
-    runButton.innerText = "UPDATE";
-    stopButton.removeAttribute("disabled");
+    runButton.innerText = "STOP";
   } else {
     runButton.innerText = "RUN";
-    stopButton.setAttribute("disabled", "disabled");
   }
 
 }
 
 function stopTimer() {
-  timer.destroy()
-  timer = null;
+  if (timer) {
+    timer.destroy()
+    timer = null;
+  }
 }
 
 function step() {
@@ -45,24 +44,28 @@ function stop() {
  * función.
  */
 function updateMainLoop(code) {
+  /*
   const ast = createASTFromPython(code);
+
   const newAst = replaceMainLoopWithFunction(ast);
   const functionAST = newAst.filter(e => e.id).filter(e => e.id.name === "__bloque_while")[0];
 
   const js = escodegen.generate(functionAST);
   const exportAsGlobal = "window.__bloque_while = __bloque_while";
 
-  let eval_string = "(function(py){" + js + exportAsGlobal + "})(filbert.pythonRuntime);"
-  eval(eval_string);
+  let eval_string = js + exportAsGlobal;
+  */
+  //eval(eval_string);
 }
 
 function run() {
   const textarea = document.querySelector("textarea");
   const code = textarea.value;
-  filbert.defaultOptions.runtimeParamName = "py";
+  filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
 
   if (running) {
-    updateMainLoop(code);
+    //updateMainLoop(code);
+    stop();
   } else {
     running = true;
     updateButtons();
@@ -148,8 +151,13 @@ function run() {
     const drawCircle = canvas.drawCircle.bind(canvas);
     const drawSprite = canvas.drawSprite.bind(canvas);
 
-    let eval_string = "(function(py){" + js + "})(filbert.pythonRuntime);"
-    eval(eval_string);
+
+    let eval_string = js;
+    try {
+      eval(eval_string);
+    } catch (e) {
+      console.log(e);
+    }
 
     // Caso particular, si está usando el modo manual para avanzar paso
     // a paso, se ejecuta el primer cuadro para que la pantalla no se
@@ -168,8 +176,10 @@ function share() {
   var url = new URL(window.location.origin);
   url.searchParams.append('code', base64Encoded);
 
-  navigator.clipboard.writeText(url.toString());
-  alert("coppied url to clipboard");
+  const newURL = url.toString();
+
+  navigator.clipboard.writeText(newURL);
+  window.history.replaceState({}, window.title, newURL)
 }
 
 function loadCode() {
@@ -185,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
   const shareButton = document.querySelector("#share");
-  const stopButton = document.querySelector("#stop");
+  const tooltip = document.querySelector("#tooltip");
 
   runButton.addEventListener("click", function () {
     run();
@@ -197,6 +207,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   shareButton.addEventListener("click", function () {
     share();
+    tooltip.classList.add("show-tooltip");
+    shareButton.setAttribute("disabled", "disabled");
+
+    setTimeout(() => {
+      tooltip.classList.remove("show-tooltip");
+      shareButton.removeAttribute("disabled");
+    }, 1000);
   });
 
   speedInput.addEventListener("input", function (e) {
@@ -204,16 +221,12 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(`TODO: usar este valor de velocidad para el mainloop ${speed} FPS`);
 
     if (speed > 0) {
-      stepButton.setAttribute("disabled", "disabled")
+      stepButton.setAttribute("disabled", "disabled");
     } else {
-      stepButton.removeAttribute("disabled")
+      stepButton.removeAttribute("disabled");
     }
-
   });
 
-  stopButton.addEventListener("click", function () {
-    stop();
-  });
 });
 
 
