@@ -26,6 +26,8 @@ class Scene extends Phaser.Scene {
 
   preload() {
     this.graphics = this.add.graphics(canvasHeight, canvasWidth);
+    this.renderTexture = this.add.renderTexture(0, 0, canvasHeight, canvasWidth).setOrigin(0, 0);
+    this.load.image('dude', '../static/sprites/phaser-dude.png');
   }
 
   create() {
@@ -58,9 +60,16 @@ class Scene extends Phaser.Scene {
     graphics.fillCircle(canvasHeight / 2, canvasWidth / 2, radius);
   }
 
+  drawSprite(x, y) {
+    let renderTexture = this.renderTexture;
+    renderTexture.draw('dude', x, y);
+  }
+
   clear() {
     let graphics = this.graphics;
+    let renderTexture = this.renderTexture;
     graphics.clear();
+    renderTexture.clear();
   }
 }
 
