@@ -73,7 +73,6 @@ function run() {
   const code = editor.state.doc.text;
   filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
   if (running) {
-    updateMainLoop(code);
     stop();
   } else {
     let ast = null;
