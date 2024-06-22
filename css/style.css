@@ -129,6 +129,7 @@ button {
 }
 
 .btn-icon {
+  position: relative;
   height: 48px;
   width: 48px;
   min-width: fit-content;
@@ -179,4 +180,14 @@ button {
 
 .examples a:hover {
   background-color: paleturquoise;
+}
+
+.pill {
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  top: -4px;
+  right: -4px;
+  border-radius: 50%;
+  background-color: red;
 }
