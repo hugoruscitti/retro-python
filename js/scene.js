@@ -28,7 +28,7 @@ class Scene extends Phaser.Scene {
   }
 
   _getColor(key, defaultValue = 0x000000) {
-    return this.bitColors[key % 16] || defaultValue;
+    return this.bitColors[Math.abs(key) % 16] || defaultValue;
   }
 
   setKeymap(keyCode, name, attribute, value) {
@@ -103,6 +103,7 @@ class Scene extends Phaser.Scene {
   fill(color, opacity) {
     opacity = opacity || 1;
     let graphics = this.graphics;
+
     graphics.fillStyle(this._getColor(color), opacity);
     graphics.fillRect(0, 0, canvasHeight, canvasWidth)
     graphics.strokePath();
