@@ -30,6 +30,7 @@ class Scene extends Phaser.Scene {
 
   preload() {
     this.graphics = this.add.graphics(canvasHeight, canvasWidth);
+    this.graphics.x = 2000;
     this.renderTexture = this.add.renderTexture(0, 0, canvasHeight, canvasWidth).setOrigin(0, 0);
     this.load.image('dude', '../static/sprites/phaser-dude.png');
   }
@@ -39,6 +40,12 @@ class Scene extends Phaser.Scene {
   }
 
 
+  flip() {
+    this.graphics.x = 0;
+    this.renderTexture.draw(this.graphics);
+    this.graphics.x = 2000;
+  }
+
   drawLine(x, y, x2, y2, color) {
     let graphics = this.graphics;
     graphics.lineStyle(1, this._getColor(color));
@@ -46,6 +53,8 @@ class Scene extends Phaser.Scene {
     graphics.moveTo(x, y);
     graphics.lineTo(x2, y2);
     graphics.strokePath();
+
+    this.flip();
   }
 
   fill(color, opacity=1) {
@@ -53,12 +62,16 @@ class Scene extends Phaser.Scene {
     graphics.fillStyle(this.getColor(color), opacity);
     graphics.fillRect(0, 0, canvasHeight, canvasWidth)
     graphics.strokePath();
+
+    this.flip();
   }
 
   drawCircle(x, y, radius, color) {
     let graphics = this.graphics;
     graphics.fillStyle(this._getColor(color));
     graphics.fillCircle(canvasHeight / 2, canvasWidth / 2, radius);
+
+    this.flip();
   }
 
   drawSprite(x, y) {
