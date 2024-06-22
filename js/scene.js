@@ -114,7 +114,7 @@ class Scene extends Phaser.Scene {
   drawCircle(x, y, radius, color) {
     let graphics = this.graphics;
     graphics.fillStyle(this._getColor(color));
-    graphics.fillCircle(canvasHeight / 2, canvasWidth / 2, radius);
+    graphics.fillCircle(x, y, radius);
 
     this.flip();
   }
