@@ -40,7 +40,7 @@ while True:
     extensions: [
       basicSetup,
       theme,
-      python(),
+      python,
       keymap.of([indentWithTab]),
       minHeightEditor,
     ],
