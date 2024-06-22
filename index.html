@@ -1,57 +1,146 @@
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>retro-python</title>
+    <script src="js/vendor/filbert.js"></script>
+    <script src="js/vendor/escodegen.browser.js"></script>
+    <script src="/js/vendor/code-mirror.js"></script>
+    <script src="js/vendor/phaser.min.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <script src="editor.bundle.js"></script>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>retro-python</title>
-  <script src="js/vendor/filbert.js"></script>
-  <script src="js/vendor/escodegen.browser.js"></script>
-  <script src="/js/vendor/code-mirror.js"></script>
-  <script src="js/vendor/phaser.min.js"></script>
-  <script type="module" src="js/main.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <script src="editor.bundle.js"></script>
-</head>
+  <body>
+    <main class="main">
+      <section class="section-canvas-editor">
+        <article class="canvas-panel">
+          <retro-canvas></retro-canvas>
 
-<body>
+          <div class="speed">
+            <button id="step" disabled="disabled">step</button>
+            &nbsp; 🐢
+            <input id="speed" type="range" min="0" max="30" value="30" />🐇
+          </div>
+        </article>
 
-  <div class="main">
-    <div class="canvas-panel">
-      <retro-canvas></retro-canvas>
+        <article class="editor-panel">
+          <div class="buttons">
+            <button class="btn-icon btn-icon-play" id="run">
+              <img class="icon" src="./static/icons/play.svg" alt="" />
+            </button>
+            <button class="btn-icon btn-icon-stop" id="stop">
+              <img class="icon" src="./static/icons/stop.svg" alt="" />
+            </button>
+            <button class="btn-icon btn-icon-share" id="share">
+              <img class="icon" src="./static/icons/share.svg" alt="" />
+            </button>
+            <span id="tooltip" class="tooltip pixelart"
+              >URL saved to clipboard</span
+            >
+          </div>
 
-      <div class="speed">
-        <button id="step" disabled="disabled">step</button>
-        &nbsp;
-        🐢 <input id="speed" type="range" min="0" max="30" value="30"></input> 🐇
-      </div>
+          <div id="editor" cols="80" rows="15">
+            <!-- x = 0
+            while True:
+            x += 1
+            # (x, y, length, angle, color)
+            drawLine(0, 0, 100*x, 200, 11) -->
+          </div>
+        </article>
+      </section>
+      <section class="section-info">
+        <div class="colors-panel">
+          <img
+            class="colors"
+            src="./static/img/pallet-color.png"
+            alt="Pallet Color"
+          />
+        </div>
+        <section class="table-panel" title="Legend">
+          <table class="pixelart">
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>draw_line(x, y, length, angle, color)</td>
+                <td>draw_line(0, 0, 100, 200, 12)</td>
+              </tr>
+              <tr>
+                <td>draw_circle(x, y, radius, color)</td>
+                <td>draw_circle(50, 50, 30, 2)</td>
+              </tr>
+              <tr>
+                <td>draw_sprite(x, y, index)</td>
+                <td>draw_sprite(64, 64, 0)</td>
+              </tr>
+              <tr>
+                <td>clear()</td>
+                <td>clear()</td>
+              </tr>
+              <tr>
+                <td>fill(color, opacity)</td>
+                <td>fill(1, 0.5)</td>
+              </tr>
+              <tr>
+                <td>get_mouse()</td>
+                <td>get_mouse()["x"]</td>
+              </tr>
+              <tr>
+                <td>get_keys()</td>
+                <td>get_keys()["left"]</td>
+              </tr>
+              <tr>
+                <td>play_sound(index)</td>
+                <td>play_sound(3)</td>
+              </tr>
+              <tr>
+                <td>get_keys()</td>
+                <td>get_keys()["left"]</td>
+              </tr>
+              <tr>
+                <td>put_pixel(x, y, color)</td>
+                <td>put_pixel(64, 64, 4)</td>
+              </tr>
+              <tr>
+                <td>randint(min, max)</td>
+                <td>randint(1, 5)</td>
+              </tr>
+              <tr>
+                <td>random()</td>
+                <td>random()</td>
+              </tr>
+              <tr>
+                <td>sin(r)</td>
+                <td>sin(pi/2)</td>
+              </tr>
 
-      <div>
-        <img class="colors" src="./static/img/pallet-color.png" alt="Pallet Color">
-      </div>
-
-    </div>
-
-    <div class="editor-panel">
-
-    <div class="buttons">
-      <button class="btn-icon btn-icon-play" id="run">
-        <img class="icon" src="./static/icons/play.svg" alt="">
-      </button>
-      <button class="btn-icon btn-icon-stop" id="stop">
-        <img class="icon" src="./static/icons/stop.svg" alt="">
-      </button>
-      <button class="btn-icon btn-icon-share" id="share">
-        <img class="icon" src="./static/icons/share.svg" alt="">
-      </button>
-      <span id="tooltip" class="tooltip pixelart">URL saved to clipboard</span>
-    </div>
-
-      <div id="editor"></div>
-
-      <iframe src="reference.html"></iframe>
-
-    </div>
-</body>
-
+              <tr>
+                <td>cos(r)</td>
+                <td>cos(pi/4)</td>
+              </tr>
+              <tr>
+                <td>tan(r)</td>
+                <td>tan(0)</td>
+              </tr>
+              <tr>
+                <td>atan(r)</td>
+                <td>atan(pi)</td>
+              </tr>
+              <tr>
+                <td>atan2(r)</td>
+                <td>atan2(pi*2)</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+    </main>
+  </body>
 </html>
