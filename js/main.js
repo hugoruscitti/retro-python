@@ -38,6 +38,10 @@ function stop() {
   stopTimer();
 }
 
+function show_error(error) {
+  alert(error);
+}
+
 /*
  * Toma el código en python, extrae el mainloop en una
  * función llamada `__bloque_while` y sobre-escribe la
@@ -67,10 +71,18 @@ function run() {
     //updateMainLoop(code);
     stop();
   } else {
+    let ast = null;
+
+    try {
+      ast = createASTFromPython(code);
+    } catch (e) {
+      show_error(e);
+      return;
+    }
+
     running = true;
     updateButtons();
 
-    const ast = createASTFromPython(code);
     const hasMainLoop = hasMainLoopInThisAST(ast);
 
     // debug log para mostrar el programa original
@@ -98,7 +110,12 @@ function run() {
 
           if (acumulador >= 1000 / speed) {
             acumulador = 0;
-            __bloque_while();
+            try {
+              __bloque_while();
+            } catch (e) {
+              stop();
+              show_error(e);
+            }
           }
 
         }
@@ -146,10 +163,10 @@ function run() {
       * to be able to draw on the canvas in runtime.
     */
     const clear = canvas.clear.bind(canvas);
-    const drawLine = canvas.drawLine.bind(canvas);
+    const draw_line = canvas.drawLine.bind(canvas);
     const fill = canvas.fill.bind(canvas);
-    const drawCircle = canvas.drawCircle.bind(canvas);
-    const drawSprite = canvas.drawSprite.bind(canvas);
+    const draw_circle = canvas.drawCircle.bind(canvas);
+    const draw_sprite = canvas.drawSprite.bind(canvas);
     const randint = canvas.randint.bind(canvas);
     const random = canvas.random.bind(canvas);
     const sin = canvas.sin.bind(canvas);
@@ -165,6 +182,7 @@ function run() {
 
 
     let eval_string = js;
+
     try {
       eval(eval_string);
     } catch (e) {

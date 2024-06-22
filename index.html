@@ -42,9 +42,10 @@
       <textarea cols="80" rows="15">
 x = 0
 while True:
+  clear()
   x += 1
-  # (x, y, length, angle, color)
-  drawLine(0, 0, 100*x, 200, 11)
+  draw_line(0, 0, 100*x, 200, 11)
+  draw_sprite(64, 64, x)
 </textarea>
 
     <iframe src="reference.html"></iframe>
