@@ -31,11 +31,41 @@ class Scene extends Phaser.Scene {
     return this.bitColors[key % 16] || defaultValue;
   }
 
+  setKeymap(keyCode, name, attribute, value) {
+    if (keyCode === name) {
+      this.keys[attribute] = value;
+    }
+  }
+
   preload() {
     this.graphics = this.add.graphics(canvasHeight, canvasWidth);
     this.graphics.x = 2000;
     this.renderTexture = this.add.renderTexture(0, 0, canvasHeight, canvasWidth).setOrigin(0, 0);
-    this.keys = this.input.keyboard.createCursorKeys();
+
+    this.keys = {
+      space: false,
+      up: false,
+      down: false,
+      left: false,
+      right: false,
+    }
+
+    this.input.keyboard.on('keydown', event => {
+      console.log(event.code);
+      this.setKeymap(event.code, "Space", "space", true);
+      this.setKeymap(event.code, "ArrowUp", "up", true);
+      this.setKeymap(event.code, "ArrowDown", "down", true);
+      this.setKeymap(event.code, "ArrowLeft", "left", true);
+      this.setKeymap(event.code, "ArrowRight", "right", true);
+    });
+    
+    this.input.keyboard.on('keyup', event => {
+      this.setKeymap(event.code, "Space", "space", false);
+      this.setKeymap(event.code, "ArrowUp", "up", false);
+      this.setKeymap(event.code, "ArrowDown", "down", false);
+      this.setKeymap(event.code, "ArrowLeft", "left", false);
+      this.setKeymap(event.code, "ArrowRight", "right", false);
+    });
 
     for (let i=0; i<this.spriteCount; i++) {
       this.load.image(`sprite-${i}`, `../static/sprites/sprite-${i}.png`);
@@ -44,10 +74,12 @@ class Scene extends Phaser.Scene {
     for (let i=0; i<this.soundCount; i++) {
       this.load.audio(`sound-${i}`, `../static/sounds/sound-${i}.wav`);
     }
+
   }
 
   create() {
     window.canvas = this;
+    window.dispatchEvent(new CustomEvent("onload-phaserjs", { detail: { } }));
   }
 
   // función interna para volcar los gráficos sobre
@@ -149,11 +181,11 @@ class Scene extends Phaser.Scene {
 
   get_keys() {
     return {
-      up: this.keys.up.isDown,
-      down: this.keys.down.isDown,
-      left: this.keys.left.isDown,
-      right: this.keys.left.isDown,
-      space: this.keys.space.isDown,
+      space: this.keys['space'],
+      up: this.keys['up'],
+      down: this.keys['down'],
+      left: this.keys['left'],
+      right: this.keys['right'],
     }
   }
 

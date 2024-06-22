@@ -261,6 +261,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+
+  window.addEventListener("onload-phaserjs", function(evento) {
+    run();
+  });
+
 });
 
 
