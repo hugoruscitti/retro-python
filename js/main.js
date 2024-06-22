@@ -28,12 +28,18 @@ function createEditor() {
     ".cm-content, .cm-gutter": { minHeight: "200px" }
   });
 
-  const code = `
+  let code = null;
+
+  if (loadCode() != null) {
+    code = loadCode();
+  } else {
+    code = `
 x = 0
 while True:
   x += 1
   draw_line(0, 0, 100*x, 200, 11)
-`
+      `
+  }
 
   const editor = new EditorView({
     extensions: [
@@ -47,7 +53,6 @@ while True:
     mode: "python",
   });
 
-  loadCode();
 
   return editor;
 }
@@ -239,12 +244,7 @@ function loadCode() {
   const urlParams = new URLSearchParams(window.location.search);
   const base64Encoded = urlParams.get('code');
 
-  if (base64Encoded != null) {
-    const decodedContent = atob(base64Encoded);
-    editor.dispatch({
-      changes: { from: 0, to: editor.state.doc.length, insert: decodedContent }
-    });
-  }
+  return base64Encoded != null ? atob(base64Encoded) : null;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
