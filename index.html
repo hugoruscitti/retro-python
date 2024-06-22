@@ -27,28 +27,29 @@
         </article>
 
         <article class="editor-panel">
+
           <div class="buttons">
-            <button class="btn-icon btn-icon-play" id="run">
-              <img class="icon" src="./static/icons/play.svg" alt="" />
-            </button>
-            <button class="btn-icon btn-icon-stop" id="stop">
-              <img class="icon" src="./static/icons/stop.svg" alt="" />
-            </button>
-            <button class="btn-icon btn-icon-share" id="share">
-              <img class="icon" src="./static/icons/share.svg" alt="" />
-            </button>
-            <span id="tooltip" class="tooltip pixelart"
-              >URL saved to clipboard</span
-            >
+            <div>
+              <button class="btn-icon btn-icon-play" id="run">
+                <img class="icon" src="./static/icons/play.svg" alt="" />
+              </button>
+              <button class="btn-icon btn-icon-stop" id="stop">
+                <img class="icon" src="./static/icons/stop.svg" alt="" />
+              </button>
+              <button class="btn-icon btn-icon-share" id="share">
+                <img class="icon" src="./static/icons/share.svg" alt="" />
+              </button>
+              <span id="tooltip" class="tooltip pixelart">URL saved to clipboard</span>
+            </div>
+
+            <div class="examples">
+              <a href="/?code=bGlzdGEgPSBbXQoKZm9yIHggaW4gcmFuZ2UoMCwgMTI4LCAxNik6CiAgbGlzdGEucHVzaCgoeCwgMCwgMCwgMTI4LXgpKQogIGxpc3RhLnB1c2goKHgsIDEyOCwgMTI4LCAxMjgteCkpCgp3aGlsZSBsaXN0YToKICBpdGVtID0gbGlzdGEucG9wKCkKICBpZiBpdGVtOgogICAgZHJhd19saW5lKGl0ZW1bMF0sIGl0ZW1bMV0sIGl0ZW1bMl0sIGl0ZW1bM10sICJncmVlbiIpCiAg">1</a>
+              <a href="/?code=YSA9IDMwCmZvciB4IGluIHJhbmdlKDAsIDEyOCwgNSk6CiAgZHJhd19saW5lKDAsIDY0LCB4LCA2NCArIHNpbih4LzEyOCpNYXRoLlBJKSphLCAxMCkKICBkcmF3X2xpbmUoMTI4LCA2NCwgMTI4LXgsIDY0ICsgc2luKHgvMTI4Kk1hdGguUEkpKmEsIDEyKQogIGRyYXdfbGluZSgxMjgsIDY0LCAxMjgteCwgNjQgLSBzaW4oeC8xMjgqTWF0aC5QSSkqYSwgMTEpCiAgZHJhd19saW5lKDAsIDY0LCB4LCA2NCAtIHNpbih4LzEyOCpNYXRoLlBJKSphLCAxMyk%3D">2</a>
+              <a href="/?code=ZHJhd19zcHJpdGUoNTAsIDUwLCAwKQ%3D%3D">3</a>
+            </div>
           </div>
 
-          <div id="editor" cols="80" rows="15">
-            <!-- x = 0
-            while True:
-            x += 1
-            # (x, y, length, angle, color)
-            drawLine(0, 0, 100*x, 200, 11) -->
-          </div>
+          <div id="editor"></div>
         </article>
       </section>
       <section class="section-info">

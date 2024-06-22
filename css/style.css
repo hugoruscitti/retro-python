@@ -78,6 +78,8 @@ button {
 
 .buttons {
   padding-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
 }
 
 table {
@@ -133,15 +135,19 @@ button {
 .btn-icon:hover {
   background-color: gainsboro;
 }
+
 .btn-icon-play:hover {
   background-color: palegreen;
 }
+
 .btn-icon-stop:hover {
   background-color: palevioletred;
 }
+
 .btn-icon-share:hover {
   background-color: paleturquoise;
 }
+
 .btn-icon .icon {
   width: 24px;
   height: 24px;
@@ -150,4 +156,20 @@ button {
 .colors {
   height: 270px;
   width: 270px;
+}
+
+.examples {
+}
+
+.examples a {
+  display: inline-block;
+  padding: 5px;
+  text-decoration: none;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+}
+
+.examples a:hover {
+  background-color: paleturquoise;
 }
