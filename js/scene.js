@@ -67,11 +67,11 @@ class Scene extends Phaser.Scene {
     });
 
     for (let i=0; i<this.spriteCount; i++) {
-      this.load.image(`sprite-${i}`, `../static/sprites/sprite-${i}.png`);
+      this.load.image(`sprite-${i}`, `./static/sprites/sprite-${i}.png`);
     }
 
     for (let i=0; i<this.soundCount; i++) {
-      this.load.audio(`sound-${i}`, `../static/sounds/sound-${i}.wav`);
+      this.load.audio(`sound-${i}`, `./static/sounds/sound-${i}.wav`);
     }
 
   }
