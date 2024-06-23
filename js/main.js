@@ -29,12 +29,13 @@ function createEditor() {
   });
 
   const defaultCode = loadCode() != null ? loadCode() :
-`
-x = 0
+`t = 0
+
 while True:
-  x += 1
-  draw_line(0, 0, 100*x, 200, 11)
-`
+  t += 1
+  clear()
+  x = sin(t*pi/10)*65
+  draw_line(64, 0, x + 65, 128, t)`
 
   const editor = new EditorView({
     extensions: [
