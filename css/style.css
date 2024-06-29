@@ -171,5 +171,16 @@ button {
 }
 
 .examples a:hover {
-  background-color: paleturquoise;
+  background-color: #2196F3;
+  border-radius: 100%;
+  color: white;
+}
+
+.repository-link {
+  width: 1.5em;
+  display: inline-block;
+}
+
+.repository-link:hover {
+  fill: #2196F3;
 }
