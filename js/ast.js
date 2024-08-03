@@ -13,7 +13,7 @@ function createASTFromPython(code) {
     locations: false,
     ranges: false,
   }
-  return filbert.parse(code.join("\n"), options);
+  return filbert.parse(code, options);
 }
 
 function replaceMainLoopWithFunction(ast) {
@@ -41,6 +41,10 @@ function replaceMainLoopWithFunction(ast) {
       const cuerpo_while = nodo.body;
 
       declaracion.body.body = cuerpo_while.body
+
+      // todo acá sería útil poder poner una llamada a flip cuando
+      // se termina de ejecutar el código del loop.
+      
       return declaracion;
     }
 

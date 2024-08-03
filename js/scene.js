@@ -1,5 +1,6 @@
 // VER: https://newdocs.phaser.io/docs/3.55.1/Phaser.GameObjects.Graphics
-import { canvasHeight, canvasWidth } from "./constants.js";
+const WIDTH = 256;
+const HEIGHT = 256;
 
 class Scene extends Phaser.Scene {
   constructor() {
@@ -38,9 +39,8 @@ class Scene extends Phaser.Scene {
   }
 
   preload() {
-    this.graphics = this.add.graphics(canvasHeight, canvasWidth);
-    this.graphics.x = 2000;
-    this.renderTexture = this.add.renderTexture(0, 0, canvasHeight, canvasWidth).setOrigin(0, 0);
+    this.graphics = new Phaser.GameObjects.Graphics(this, WIDTH, HEIGHT);
+    this.renderTexture = this.add.renderTexture(0, 0, WIDTH, HEIGHT).setOrigin(0, 0);
 
     this.keys = {
       space: false,
@@ -77,19 +77,17 @@ class Scene extends Phaser.Scene {
   }
 
   create() {
-    window.canvas = this;
+    window.canvasScene = this;
     window.dispatchEvent(new CustomEvent("onload-phaserjs", { detail: { } }));
   }
 
   // función interna para volcar los gráficos sobre
   // el buffer principal.
   flip() {
-    this.graphics.x = 0;
     this.renderTexture.draw(this.graphics);
-    this.graphics.x = 2000;
   }
 
-  drawLine(x, y, x2, y2, color) {
+  line(x, y, x2, y2, color) {
     let graphics = this.graphics;
     graphics.lineStyle(1, this._getColor(color));
     graphics.beginPath();
@@ -105,7 +103,7 @@ class Scene extends Phaser.Scene {
     let graphics = this.graphics;
 
     graphics.fillStyle(this._getColor(color), opacity);
-    graphics.fillRect(0, 0, canvasHeight, canvasWidth)
+    graphics.fillRect(0, 0, WIDTH, HEIGHT)
     graphics.strokePath();
 
     this.flip();
