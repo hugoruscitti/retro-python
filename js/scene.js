@@ -87,7 +87,7 @@ class Scene extends Phaser.Scene {
     this.renderTexture.draw(this.graphics);
   }
 
-  line(x, y, x2, y2, color) {
+  linea(x, y, x2, y2, color) {
     let graphics = this.graphics;
     graphics.lineStyle(1, this._getColor(color));
     graphics.beginPath();
@@ -132,7 +132,7 @@ class Scene extends Phaser.Scene {
     this.flip();
   }
 
-  clear() {
+  borrar() {
     let graphics = this.graphics;
     let renderTexture = this.renderTexture;
     graphics.clear();

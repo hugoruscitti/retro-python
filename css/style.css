@@ -275,3 +275,30 @@ button {
 .dn {
   display: none !important;
 }
+
+.ace_editor {
+  font-family: code !important;
+}
+
+.ace_autocomplete pre {
+  background-color: gray;
+  padding: 0.5em;
+}
+
+.imagen-ejemplo {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 128px;
+  height: 128px;
+  display: block;
+  padding: 1em;
+}
+
+.ace_tooltip {
+  white-space: normal !important;
+}
+
+.botones-de-control {
+  padding-top: 8px;
+}

@@ -76,7 +76,7 @@ class Interpreter extends HTMLElement {
 
     // Agrega una llamada a la función 'clear()' automáticamente
     // al principio del programa
-    const inicio = filbert.parse("clear()")
+    const inicio = filbert.parse("limpiar()")
     ast.body.splice(0, 0, inicio.body[0])
 
 
@@ -99,8 +99,9 @@ class Interpreter extends HTMLElement {
     // de dibujado.
     const c = window.canvasScene;
 
-    const line = c.line.bind(c);
-    const clear = c.clear.bind(c);
+    const linea = c.linea.bind(c);
+    const borrar = c.borrar.bind(c);
+    const limpiar = c.borrar.bind(c);
 
     eval(evalString);
   }

@@ -8,6 +8,7 @@ class Editor extends HTMLElement {
 
     this.innerHTML = "<div id='editor'></div>";
     this.editor = this.createAceEditor(initialCode);
+    this.activarAutocompletado();
     this.connectEvents();
   }
 
@@ -90,6 +91,50 @@ class Editor extends HTMLElement {
       // si el código no está en la url, retorna el código de ejemplo.
       return `print("hola mundo")`
     }
+  }
+
+  activarAutocompletado() {
+    this.editor.setOptions({
+      enableBasicAutocompletion: true,
+      enableLiveAutocompletion: true
+    });
+
+    this.editor.completers = [{
+      getCompletions: function(editor, session, pos, prefix, callback) {
+        var completions = [
+          {
+            caption: "limpiar",
+            snippet: "limpiar()",
+            meta: "snippet",
+            type: "snippet",
+          },
+          {
+            caption: "linea",
+            snippet: "linea(0, 0, 200, 200, 1)",
+            meta: "snippet",
+            type: "snippet",
+            doc: `Dibuja una de color entre dos puntos
+
+            <pre>linea(x, y, x2, y2, color)</pre>
+
+            Por ejemplo, si se llama a la función de esta forma:
+
+            <pre>linea(5, 5, 200, 200, 2)</pre>
+
+            Se dibujará esta linea:
+
+            <img class="imagen-ejemplo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAmUlEQVRYR+3Xuw2AMAwEUDICHXsxJ3vRMYIRJQISf+4ciniCJ+vOkouIyNRxygD8ZgPLdkz7Oqen4ZaBHohHCLMRry3IRHzWMAtRvQMZiOYhYiOagKuXTIQKwESoASyECcBAmAFohAuARLgBKEQIgECEAVEEBBBBwABeBBTgQcABVgQFYEHQAFoEFaBB0AEtRAqg9mwMQPcNnLrmx6EmqR7BAAAAAElFTkSuQmCC"></img>
+          `
+          }
+        ];
+        callback(null, completions);
+      },
+      getDocTooltip: function(item) {
+        if (item.doc) {
+          item.docHTML = item.doc;
+        }
+      }
+    }];
   }
 }
 

@@ -1,13 +1,21 @@
 import Scene from "./scene.js";
 import { backgroundColor } from "./constants.js";
 
-const WIDTH = 256;
-const HEIGHT = 256;
+const WIDTH = 128;
+const HEIGHT = 128;
 
 class Canvas extends HTMLElement {
 
   connectedCallback() {
-    this.innerHTML = "<div id='canvas'></div><div><button id='scale-1'>1:1</button><button id='scale-2'>2:1</button></div>";
+    this.innerHTML = `
+      <div id='canvas'></div>
+
+      <div class="botones-de-control">
+        <button id='scale-1'>1</button>
+        <button id='scale-2'>2</button>
+      </div>
+    `;
+
     this.createPhaserInstance();
     this.connectEvents();
   }
@@ -47,7 +55,6 @@ class Canvas extends HTMLElement {
       panel.style.width = 512;
     }
   }
-
 
 }
 
