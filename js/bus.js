@@ -4,9 +4,9 @@ window.DEBUG_BUS_ELEMENT = true;
 const EVENTOS = [
   "signal-get-code",     // Pide el código del editor, se usa para el botón share.
   "señal-comenzar-a-ejecutar",          // Inicia el programa.
-  "signal-setting-live", // Define si tiene que ejecutar al editar o no.
+  "señal-activar-modo-live", // Define si tiene que ejecutar al editar o no.
   "señal-detener-la-ejecución",         // Define si tiene que ejecutar al editar o no.
-  "signal-setting-vim",  // indica si se activó o no el modo vim
+  "señal-activar-el-modo-vim",  // indica si se activó o no el modo vim
   "señal-manual-cargado", // cuando el iframe del manual se carga por completo
   "señal-activar-modo-oscuro", // cuando se quiere cambiar el tema del editor.
 ]

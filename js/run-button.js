@@ -3,11 +3,11 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 class RunButton extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `
       <button id="ejecutar">
 
@@ -29,7 +29,7 @@ class RunButton extends HTMLElement {
     `;
   }
 
-  connectEvents() {
+  conectarEventos() {
     const ejecutar = document.querySelector("#ejecutar");
     const iconoEjecutar = document.querySelector("#icono-ejecutar");
     const iconoDetener = document.querySelector("#icono-detener");

@@ -8,25 +8,24 @@ class Editor extends HTMLElement {
     this.runOnChange = false;
 
     this.innerHTML = `
-    <div style="position: fixed; opacity: 0.5; x-index: 999; top:0; ">
-      <input type='range' id='control'></input>
-    </div>
-
-      <div id='editor'></div>
+      <div id="editor"></div>
+      <div id="editor-asistente">
+        <input type='range' id='control'></input>
+      </div>
     `;
     this.editor = this.createAceEditor(initialCode);
-    this.connectEvents();
+    this.conectarEventos();
 
     this.manual = document.createElement("div");
   }
 
-  connectEvents() {
+  conectarEventos() {
     recibirMensaje(this, "signal-get-code", (data) => {
       const code = this.editor.getValue();
       data.callback.call(this, {code: code});
     });
 
-    recibirMensaje(this, "signal-setting-vim", (data) => {
+    recibirMensaje(this, "señal-activar-el-modo-vim", (data) => {
       if (data.enabled) {
         this.editor.setKeyboardHandler("ace/keyboard/vim");
       } else {
@@ -34,7 +33,7 @@ class Editor extends HTMLElement {
       }
     });
 
-    recibirMensaje(this, "signal-setting-live", (data) => {
+    recibirMensaje(this, "señal-activar-modo-live", (data) => {
       this.runOnChange = data.enabled;
     });
 
@@ -82,10 +81,6 @@ class Editor extends HTMLElement {
     editor.setKeyboardHandler("ace/keyboard/vim");
     editor.setHighlightActiveLine(false);
 
-    //editor.setOptions({
-    //});
-    //
-    
     recibirMensaje(this, "señal-activar-modo-oscuro", (data) => {
       if (data.activado) {
         editor.setTheme("ace/theme/dracula");
@@ -106,7 +101,7 @@ class Editor extends HTMLElement {
         if (this.runOnChange) {
           enviarMensaje(this, "señal-comenzar-a-ejecutar");
         }
-      }, 500);
+      }, 50);
 
     });
       
@@ -176,8 +171,15 @@ class Editor extends HTMLElement {
 
     this.editor.completers = [{
       getCompletions: (editor, session, pos, prefix, callback) => {
-        console.log(prefix);
-        callback(null, completions);
+        //const lineaActual = editor.session.getLine(pos.row);
+
+        // solo autocompleta a partir del 3er caracter
+        if (prefix.length > 2) {
+          callback(null, completions);
+        } else {
+          callback(null, []);
+        }
+
       },
       getDocTooltip: function(item) {
         if (item.doc) {

@@ -4,11 +4,11 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 class BarraDeBotones extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `
       <div id="retro-barra-de-botones" class="barra-de-botones">
         <retro-run-button></retro-run-button>
@@ -19,7 +19,7 @@ class BarraDeBotones extends HTMLElement {
     `;
   }
 
-  connectEvents() {
+  conectarEventos() {
   }
 
   disconnectedCallback() {

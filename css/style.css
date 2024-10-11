@@ -78,7 +78,9 @@ textarea {
 
 button {
   min-width: 80px;
+  display: inline-flex;
 }
+
 
 .buttons {
   padding-bottom: 8px;
@@ -245,27 +247,18 @@ a {
   background-color: #eee;
 }
 
-.cm-editor {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-}
-
-.cm-line {
-  line-height: 1.5;
-}
-
 .header {
   padding: 5px;
 }
 
 #editor {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 50px);
   border: 1px solid gray;
+}
+
+#editor-asistente {
+  height: 50px;
 }
 
 #config {
@@ -386,6 +379,7 @@ retro-pantalla {
   display: inline-block;
   width: 16px;
   height: 16px;
+  padding-right: 4px;
 }
 
 ::backdrop {
@@ -412,4 +406,32 @@ dialog {
 
 .texto {
   max-width: 520px;
+}
+
+div#canvas-pixelart {
+  width: 256px;
+  height: 256px;
+  background-image: url("/static/img/transparente.png");
+  background-repeat: repeat;
+}
+
+.contenedor-editor-pixelart {
+  display: flex;
+}
+
+.color {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  text-align: center;
+  line-height: 1.5;
+}
+
+#retro-pixelart-colores {
+  margin-left: 5px;
+  display: grid;
+  grid-gap: 2px;
+  grid-template-columns: repeat(4, 32px);
+  background-color: black;
+  border: 2px solid black;
 }

@@ -3,11 +3,11 @@ import { enviarMensaje } from "./bus.js";
 class Header extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `
       <div class="header">
         <div class="header-1">
@@ -31,7 +31,7 @@ class Header extends HTMLElement {
     `;
   }
 
-  connectEvents() {
+  conectarEventos() {
   }
 
   disconnectedCallback() {

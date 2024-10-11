@@ -11,17 +11,23 @@ import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction 
 //}, 1000);
 
 
+/* NOTA
+ *
+ * El intérprete se encarga de tener guarda la información
+ * del proyecto, y las imágenes.
+ * 
+ */
 class Interprete extends HTMLElement {
 
   connectedCallback() {
     this.running = false;
 
-    this.createHTML();
-    this.connectEvents();
-    this.installCustomFunctions();
+    this.crearHTML();
+    this.conectarEvento();
+    this.vincularFuncionesPersonalizadas();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `<div>
       <div id="error">
       </div>
@@ -29,16 +35,16 @@ class Interprete extends HTMLElement {
     this.clearError();
   }
 
-  installCustomFunctions() {
+  vincularFuncionesPersonalizadas() {
 
     function print(args) {
-      console.log("FUNCIÓN PRINT", args);
+      console.log("FUNCIÓN PRINT: ", args);
     }
 
     filbert.pythonRuntime.functions.print = print;
   }
 
-  connectEvents() {
+  conectarEvento() {
 
     // cuando llega el mensaje run, solicita el código como
     // string e inicia la ejecución

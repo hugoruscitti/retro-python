@@ -1,8 +1,4 @@
 import Canvas from "./canvas.js";
-import { backgroundColor } from "./constants.js";
-
-const WIDTH = 128;
-const HEIGHT = 128;
 
 class Pantalla extends HTMLElement {
 
@@ -11,16 +7,16 @@ class Pantalla extends HTMLElement {
       <div id='canvas'></div>
     `;
 
-    this.createPhaserInstance();
-    this.connectEvents();
+    this.crearCanvasDePhaser();
+    this.conectarEventos();
   }
 
-  createPhaserInstance() {
+  crearCanvasDePhaser() {
     const config = {
       type: Phaser.AUTO,
-      width: WIDTH,
-      height: HEIGHT,
-      backgroundColor: backgroundColor,
+      width: 128,
+      height: 128,
+      backgroundColor: "#777777",
       pixelArt: true,
       parent: 'canvas',
       scene: Canvas
@@ -29,7 +25,7 @@ class Pantalla extends HTMLElement {
     window.game = new Phaser.Game(config);
   }
 
-  connectEvents() {
+  conectarEventos() {
   }
 }
 

@@ -3,17 +3,17 @@ import { enviarMensaje } from "./bus.js";
 class Manual extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     let iframe = document.createElement('iframe');
     iframe.src = new URL('/manual.html', import.meta.url);
     this.appendChild(iframe);
   }
 
-  connectEvents() {
+  conectarEventos() {
     const iframe = this.querySelector("iframe");
 
     console.log(iframe);

@@ -13,7 +13,9 @@ import AcercaDe from "./retro-acerca-de.js"
 import Ejemplos from "./retro-ejemplos.js"
 import EditorPixelart from "./retro-editor-pixelart.js"
 import PixelartCanvas from "./retro-pixelart-canvas.js"
+import PixelartColores from "./retro-pixelart-colores.js"
 
+customElements.define("retro-pixelart-colores", PixelartColores);
 customElements.define("retro-pixelart-canvas", PixelartCanvas);
 customElements.define("retro-editor-pixelart", EditorPixelart);
 customElements.define("retro-ejemplos", Ejemplos);
@@ -237,15 +239,12 @@ function crearSplitView() {
     sizes: sizesSplitCentral,
     gutter: function() {
       const gutter = document.querySelector('#gutter')
-      console.log(gutter);
       return gutter
     },
     onDragEnd: function(sizes) {
       localStorage.setItem('split-sizes-central', JSON.stringify(sizes))
     },
   });
-
-
 
   Split(['retro-pantalla', 'retro-manual'], {
     direction: 'vertical',
@@ -254,9 +253,6 @@ function crearSplitView() {
       localStorage.setItem('split-sizes-izquierdo', JSON.stringify(sizes))
     },
   });
-
-
-
 
 }
 

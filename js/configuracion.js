@@ -4,11 +4,11 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 class Configuracion extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `
 
     <button id="boton-configuracion">
@@ -48,7 +48,7 @@ class Configuracion extends HTMLElement {
   `;
   }
 
-  connectEvents() {
+  conectarEventos() {
     const boton = this.querySelector("#boton-configuracion");
     const dialogo = this.querySelector("#dialogo-configuracion");
 
@@ -57,11 +57,11 @@ class Configuracion extends HTMLElement {
     });
 
     this.querySelector("#live").addEventListener("change", function(e) {
-      enviarMensaje(this, "signal-setting-live", { enabled: e.target.checked });
+      enviarMensaje(this, "señal-activar-modo-live", { enabled: e.target.checked });
     });
 
     this.querySelector("#vim").addEventListener("change", function(e) {
-      enviarMensaje(this, "signal-setting-vim", { enabled: e.target.checked });
+      enviarMensaje(this, "señal-activar-el-modo-vim", { enabled: e.target.checked });
     });
 
     this.querySelector("#modo-oscuro").addEventListener("change", function(e) {

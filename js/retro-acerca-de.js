@@ -4,16 +4,12 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 class AcercaDe extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `
-      <div id="retro-acerca-de" class="pointer">
-        Acerca de...
-      </div>
-
       <dialog id="dialogo-acerca-de" class="texto">
         <h1>retro-python</h1>
 
@@ -36,13 +32,20 @@ class AcercaDe extends HTMLElement {
         </p>
 
         <form method="dialog">
-          <button>Volver</button>
+          <button>
+            <div class="icono">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+              </svg>
+            </div>
+            Volver
+          </button>
         </form>
       </dialog>
     `;
   }
 
-  connectEvents() {
+  conectarEventos() {
     const boton = this.querySelector("#retro-acerca-de");
     const dialogo = this.querySelector("#dialogo-acerca-de");
 

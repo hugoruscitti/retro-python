@@ -1,20 +1,35 @@
-
 import { enviarMensaje, recibirMensaje } from "./bus.js";
+import Pixelart from "./pixelart.js";
 
 class PixelartCanvas extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `
-      canvas
+      <div id='canvas-pixelart'></div>
     `;
+    this.crearCanvasDePhaser();
   }
 
-  connectEvents() {
+  crearCanvasDePhaser() {
+    const config = {
+      type: Phaser.AUTO,
+      width: 8,
+      height: 8,
+      pixelArt: true,
+      transparent: true,
+      parent: 'canvas-pixelart',
+      scene: Pixelart
+    };
+
+    this.pixelart = new Phaser.Game(config);
+  }
+
+  conectarEventos() {
   }
 
   disconnectedCallback() {

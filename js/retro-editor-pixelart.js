@@ -3,11 +3,11 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 class EditorPixelart extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `
       <button id="abrir-editor">
         <div class="icono">
@@ -21,17 +21,36 @@ class EditorPixelart extends HTMLElement {
 
       <dialog open>
 
-        <retro-pixelart-canvas></retro-pixelart-canvas>
+        <div class="contenedor-editor-pixelart">
+          <div>
+            <retro-pixelart-canvas></retro-pixelart-canvas>
+          </div>
+          <div>
+            <retro-pixelart-colores></retro-pixelart-colores>
+          </div>
+        </div>
 
+        <div>
+          1 2 3 4
+        </div>
 
         <form method="dialog">
-          <button>Volver al proyecto</button>
+          <button>
+
+            <div class="icono">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
+              </svg>
+            </div>
+
+            Volver al proyecto
+          </button>
         </form>
       </dialog>
     `;
   }
 
-  connectEvents() {
+  conectarEventos() {
     const boton = this.querySelector("#abrir-editor");
     const dialogo = this.querySelector("dialog");
     

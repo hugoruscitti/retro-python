@@ -4,11 +4,11 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 class Ejemplos extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = `
       <div id="retro-ejemplos" class="dn">
 
@@ -30,7 +30,7 @@ class Ejemplos extends HTMLElement {
     `;
   }
 
-  connectEvents() {
+  conectarEventos() {
   }
 
   disconnectedCallback() {

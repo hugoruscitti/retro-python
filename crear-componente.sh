@@ -9,18 +9,18 @@ import { enviarMensaje, recibirMensaje } from \"./bus.js\";
 class $CLASE extends HTMLElement {
 
   connectedCallback() {
-    this.createHTML();
-    this.connectEvents();
+    this.crearHTML();
+    this.conectarEventos();
   }
 
-  createHTML() {
+  crearHTML() {
     this.innerHTML = \`
       <div id=\"$NOMBRE\">
       </div>
     \`;
   }
 
-  connectEvents() {
+  conectarEventos() {
   }
 
   disconnectedCallback() {
