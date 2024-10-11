@@ -121,34 +121,26 @@ tr {
   font-family: "code";
 }
 
+
 button {
-  font-size: x-large;
+ cursor: pointer; 
 }
 
-.btn-icon {
-  height: 48px;
-  width: 48px;
-  min-width: fit-content;
-  padding: 0;
-  cursor: pointer;
+.pointer {
+ cursor: pointer; 
 }
 
-.btn-icon .icon {
-  width: 24px;
-  height: 24px;
+button:active {
+  transform: translateY(2);
 }
 
-.btn-icon:active {
-  transform: translate(0px, 2px);
-}
-
-
-.colors {
-  height: 270px;
-  width: 270px;
-}
 
 .examples {
+}
+
+a {
+  text-decoration: none;
+  color: blue;
 }
 
 .examples a {
@@ -323,6 +315,11 @@ button {
   white-space: normal !important;
 }
 
+.barra-de-botones {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
 .botones-de-control {
   padding-top: 8px;
 }
@@ -369,4 +366,36 @@ retro-pantalla {
 .header-1 {
   display: flex;
   
+}
+
+.icono {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+::backdrop {
+  background-image: linear-gradient(
+    45deg,
+    magenta,
+    rebeccapurple,
+    dodgerblue,
+    green
+  );
+  opacity: 0.75;
+  z-index: 999;
+}
+
+
+dialog {
+      position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+}
+
+.texto {
+  max-width: 520px;
 }

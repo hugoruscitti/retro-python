@@ -134,7 +134,7 @@ class Interprete extends HTMLElement {
     setTimeout(() => {
       //stopTimer();
       this.running = false;
-      sendMessage(this, "signal-stop", {});
+      sendMessage(this, "señal-detener-la-ejecución", {});
     }, 500);
   }
 

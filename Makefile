@@ -4,7 +4,7 @@ all:
 	@echo ""
 	@echo "  make ejecutar"
 	@echo "  make compilar"
-	@echo "  make ejecutar-nwjs"
+	@echo "  make nwjs"
 	@echo ""
 
 
@@ -17,5 +17,5 @@ compilar:
 	cp utils/package.json dist/
 	parcel build index.html editor.html --no-cache --dist-dir dist
 
-ejecutar-nwjs:
+nwjs:
 	open -a "nwjs" --args $(realpath dist)

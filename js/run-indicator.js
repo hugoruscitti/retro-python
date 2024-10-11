@@ -16,7 +16,7 @@ class RunIndicator extends HTMLElement {
   connectEvents() {
     const indicator = this.querySelector("#run-indicator");
 
-    getMessage(this, "signal-stop", () => {
+    getMessage(this, "señal-detener-la-ejecución", () => {
       indicator.innerText = "Detenido";
     });
 

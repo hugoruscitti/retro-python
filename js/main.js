@@ -9,7 +9,11 @@ import Settings from "./settings.js";
 import RunIndicator from "./run-indicator.js";
 import Manual from "./manual.js";
 import BarraDeBotones from "./retro-barra-de-botones.js"
+import AcercaDe from "./retro-acerca-de.js"
+import Ejemplos from "./retro-ejemplos.js"
 
+customElements.define("retro-ejemplos", Ejemplos);
+customElements.define("retro-acerca-de", AcercaDe);
 customElements.define("retro-barra-de-botones", BarraDeBotones);
 customElements.define("retro-pantalla", Pantalla);
 customElements.define("retro-editor", Editor);
