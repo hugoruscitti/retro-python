@@ -1,18 +1,27 @@
 @font-face {
-  font-family: 'pixelart';
-  src: url('../static/DisposableDroidBB.ttf') format('truetype');
+  font-family: 'code';
+  src: url('../static/JetBrainsMono-Medium.woff2') format('woff2');
 }
 
 body {
-  font-family: 'pixelart';
   margin: 0;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: #d4d4d4;
 }
 
 canvas {
-  width: 400px;
-  height: 400px;
+  flex-grow: 1;
+  object-fit: contain;
+  width: -webkit-fill-available;
 }
+
+div#canvas {
+  flex-grow: 1;
+  display: flex;
+  background-color: #919191;
+}
+
 
 .speed {
   display: flex;
@@ -42,11 +51,6 @@ canvas {
   flex-grow: 1;
   overflow: scroll;
   background-color: #e9e9e9;
-}
-
-.canvas-panel {
-  min-width: 400px;
-  padding: 10px;
 }
 
 .editor-panel {
@@ -112,12 +116,12 @@ tr {
   opacity: 1;
 }
 
-.pixelart {
-  font-family: "pixelart";
+
+.code {
+  font-family: "code";
 }
 
 button {
-  font-family: "pixelart";
   font-size: x-large;
 }
 
@@ -125,33 +129,19 @@ button {
   height: 48px;
   width: 48px;
   min-width: fit-content;
-  border: 2px solid black;
   padding: 0;
-  background: none;
   cursor: pointer;
-  transition: 0.6s ease;
-}
-
-.btn-icon:hover {
-  background-color: gainsboro;
-}
-
-.btn-icon-play:hover {
-  background-color: palegreen;
-}
-
-.btn-icon-stop:hover {
-  background-color: palevioletred;
-}
-
-.btn-icon-share:hover {
-  background-color: paleturquoise;
 }
 
 .btn-icon .icon {
   width: 24px;
   height: 24px;
 }
+
+.btn-icon:active {
+  transform: translate(0px, 2px);
+}
+
 
 .colors {
   height: 270px;
@@ -183,4 +173,200 @@ button {
 
 .repository-link:hover {
   fill: #2196F3;
+}
+
+
+
+.layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  width: 100%;
+  flex-direction: column;
+}
+
+.center-layout {
+  display: flex;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+.link {
+  text-decoration: none;
+  color: #77f;
+}
+
+.footer {
+  padding: 5px;
+  text-align: center;
+}
+
+.layout-editor {
+}
+
+
+.result-panel {
+  width: 512px;
+  padding-left: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.split {
+  display: flex;
+  flex-direction: row;
+}
+
+.gutter {
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter:hover {
+  background-color: #0083ff;
+}
+
+.gutter.gutter-horizontal {
+  background-image: url('/static/img/horizontal-gutter.png');
+  cursor: col-resize;
+}
+
+.gutter.gutter-vertical {
+  background-image: url('/static/img/vertical-gutter.png');
+  cursor: row-resize;
+  min-height: 10px;
+}
+
+.code-panel {
+  flex-grow: 1;
+  padding-right: 8px;
+}
+
+.code-area {
+  flex: 1 1 auto;
+  margin-top: 0;
+  height: 100%;
+  position: relative;
+  background-color: #eee;
+}
+
+.cm-editor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+.cm-line {
+  line-height: 1.5;
+}
+
+.header {
+  padding: 5px;
+}
+
+#editor {
+  width: 100%;
+  height: 100%;
+  border: 1px solid gray;
+}
+
+#config {
+  display: inline-block;
+}
+
+.no-user-select {
+  user-select: none;
+}
+
+#error {
+  position: absolute;
+    color: white;
+    background-color: red;
+    padding: 1em;
+    /* margin-top: 2em; */
+    right: 0;
+    /* margin-right: 1em; */
+}
+
+#run-indicator {
+  display: inline-block;
+}
+
+.dn {
+  display: none !important;
+}
+
+.ace_editor {
+  font-family: code !important;
+}
+
+.ace_autocomplete pre {
+  background-color: gray;
+  padding: 0.5em;
+}
+
+.imagen-ejemplo {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  width: 128px;
+  height: 128px;
+  display: block;
+  padding: 1em;
+}
+
+.ace_tooltip {
+  white-space: normal !important;
+}
+
+.botones-de-control {
+  padding-top: 8px;
+}
+
+.retro-manual {
+  overflow: always;
+}
+
+retro-manual {
+  margin-top: 10px;
+  display: flex;
+  flex-grow: 1;
+  background-color: white;
+  border: 1px solid gray;
+}
+
+iframe {
+  width: 100%;
+  border: 0;
+}
+
+doc-tooltip {
+  height: 10em;
+  box-shadow: 1px 1px 5px 2px;
+  margin: 5px;
+}
+
+retro-pantalla {
+  display: flex;
+}
+
+.header {
+  border-bottom: 2px solid gray;
+}
+
+.logo {
+  width: 400px;
+}
+
+.expandir-flex {
+  flex-grow: 1;
+}
+
+.header-1 {
+  display: flex;
+  
 }

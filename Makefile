@@ -1,3 +1,21 @@
+all:
+	@echo ""
+	@echo "Comandos:"
+	@echo ""
+	@echo "  make ejecutar"
+	@echo "  make compilar"
+	@echo "  make ejecutar-nwjs"
+	@echo ""
+
+
 ejecutar:
-	@echo "Visita http://localhost:8000"
-	python -m http.server
+	parcel serve index.html --open
+
+compilar:
+	rm -rf dist
+	mkdir dist
+	cp utils/package.json dist/
+	parcel build index.html editor.html --no-cache --dist-dir dist
+
+ejecutar-nwjs:
+	open -a "nwjs" --args $(realpath dist)

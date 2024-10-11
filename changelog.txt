@@ -1,0 +1,4 @@
+0.0.1:
+
+- Cambiando fuente pixelart por JetBrainsMono.
+- Reemplazando CodeMirror por Ace como nuevo editor.

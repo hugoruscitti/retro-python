@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/manual.css" />
+
+    <script>
+      function cargar_indice_de_contenidos() {
+        const indice = document.querySelector("#indice");
+        const headers = document.querySelectorAll("h3");
+
+        const links = Array.from(headers).map(header => {
+          const texto = header.innerText;
+          const id = header.getAttribute("id");
+          return "<li><a href='#" + id + "'>" + texto + "</a></li>";
+        });
+
+        indice.innerHTML = "<ul>" + links.join("") + "</ul>";
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        cargar_indice_de_contenidos();
+      });
+    </script>
+  </head>
+  <body>
+
+      <div class="retro-manual">
+        <h1>Manual</h1>
+
+        <div id="indice">
+          <!-- 
+            NOTA: este contenido se autocompleta con la función
+            JavaScript cargar_indice_de_contenidos()
+          -->
+        </div>
+
+
+        <div>
+          <h3 id="manual-linea">linea</h3>
+            Dibuja una linea de color entre dos puntos
+
+            <pre>linea(x, y, x2, y2, color)</pre>
+
+            Por ejemplo, si se llama a la función de esta forma:
+
+            <pre id="ejemplo">linea(5, 5, 200, 200, 12)</pre>
+
+            Se dibujará esta linea:
+
+            <img class="imagen-ejemplo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAmUlEQVRYR+3Xuw2AMAwEUDICHXsxJ3vRMYIRJQISf+4ciniCJ+vOkouIyNRxygD8ZgPLdkz7Oqen4ZaBHohHCLMRry3IRHzWMAtRvQMZiOYhYiOagKuXTIQKwESoASyECcBAmAFohAuARLgBKEQIgECEAVEEBBBBwABeBBTgQcABVgQFYEHQAFoEFaBB0AEtRAqg9mwMQPcNnLrmx6EmqR7BAAAAAElFTkSuQmCC"></img>
+        </div>
+
+
+        <div>
+        <h3 id="manual-limpiar">limpiar / borrar</h3>
+
+          Limpia la pantalla por completo.
+
+          <pre id="ejemplo">limpiar()</pre>
+
+          Esta función es sinónimo de otras funciones
+          como "borrar". Así que si ves algo como borrar() en
+          el código, en realidad se llamará a esta función.
+        </div>
+
+
+        <div>
+        <h3 id="manual-pixel">pixel</h3>
+          Dibuja un píxel.
+
+          <pre>pixel(x, y, color)</pre>
+
+          Por ejemplo, para dibujar un pixel en el centro de la pantalla:
+
+          <pre id="ejemplo">pixel(64, 64, 2)</pre>
+        </div>
+
+
+        <div>
+        <h3 id="manual-circulo">circulo</h3>
+          Dibuja un círculo.
+
+          <pre>circulo(x, y, radio, color, relleno)</pre>
+
+          Esta función puede dibujar un círculo en pantalla, el
+          círculo puede ser solo el contorno o un círculo completamente
+          sólido.
+
+          Por ejemplo, para dibujar un círculo sólido de color
+          blanco en en centro de la pantalla se puede llamar
+          a la función así:
+
+          <pre id="ejemplo">circulo(64, 64, 25, 7, True)</pre>
+
+      </div>
+  </body>
+</html>

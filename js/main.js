@@ -1,57 +1,31 @@
-import Canvas from "./canvas.js";
-import {
-  hasMainLoopInThisAST,
-  createASTFromPython,
-  replaceMainLoopWithFunction,
-} from "./ast.js";
+import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction } from "./ast.js";
+import Pantalla from "./pantalla.js";
+import Editor from "./editor.js";
+import Header from "./header.js";
+import ShareButton from "./boton-exportar.js";
+import RunButton from "./run-button.js";
+import Interprete from "./interprete.js";
+import Settings from "./settings.js";
+import RunIndicator from "./run-indicator.js";
+import Manual from "./manual.js";
+import BarraDeBotones from "./retro-barra-de-botones.js"
 
-customElements.define("retro-canvas", Canvas);
+customElements.define("retro-barra-de-botones", BarraDeBotones);
+customElements.define("retro-pantalla", Pantalla);
+customElements.define("retro-editor", Editor);
+customElements.define("retro-header", Header);
+customElements.define("retro-boton-exportar", ShareButton);
+customElements.define("retro-run-button", RunButton);
+customElements.define("retro-interprete", Interprete);
+customElements.define("retro-settings", Settings);
+customElements.define("retro-run-indicator", RunIndicator);
+customElements.define("retro-manual", Manual);
 
 // indica si el código está en un loop ejecutando.
 var running = false;
 var timer = null;
 var speed = 30; // velocidad en cuadros por segundo
 
-function createEditor() {
-  const theme = EditorView.theme({
-    "&": {
-      fontSize: "20px",
-      border: "1px solid #c0c0c0"
-    },
-    ".cm-content": {
-      fontFamily: "pixelart",
-      minHeight: "250px",
-    },
-  });
-
-  const minHeightEditor = EditorView.theme({
-    ".cm-content, .cm-gutter": { minHeight: "200px" }
-  });
-
-  const defaultCode = loadCode() != null ? loadCode() :
-`t = 0
-
-while True:
-  t += 1
-  clear()
-  x = sin(t*pi/10)*65
-  draw_line(64, 0, x + 65, 128, t)`
-
-  const editor = new EditorView({
-    extensions: [
-      basicSetup,
-      theme,
-      python,
-      keymap.of([indentWithTab]),
-      minHeightEditor,
-    ],
-    parent: document.querySelector("#editor"),
-    doc: defaultCode,
-    mode: "python",
-  });
-
-  return editor;
-}
 
 function stopTimer() {
   if (timer) {
@@ -92,7 +66,7 @@ function updateMainLoop(code) {
 
   let eval_string = js + exportAsGlobal;
 
-  eval(eval_string);
+  (0, eval)(eval_string);
 }
 
 function run() {
@@ -211,7 +185,7 @@ function run() {
     let eval_string = js;
 
     try {
-      eval(eval_string);
+      (0, eval)(eval_string);
     } catch (e) {
       console.log(e);
     }
@@ -225,36 +199,74 @@ function run() {
   }
 }
 
-function share() {
-  const code = editor.state.doc.text;
+function crearSplitView() {
+  var sizesSplitCentral = localStorage.getItem('split-sizes-central');
+  var sizesSplitIzquierdo = localStorage.getItem('split-sizes-izquierdo');
 
-  const base64Encoded = btoa(code.join("\n"));
-  var url = new URL(window.location.origin);
-  url.searchParams.append('code', base64Encoded);
+  if (sizesSplitCentral) {
+    sizesSplitCentral = JSON.parse(sizesSplitCentral)
+  } else {
+    sizesSplitCentral = null;
+  }
 
-  const newURL = url.toString();
+  if (sizesSplitIzquierdo) {
+    sizesSplitIzquierdo = JSON.parse(sizesSplitIzquierdo)
+  } else {
+    sizesSplitIzquierdo = null;
+  }
 
-  navigator.clipboard.writeText(newURL);
-  window.history.replaceState({}, window.title, newURL)
+
+  // invoca a la biblioteca SplitJS para hacer
+  // que los paneles de puedan ajustar con el
+  // mouse.
+  //
+  // nota: los dos selectores son los hijos
+  // directos de "#center-layout" que tiene
+  // la propiedad "display: flex"
+  //
+  Split(['#result-panel', '#panel-de-codigo'], {
+    gutterAlign: 'start',
+    sizes: sizesSplitCentral,
+    gutter: function() {
+      const gutter = document.querySelector('#gutter')
+      console.log(gutter);
+      return gutter
+    },
+    onDragEnd: function(sizes) {
+      localStorage.setItem('split-sizes-central', JSON.stringify(sizes))
+    },
+  });
+
+
+
+  Split(['retro-pantalla', 'retro-manual'], {
+    direction: 'vertical',
+    sizes: sizesSplitIzquierdo,
+    onDragEnd: function(sizes) {
+      localStorage.setItem('split-sizes-izquierdo', JSON.stringify(sizes))
+    },
+  });
+
+
+
+
 }
 
-function loadCode() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const base64Encoded = urlParams.get('code');
-
-  return base64Encoded != null ? atob(base64Encoded) : null;
-}
 
 document.addEventListener("DOMContentLoaded", function () {
   const runButton = document.querySelector("#run");
   const stopButton = document.querySelector("#stop");
   const speedInput = document.querySelector("#speed");
   const stepButton = document.querySelector("#step");
-  const shareButton = document.querySelector("#share");
   const tooltip = document.querySelector("#tooltip");
 
-  window.editor = createEditor();
 
+
+
+
+  crearSplitView();
+
+  /*
   runButton.addEventListener("click", function () {
     run();
   });
@@ -265,16 +277,6 @@ document.addEventListener("DOMContentLoaded", function () {
     step();
   });
 
-  shareButton.addEventListener("click", function () {
-    share();
-    tooltip.classList.add("show-tooltip");
-    shareButton.setAttribute("disabled", "disabled");
-
-    setTimeout(() => {
-      tooltip.classList.remove("show-tooltip");
-      shareButton.removeAttribute("disabled");
-    }, 1000);
-  });
 
   speedInput.addEventListener("input", function (e) {
     speed = +e.target.value;
@@ -292,7 +294,10 @@ document.addEventListener("DOMContentLoaded", function () {
     run();
   });
 
+  */
 });
+
+
 
 
 window.run = run;
