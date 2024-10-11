@@ -79,12 +79,20 @@ class Editor extends HTMLElement {
       fontSize: "18pt"
     });
 
-    //editor.setTheme("ace/theme/tomorrow");
     editor.setKeyboardHandler("ace/keyboard/vim");
     editor.setHighlightActiveLine(false);
 
     //editor.setOptions({
     //});
+    //
+    
+    recibirMensaje(this, "señal-activar-modo-oscuro", (data) => {
+      if (data.activado) {
+        editor.setTheme("ace/theme/dracula");
+      } else {
+        editor.setTheme("ace/theme/tomorrow");
+      }
+    });
     
     editor.getSession().on('change', () => {
 

@@ -8,6 +8,7 @@ const EVENTOS = [
   "señal-detener-la-ejecución",         // Define si tiene que ejecutar al editar o no.
   "signal-setting-vim",  // indica si se activó o no el modo vim
   "señal-manual-cargado", // cuando el iframe del manual se carga por completo
+  "señal-activar-modo-oscuro", // cuando se quiere cambiar el tema del editor.
 ]
 
 function enviarMensaje(sender, name, datos) {

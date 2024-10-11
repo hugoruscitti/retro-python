@@ -17,8 +17,13 @@ class Header extends HTMLElement {
 
           <div class="expandir-flex">
           </div>
+
+          <retro-editor-pixelart></retro-editor-pixelart>
+
+          <div class="expandir-flex">
+          </div>
             
-          <div>
+          <div class="menu-superior">
             <a href="/index.html">Visitar el sitio web</a>
           </div>
         </div>

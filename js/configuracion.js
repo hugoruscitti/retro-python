@@ -1,7 +1,7 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
 
 
-class Settings extends HTMLElement {
+class Configuracion extends HTMLElement {
 
   connectedCallback() {
     this.createHTML();
@@ -24,7 +24,6 @@ class Settings extends HTMLElement {
       <dialog id="dialogo-configuracion" class="texto">
 
 
-      Configuración: 
       <div id="config" class="no-user-select">
         <label>
           <input type="checkbox" id="live">
@@ -34,6 +33,11 @@ class Settings extends HTMLElement {
         <label>
           <input type="checkbox" id="vim" checked="checked">
           Modo VIM 
+        </label>
+
+        <label>
+          <input type="checkbox" id="modo-oscuro" checked="checked">
+          Modo oscuro
         </label>
 
         <form method="dialog">
@@ -60,9 +64,13 @@ class Settings extends HTMLElement {
       enviarMensaje(this, "signal-setting-vim", { enabled: e.target.checked });
     });
 
+    this.querySelector("#modo-oscuro").addEventListener("change", function(e) {
+      enviarMensaje(this, "señal-activar-modo-oscuro", { activado: e.target.checked });
+    });
+
 
   }
 
 }
 
-export default Settings;
+export default Configuracion;

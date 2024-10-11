@@ -365,7 +365,12 @@ retro-pantalla {
 }
 
 .logo {
-  width: 400px;
+  width: 200px;
+}
+
+.menu-superior {
+  width: 200px;
+  text-align: right;
 }
 
 .expandir-flex {

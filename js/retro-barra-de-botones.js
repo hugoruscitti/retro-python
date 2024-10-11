@@ -15,7 +15,7 @@ class BarraDeBotones extends HTMLElement {
         <retro-boton-exportar></retro-boton-exportar>
 
         <retro-ejemplos></retro-ejemplos>
-        <retro-settings></retro-settings>
+        <retro-configuracion></retro-configuracion>
     `;
   }
 
