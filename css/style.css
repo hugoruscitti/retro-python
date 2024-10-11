@@ -233,6 +233,8 @@ a {
 .code-panel {
   flex-grow: 1;
   padding-right: 8px;
+  display: flex;
+  flex-direction: column;
 }
 
 .code-area {
@@ -318,6 +320,13 @@ a {
 .barra-de-botones {
   padding-top: 2px;
   padding-bottom: 2px;
+  height: 25px;
+}
+
+.barra-cabecera-del-canvas {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  height: 25px;
 }
 
 .botones-de-control {

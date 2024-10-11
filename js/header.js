@@ -12,7 +12,7 @@ class Header extends HTMLElement {
       <div class="header">
         <div class="header-1">
           <div class="logo">
-            RETROPYTHON
+            RETRO PYTHON
           </div>
 
           <div class="expandir-flex">

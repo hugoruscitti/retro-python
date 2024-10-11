@@ -7,7 +7,13 @@ class Editor extends HTMLElement {
     const initialCode = this.loadInitialCode();
     this.runOnChange = false;
 
-    this.innerHTML = "<input type='range' id='control'></input><div id='editor'></div>";
+    this.innerHTML = `
+    <div style="position: fixed; opacity: 0.5; x-index: 999; top:0; ">
+      <input type='range' id='control'></input>
+    </div>
+
+      <div id='editor'></div>
+    `;
     this.editor = this.createAceEditor(initialCode);
     this.connectEvents();
 

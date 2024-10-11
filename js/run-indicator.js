@@ -9,7 +9,7 @@ class RunIndicator extends HTMLElement {
 
   createHTML() {
     this.innerHTML = `
-      <div id="run-indicator" class="dib">Detenido</div>
+      <div id="run-indicator" class="barra-cabecera-del-canvas">Detenido</div>
     `;
   }
 
