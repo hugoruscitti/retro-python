@@ -72,7 +72,7 @@ class Interprete extends HTMLElement {
 
     // Agrega una llamada a la función 'clear()' automáticamente
     // al principio del programa
-    const inicio = filbert.parse("limpiar()")
+    const inicio = filbert.parse("borrar()")
     ast.body.splice(0, 0, inicio.body[0])
 
 
@@ -98,21 +98,21 @@ class Interprete extends HTMLElement {
     const c = window.canvas;
 
     window.linea = c.linea.bind(c);
-    //const borrar = c.borrar.bind(c);
-    window.limpiar = c.borrar.bind(c);
+    window.borrar = c.borrar.bind(c);
     window.pintar = c.pintar.bind(c);
     window.circulo = c.circulo.bind(c);
     //const dibujar = c.dibujar.bind(c);
-    //const rectangulo = c.rectangulo.bind(c);
-    //const azar = c.azar.bind(c);
+    window.rectangulo = c.rectangulo.bind(c);
+    window.azar = c.azar.bind(c);
 
-    //const seno = c.seno.bind(c);
-    //const coseno = c.coseno.bind(c);
-    //const tangente = c.tangente.bind(c);
-    //const arcotangente = c.arcotangente.bind(c);
-    //const arcotangente2 = c.arcotangente2.bind(c);
+    window.seno = c.seno.bind(c);
+    window.coseno = c.coseno.bind(c);
+    window.tangente = c.tangente.bind(c);
+    window.arcotangente = c.arcotangente.bind(c);
+    window.arcotangente2 = c.arcotangente2.bind(c);
 
     window.pixel = c.pixel.bind(c);
+    window.flip = c.flip.bind(c);
 
     window.fin = () => {
       this.done();

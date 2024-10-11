@@ -41,11 +41,7 @@ class ShareButton extends HTMLElement {
     const dialogo = document.querySelector("#dialogo-publicar");
     const imagen = document.querySelector("#imagen-del-juego-publicado");
     const qr = document.querySelector("#qrcode")
-    const qrcode = new QRCode(qr, "test");
-
-
-
-
+    const qrcode = new QRCode(qr, "https://retro-python.com.ar");
 
     shareButton.addEventListener("click", () => {
       dialogo.showModal();
@@ -53,7 +49,8 @@ class ShareButton extends HTMLElement {
       game.renderer.snapshot(function(img) {
         imagen.src = img.src;
       });
-      qrcode.makeCode("http://naver.com");
+      qrcode.clear();
+      qrcode.makeCode("https://pilas-engine.com.ar");
 
       const data = {
         callback: (data) => {

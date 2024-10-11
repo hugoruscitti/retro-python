@@ -140,10 +140,16 @@ class Canvas extends Phaser.Scene {
     renderTexture.draw(`sprite-${index}`, x, y);
   }
 
-  rectangulo(x, y, width, height, color = 0) {
+  rectangulo(x, y, width, height, color, relleno) {
     let graphics = this.graphics;
+    graphics.lineStyle(1, this._getColor(color));
     graphics.fillStyle(this._getColor(color));
-    graphics.fillRect(x, y, width, height);
+
+    if (relleno) {
+      graphics.fillRect(x, y, width, height);
+    } else {
+      graphics.strokeRect(x, y, width, height);
+    }
 
     this.flip();
   }
@@ -186,8 +192,7 @@ class Canvas extends Phaser.Scene {
   pixel(x, y, color) {
     let graphics = this.graphics;
     graphics.fillStyle(this._getColor(color));
-    graphics.fillRect(x, y, 1, 1);
-
+    graphics.fillRect(x, y, 2, 2);
     this.flip();
   }
 
