@@ -10,7 +10,7 @@ const EVENTOS = [
   "señal-manual-cargado", // cuando el iframe del manual se carga por completo
 ]
 
-function sendMessage(sender, name, datos) {
+function enviarMensaje(sender, name, datos) {
   if (!EVENTOS.includes(name)) {
     throw Error(`No se ha declarado la señal '${name}' previamente`);
   }
@@ -24,7 +24,7 @@ function sendMessage(sender, name, datos) {
   window.dispatchEvent(new CustomEvent(name, { detail: datos }));
 }
 
-function getMessage(receiver, name, callback) {
+function recibirMensaje(receiver, name, callback) {
   if (!EVENTOS.includes(name)) {
     throw Error(`No se ha declarado la señal '${name}' previamente`);
   }
@@ -39,4 +39,4 @@ function getMessage(receiver, name, callback) {
   });
 }
 
-export { sendMessage, getMessage };
+export { enviarMensaje, recibirMensaje };

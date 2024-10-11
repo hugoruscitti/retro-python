@@ -1,4 +1,4 @@
-import { sendMessage } from "./bus.js";
+import { enviarMensaje } from "./bus.js";
 
 class ShareButton extends HTMLElement {
 
@@ -59,7 +59,7 @@ class ShareButton extends HTMLElement {
         }
       }
 
-      sendMessage(this, "signal-get-code", data);
+      enviarMensaje(this, "signal-get-code", data);
     });
 
   }

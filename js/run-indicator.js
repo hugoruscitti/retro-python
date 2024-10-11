@@ -1,4 +1,4 @@
-import { sendMessage, getMessage } from "./bus.js";
+import { enviarMensaje, recibirMensaje } from "./bus.js";
 
 class RunIndicator extends HTMLElement {
 
@@ -16,11 +16,11 @@ class RunIndicator extends HTMLElement {
   connectEvents() {
     const indicator = this.querySelector("#run-indicator");
 
-    getMessage(this, "señal-detener-la-ejecución", () => {
+    recibirMensaje(this, "señal-detener-la-ejecución", () => {
       indicator.innerText = "Detenido";
     });
 
-    getMessage(this, "señal-comenzar-a-ejecutar", () => {
+    recibirMensaje(this, "señal-comenzar-a-ejecutar", () => {
       indicator.innerText = "Ejecutando";
     });
 

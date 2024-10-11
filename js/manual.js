@@ -1,4 +1,4 @@
-import { sendMessage } from "./bus.js";
+import { enviarMensaje } from "./bus.js";
 
 class Manual extends HTMLElement {
 
@@ -21,7 +21,7 @@ class Manual extends HTMLElement {
     iframe.addEventListener("load", () => {
       const contenido = iframe.contentDocument.querySelector(".retro-manual").innerHTML;
 
-      sendMessage(this, "señal-manual-cargado", {contenido});
+      enviarMensaje(this, "señal-manual-cargado", {contenido});
     });
 
   }

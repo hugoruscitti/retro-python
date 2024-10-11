@@ -1,5 +1,5 @@
 
-import { sendMessage, getMessage } from "./bus.js";
+import { enviarMensaje, recibirMensaje } from "./bus.js";
 
 class Ejemplos extends HTMLElement {
 

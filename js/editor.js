@@ -1,4 +1,4 @@
-import { getMessage, sendMessage } from "./bus.js";
+import { recibirMensaje, enviarMensaje } from "./bus.js";
 import { debounce } from "./utils.js";
 
 class Editor extends HTMLElement {
@@ -21,12 +21,12 @@ class Editor extends HTMLElement {
   }
 
   connectEvents() {
-    getMessage(this, "signal-get-code", (data) => {
+    recibirMensaje(this, "signal-get-code", (data) => {
       const code = this.editor.getValue();
       data.callback.call(this, {code: code});
     });
 
-    getMessage(this, "signal-setting-vim", (data) => {
+    recibirMensaje(this, "signal-setting-vim", (data) => {
       if (data.enabled) {
         this.editor.setKeyboardHandler("ace/keyboard/vim");
       } else {
@@ -34,11 +34,11 @@ class Editor extends HTMLElement {
       }
     });
 
-    getMessage(this, "signal-setting-live", (data) => {
+    recibirMensaje(this, "signal-setting-live", (data) => {
       this.runOnChange = data.enabled;
     });
 
-    getMessage(this, "señal-manual-cargado", (data) => {
+    recibirMensaje(this, "señal-manual-cargado", (data) => {
       // NOTA: los elementos del autocompletado de texto
       // se obtienen del manual html, así que se tiene
       // que esperar esta señal para saber que el contenido
@@ -96,7 +96,7 @@ class Editor extends HTMLElement {
       // Intenta ejecutar el código
       debounce(() => {
         if (this.runOnChange) {
-          sendMessage(this, "señal-comenzar-a-ejecutar");
+          enviarMensaje(this, "señal-comenzar-a-ejecutar");
         }
       }, 500);
 
@@ -105,7 +105,7 @@ class Editor extends HTMLElement {
     editor.commands.addCommand({
       name: "RUN",
       exec: () => {
-        sendMessage(this, "señal-comenzar-a-ejecutar");
+        enviarMensaje(this, "señal-comenzar-a-ejecutar");
       },
       bindKey: {mac: "cmd-s", win: "ctrl-s"}
     });

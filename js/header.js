@@ -1,4 +1,4 @@
-import { sendMessage } from "./bus.js";
+import { enviarMensaje } from "./bus.js";
 
 class Header extends HTMLElement {
 

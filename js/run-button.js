@@ -1,4 +1,4 @@
-import { sendMessage, getMessage } from "./bus.js";
+import { enviarMensaje, recibirMensaje } from "./bus.js";
 
 class RunButton extends HTMLElement {
 
@@ -30,19 +30,19 @@ class RunButton extends HTMLElement {
   }
 
   connectEvents() {
-    const shareButton = document.querySelector("#ejecutar");
-    const playIcon = document.querySelector("#icono-ejecutar");
-    const stopIcon = document.querySelector("#icono-detener");
+    const ejecutar = document.querySelector("#ejecutar");
+    const iconoEjecutar = document.querySelector("#icono-ejecutar");
+    const iconoDetener = document.querySelector("#icono-detener");
 
-    shareButton.addEventListener("click", () => {
-      sendMessage(this, "señal-comenzar-a-ejecutar");
-      playIcon.classList.add("dn");
-      stopIcon.classList.remove("dn");
+    ejecutar.addEventListener("click", () => {
+      enviarMensaje(this, "señal-comenzar-a-ejecutar");
+      iconoEjecutar.classList.add("dn");
+      iconoDetener.classList.remove("dn");
     });
 
-    getMessage(this, "señal-detener-la-ejecución", () => {
-      playIcon.classList.remove("dn");
-      stopIcon.classList.add("dn");
+    recibirMensaje(this, "señal-detener-la-ejecución", () => {
+      iconoEjecutar.classList.remove("dn");
+      iconoDetener.classList.add("dn");
     });
 
   }

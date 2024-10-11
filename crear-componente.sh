@@ -4,7 +4,7 @@ NOMBRE=$1
 CLASE=$2
 
 echo "
-import { sendMessage, getMessage } from \"./bus.js\";
+import { enviarMensaje, recibirMensaje } from \"./bus.js\";
 
 class $CLASE extends HTMLElement {
 

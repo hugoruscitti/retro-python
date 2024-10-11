@@ -1,4 +1,4 @@
-import { sendMessage, getMessage } from "./bus.js";
+import { enviarMensaje, recibirMensaje } from "./bus.js";
 
 
 class Settings extends HTMLElement {
@@ -53,11 +53,11 @@ class Settings extends HTMLElement {
     });
 
     this.querySelector("#live").addEventListener("change", function(e) {
-      sendMessage(this, "signal-setting-live", { enabled: e.target.checked });
+      enviarMensaje(this, "signal-setting-live", { enabled: e.target.checked });
     });
 
     this.querySelector("#vim").addEventListener("change", function(e) {
-      sendMessage(this, "signal-setting-vim", { enabled: e.target.checked });
+      enviarMensaje(this, "signal-setting-vim", { enabled: e.target.checked });
     });
 
 
