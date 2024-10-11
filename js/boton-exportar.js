@@ -24,6 +24,8 @@ class ShareButton extends HTMLElement {
 
         <img id="imagen-del-juego-publicado" src="">
 
+        <div id="qrcode"></div>
+
         <span id="tooltip" class="tooltip pixelart">URL saved to clipboard</span>
 
         <form method="dialog">
@@ -38,6 +40,8 @@ class ShareButton extends HTMLElement {
     const shareButton = document.querySelector("#share");
     const dialogo = document.querySelector("#dialogo-publicar");
     const imagen = document.querySelector("#imagen-del-juego-publicado");
+    const qr = document.querySelector("#qrcode")
+    const qrcode = new QRCode(qr, "test");
 
 
 
@@ -49,6 +53,7 @@ class ShareButton extends HTMLElement {
       game.renderer.snapshot(function(img) {
         imagen.src = img.src;
       });
+      qrcode.makeCode("http://naver.com");
 
       const data = {
         callback: (data) => {
