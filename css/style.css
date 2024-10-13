@@ -358,7 +358,10 @@ retro-pantalla {
 }
 
 .logo {
-  width: 200px;
+  width: 248px;
+  height: 28px;
+  display: inline-block;
+  background-image: url("../static/img/logo-header.png");
 }
 
 .menu-superior {

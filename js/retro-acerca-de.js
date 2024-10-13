@@ -10,6 +10,8 @@ class AcercaDe extends HTMLElement {
 
   crearHTML() {
     this.innerHTML = `
+    <button id="retro-acerca-de">Acerca de...</button>
+
       <dialog id="dialogo-acerca-de" class="texto">
         <h1>retro-python</h1>
 

@@ -1,6 +1,6 @@
 import { enviarMensaje } from "./bus.js";
 import { recibirMensaje } from "./bus.js";
-import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction } from "./ast.js";
+import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction, generarJavaScript } from "./ast.js";
 
 //window.frameCallback = function () {
   //console.log("frame");
@@ -21,9 +21,10 @@ class Interprete extends HTMLElement {
 
   connectedCallback() {
     this.running = false;
+    this.temporizador = null;
 
     this.crearHTML();
-    this.conectarEvento();
+    this.conectarEventos();
     this.vincularFuncionesPersonalizadas();
   }
 
@@ -44,24 +45,27 @@ class Interprete extends HTMLElement {
     filbert.pythonRuntime.functions.print = print;
   }
 
-  conectarEvento() {
+  conectarEventos() {
 
     // cuando llega el mensaje run, solicita el código como
     // string e inicia la ejecución
     recibirMensaje(this, "señal-comenzar-a-ejecutar", () => {
       const data = {
         callback: (result) => {
-          this.runCode(result.code);
+          this.ejecutar(result.code);
         }
       };
       
       enviarMensaje(this, "signal-get-code", data);
     });
+
+    recibirMensaje(this, "señal-detener-la-ejecución", () => {
+      this.detenerEjecucion();
+    });
   }
 
-  runCode(code) {
+  ejecutar(code) {
     filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
-
 
     // TODO: tengo validar que no esté running.
     let ast = null;
@@ -82,14 +86,26 @@ class Interprete extends HTMLElement {
     ast.body.splice(0, 0, inicio.body[0])
 
     
-    // marca el fin del programa, llamando a una función 'done'
-    // para indicarle al editor que el programa terminó.
-    if (!hasMainLoop) {
+    if (hasMainLoop) {
+      console.log("Este programa tiene mainloop");
+      // la siguiente función, genera la función __bloque_while para que
+      // el temporizador creado anteriormente pueda ejecutar el bloque
+      // que está dentro del bucle constántemente.
+      ast = replaceMainLoopWithFunction(ast);
+      //debugger;
+    } else {
+      // marca el fin del programa, llamando a una función 'done'
+      // para indicarle al editor que el programa terminó.
       const fin = filbert.parse("fin()")
       ast.body.push(fin.body[0])
     }
 
-    const js = escodegen.generate(ast);
+    const js = generarJavaScript(ast);
+    let extra = "";
+
+    if (hasMainLoop) {
+      extra = "window.__bloque_while = __bloque_while;";
+    }
 
     //let eval_string = js + exportAsGlobal;
     console.group("Código JavaScript");
@@ -97,6 +113,8 @@ class Interprete extends HTMLElement {
     let evalString = `
       function main() {
         ${js};
+        
+        ${extra};
       }
 
       window.canvas.load.once(Phaser.Loader.Events.COMPLETE, () => {
@@ -122,6 +140,7 @@ class Interprete extends HTMLElement {
     //que están en base64
     window.__cargar_imagenes = c.cargar_imagenes.bind(c);
 
+    window.pintar = c.pintar.bind(c);
     window.borrar = c.borrar.bind(c);
     window.pintar = c.pintar.bind(c);
     window.circulo = c.circulo.bind(c);
@@ -146,11 +165,57 @@ class Interprete extends HTMLElement {
     // el ; al final antes de hacer eval. 
     function __() {};
 
+    
     try {
       (0, eval)(evalString);
     } catch (error) {
       console.error(error);
       alert(error);
+    }
+
+    if (hasMainLoop) {
+      // el temporizador ejecutará regularmente el cuerpo del
+      // bucle principal.
+      this.iniciarTemporizadorDeBuclePrincipal();
+    }
+
+
+    
+  }
+
+  iniciarTemporizadorDeBuclePrincipal() {
+    this.temporizador = window.canvas.time.addEvent({
+        delay: 1000 / 10,
+        loop: true,
+        callback: () => {
+          // esta función la genera la función replaceMainLoopWithFunction
+          // solamente si el programa tiene un bucle principal.
+            try {
+              window.__bloque_while();
+            } catch (e) {
+              this.detenerEjecucion();
+              this.showError(e);
+            }
+          console.log("tick");
+          /*
+
+          acumulador += 33;
+
+          if (acumulador >= 1000 / speed) {
+            acumulador = 0;
+          }
+          */
+
+        }
+      });
+  }
+
+  detenerEjecucion() {
+    if (this.temporizador) {
+      this.temporizador.destroy()
+      this.temporizador = null;
+      this.running = false;
+      enviarMensaje(this, "señal-detener-la-ejecución", {});
     }
   }
 

@@ -19,7 +19,7 @@ class EditorPixelart extends HTMLElement {
         Abrir el editor pixelart
       </button>
 
-      <dialog open>
+      <dialog>
 
         <div class="contenedor-editor-pixelart">
           <div>

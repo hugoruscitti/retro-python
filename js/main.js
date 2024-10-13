@@ -266,20 +266,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
   crearSplitView();
 
   /*
-  runButton.addEventListener("click", function () {
-    run();
-  });
-  stopButton.addEventListener("click", function () {
-    stop();
-  });
-  stepButton.addEventListener("click", function () {
-    step();
-  });
 
 
   speedInput.addEventListener("input", function (e) {
@@ -300,10 +289,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   */
 });
-
-
-
-
-window.run = run;
-window.share = share;
 

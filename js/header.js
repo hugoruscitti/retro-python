@@ -11,8 +11,9 @@ class Header extends HTMLElement {
     this.innerHTML = `
       <div class="header">
         <div class="header-1">
-          <div class="logo">
-            RETRO PYTHON
+          <div>
+            <div class="logo">
+            </div>
           </div>
 
           <div class="expandir-flex">

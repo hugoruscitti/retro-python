@@ -1,5 +1,5 @@
-window.DEBUG_BUS = true;
-window.DEBUG_BUS_ELEMENT = true;
+window.DEBUG_BUS = false;
+window.DEBUG_BUS_ELEMENT = false;
 
 const EVENTOS = [
   "signal-get-code",     // Pide el código del editor, se usa para el botón share.

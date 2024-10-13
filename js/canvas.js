@@ -92,15 +92,21 @@ class Canvas extends Phaser.Scene {
     this.flip();
   }
 
-  pintar(color, opacity) {
-    opacity = opacity || 1;
+  pintar(color) {
+    this.borrar();
+    this.rectangulo(0, 0, 128, 128, color, true);
+    /*
+    transparencia = transparencia || 0;
     let graphics = this.graphics;
 
-    graphics.fillStyle(this.obtenerColor(color), opacity);
+    const opacidad = (transparencia%128)*-0.1 + 1;
+
+    graphics.fillStyle(this.obtenerColor(color), opacidad);
     graphics.fillRect(0, 0, WIDTH, HEIGHT)
-    graphics.strokePath();
 
     this.flip();
+    graphics.fillStyle(this.obtenerColor(color), 1);
+    */
   }
 
   circulo(x, y, radio, color, relleno) {
