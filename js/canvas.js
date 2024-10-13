@@ -1,6 +1,6 @@
 // VER: https://newdocs.phaser.io/docs/3.55.1/Phaser.GameObjects.Graphics
-const WIDTH = 256;
-const HEIGHT = 256;
+const WIDTH = 128;
+const HEIGHT = 128;
 
 class Canvas extends Phaser.Scene {
   constructor() {
@@ -26,12 +26,17 @@ class Canvas extends Phaser.Scene {
 
     this.spriteCount = 31 + 1;
     this.soundCount = 21 + 1;
+    this.posicionUltimoPrint = 0
   }
 
   obtenerColor(key, defaultValue = 0x000000) {
-    const indice = Math.abs(key) % 16;
+    const indice = this.obtenerIndiceDeColor(key)
     const colorFinal = this.colores[indice] || defaultValue;
     return colorFinal;
+  }
+
+  obtenerIndiceDeColor(numero) {
+    return Math.abs(numero || 0) % 16;
   }
 
   setKeymap(keyCode, name, attribute, value) {
@@ -43,6 +48,26 @@ class Canvas extends Phaser.Scene {
   preload() {
     this.graphics = new Phaser.GameObjects.Graphics(this, WIDTH, HEIGHT);
     this.renderTexture = this.add.renderTexture(0, 0, WIDTH, HEIGHT).setOrigin(0, 0);
+
+    const xml = require("../static/recursos/fuente.jpg");
+
+    this.load.bitmapFont("fuente-0", require("../static/recursos/fuente-0.png"), xml);
+    this.load.bitmapFont("fuente-1", require("../static/recursos/fuente-1.png"), xml);
+    this.load.bitmapFont("fuente-2", require("../static/recursos/fuente-2.png"), xml);
+    this.load.bitmapFont("fuente-3", require("../static/recursos/fuente-3.png"), xml);
+    this.load.bitmapFont("fuente-4", require("../static/recursos/fuente-4.png"), xml);
+    this.load.bitmapFont("fuente-5", require("../static/recursos/fuente-5.png"), xml);
+    this.load.bitmapFont("fuente-6", require("../static/recursos/fuente-6.png"), xml);
+    this.load.bitmapFont("fuente-7", require("../static/recursos/fuente-7.png"), xml);
+    this.load.bitmapFont("fuente-8", require("../static/recursos/fuente-8.png"), xml);
+    this.load.bitmapFont("fuente-9", require("../static/recursos/fuente-9.png"), xml);
+    this.load.bitmapFont("fuente-10", require("../static/recursos/fuente-10.png"), xml);
+    this.load.bitmapFont("fuente-11", require("../static/recursos/fuente-11.png"), xml);
+    this.load.bitmapFont("fuente-12", require("../static/recursos/fuente-12.png"), xml);
+    this.load.bitmapFont("fuente-13", require("../static/recursos/fuente-13.png"), xml);
+    this.load.bitmapFont("fuente-14", require("../static/recursos/fuente-14.png"), xml);
+    this.load.bitmapFont("fuente-15", require("../static/recursos/fuente-15.png"), xml);
+
 
     this.keys = {
       space: false,
@@ -73,6 +98,24 @@ class Canvas extends Phaser.Scene {
   create() {
     window.canvas = this;
     window.dispatchEvent(new CustomEvent("onload-phaserjs", { detail: { } }));
+    this.objetosTexto = {
+      0: this.add.bitmapText(-1000, 0, "fuente-0",  ""),
+      1: this.add.bitmapText(-1000, 0, "fuente-1",  ""),
+      2: this.add.bitmapText(-1000, 0, "fuente-2",  ""),
+      3: this.add.bitmapText(-1000, 0, "fuente-3",  ""),
+      4: this.add.bitmapText(-1000, 0, "fuente-4",  ""),
+      5: this.add.bitmapText(-1000, 0, "fuente-5",  ""),
+      6: this.add.bitmapText(-1000, 0, "fuente-6",  ""),
+      7: this.add.bitmapText(-1000, 0, "fuente-7",  ""),
+      8: this.add.bitmapText(-1000, 0, "fuente-8",  ""),
+      9: this.add.bitmapText(-1000, 0, "fuente-9",  ""),
+      10: this.add.bitmapText(-1000, 0, "fuente-10",  ""),
+      11: this.add.bitmapText(-1000, 0, "fuente-11",  ""),
+      12: this.add.bitmapText(-1000, 0, "fuente-12",  ""),
+      13: this.add.bitmapText(-1000, 0, "fuente-13",  ""),
+      14: this.add.bitmapText(-1000, 0, "fuente-14",  ""),
+      15: this.add.bitmapText(-1000, 0, "fuente-15",  ""),
+    }
   }
 
   // función interna para volcar los gráficos sobre
@@ -81,15 +124,25 @@ class Canvas extends Phaser.Scene {
     this.renderTexture.draw(this.graphics);
   }
 
+  print(texto, color) {
+    const indice = this.obtenerIndiceDeColor(color);
+    this.objetosTexto[indice].text = texto
+    this.renderTexture.draw(this.objetosTexto[indice], 0, this.posicionUltimoPrint);
+    this.posicionUltimoPrint += 10
+  }
+
   linea(x, y, x2, y2, color) {
     let graphics = this.graphics;
+
     graphics.lineStyle(1, this.obtenerColor(color));
     graphics.beginPath();
     graphics.moveTo(x, y);
     graphics.lineTo(x2, y2);
     graphics.strokePath();
 
+
     this.flip();
+    graphics.clear();
   }
 
   pintar(color) {
@@ -148,6 +201,7 @@ class Canvas extends Phaser.Scene {
     let renderTexture = this.renderTexture;
     graphics.clear();
     renderTexture.clear();
+    this.posicionUltimoPrint=0
   }
 
   azar(a, b) {

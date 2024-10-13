@@ -91,7 +91,7 @@ class ShareButton extends HTMLElement {
     }
 
     const base64Encoded = btoa(JSON.stringify(project));
-    var url = new URL(window.location.origin);
+    var url = new URL(window.location.origin + window.location.pathname);
     url.searchParams.append('code', base64Encoded);
 
     const newURL = url.toString();

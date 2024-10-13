@@ -279,10 +279,6 @@ a {
     /* margin-right: 1em; */
 }
 
-#run-indicator {
-  display: inline-block;
-}
-
 .dn {
   display: none !important;
 }
@@ -311,15 +307,11 @@ a {
 }
 
 .barra-de-botones {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  height: 25px;
+  height: 30px;
 }
 
 .barra-cabecera-del-canvas {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  height: 25px;
+  height: 30px;
 }
 
 .botones-de-control {

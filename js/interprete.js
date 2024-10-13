@@ -38,7 +38,8 @@ class Interprete extends HTMLElement {
 
   vincularFuncionesPersonalizadas() {
 
-    function print(args) {
+    function print(args, color) {
+      window.print(args, color);
       console.log("FUNCIÓN PRINT: ", args);
     }
 
@@ -147,6 +148,7 @@ class Interprete extends HTMLElement {
     window.dibujar = c.dibujar.bind(c);
     window.rectangulo = c.rectangulo.bind(c);
     window.azar = c.azar.bind(c);
+    window.print = c.print.bind(c);
 
     window.seno = c.seno.bind(c);
     window.coseno = c.coseno.bind(c);
@@ -185,7 +187,7 @@ class Interprete extends HTMLElement {
 
   iniciarTemporizadorDeBuclePrincipal() {
     this.temporizador = window.canvas.time.addEvent({
-        delay: 1000 / 10,
+        delay: 1000 / 30,
         loop: true,
         callback: () => {
           // esta función la genera la función replaceMainLoopWithFunction
@@ -196,7 +198,6 @@ class Interprete extends HTMLElement {
               this.detenerEjecucion();
               this.showError(e);
             }
-          console.log("tick");
           /*
 
           acumulador += 33;

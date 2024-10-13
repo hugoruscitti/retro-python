@@ -16,7 +16,6 @@ class Manual extends HTMLElement {
   conectarEventos() {
     const iframe = this.querySelector("iframe");
 
-    console.log(iframe);
 
     iframe.addEventListener("load", () => {
       const contenido = iframe.contentDocument.querySelector(".retro-manual").innerHTML;

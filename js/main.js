@@ -6,7 +6,6 @@ import ShareButton from "./boton-exportar.js";
 import RunButton from "./run-button.js";
 import Interprete from "./interprete.js";
 import Configuracion from "./configuracion.js";
-import RunIndicator from "./run-indicator.js";
 import Manual from "./manual.js";
 import BarraDeBotones from "./retro-barra-de-botones.js"
 import AcercaDe from "./retro-acerca-de.js"
@@ -28,7 +27,6 @@ customElements.define("retro-boton-exportar", ShareButton);
 customElements.define("retro-run-button", RunButton);
 customElements.define("retro-interprete", Interprete);
 customElements.define("retro-configuracion", Configuracion);
-customElements.define("retro-run-indicator", RunIndicator);
 customElements.define("retro-manual", Manual);
 
 // indica si el código está en un loop ejecutando.
