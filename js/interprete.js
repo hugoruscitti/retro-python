@@ -20,7 +20,7 @@ import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction,
 class Interprete extends HTMLElement {
 
   connectedCallback() {
-    this.running = false;
+    this.ejecutando = false;
     this.temporizador = null;
 
     this.crearHTML();
@@ -33,7 +33,7 @@ class Interprete extends HTMLElement {
       <div id="error">
       </div>
     </div>`;
-    this.clearError();
+    this.limpiarErrores();
   }
 
   vincularFuncionesPersonalizadas() {
@@ -67,15 +67,21 @@ class Interprete extends HTMLElement {
 
   ejecutar(code) {
     filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
+    
+    if (this.ejecutando) {
+      alert("el programa aún se está ejecutando");
+      return;
+    }
 
-    // TODO: tengo validar que no esté running.
+    // TODO: tengo validar que no esté ejecutando.
     let ast = null;
-    this.clearError();
+    this.limpiarErrores();
 
     try {
       ast = createASTFromPython(code);
     } catch (e) {
-      this.showError(e);
+      this.detenerEjecucion();
+      this.mostrarError(e);
       return;
     }
 
@@ -195,8 +201,9 @@ class Interprete extends HTMLElement {
             try {
               window.__bloque_while();
             } catch (e) {
+              alert("un error!");
               this.detenerEjecucion();
-              this.showError(e);
+              this.mostrarError(e);
             }
           /*
 
@@ -215,7 +222,7 @@ class Interprete extends HTMLElement {
     if (this.temporizador) {
       this.temporizador.destroy()
       this.temporizador = null;
-      this.running = false;
+      this.ejecutando = false;
       enviarMensaje(this, "señal-detener-la-ejecución", {});
     }
   }
@@ -223,22 +230,22 @@ class Interprete extends HTMLElement {
   done() {
     setTimeout(() => {
       //stopTimer();
-      this.running = false;
+      this.ejecutando = false;
       enviarMensaje(this, "señal-detener-la-ejecución", {});
     }, 500);
   }
 
-  clearError() {
+  limpiarErrores() {
     const errorContainer = document.querySelector("#error");
     errorContainer.innerText = "";
     errorContainer.style.display = "none";
   }
 
-  showError(error) {
+  mostrarError(error) {
     const errorContainer = document.querySelector("#error");
     errorContainer.innerText = error;
     errorContainer.style.display = "block";
-    throw error;
+    console.error(error);
   }
 }
 

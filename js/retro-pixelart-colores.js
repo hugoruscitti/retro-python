@@ -40,6 +40,7 @@ class PixelartColores extends HTMLElement {
 
       if (el.classList.contains("color")) {
         const colorSeleccionado = +el.getAttribute("data-indice");
+        enviarMensaje(this, "señal-en-el-editor-de-pixelart-se-elige-un-color", {color: colorSeleccionado});
       }
     });
   }

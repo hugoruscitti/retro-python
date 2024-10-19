@@ -1,57 +1,68 @@
 // VER: https://newdocs.phaser.io/docs/3.55.1/Phaser.GameObjects.Graphics
+import { enviarMensaje, recibirMensaje } from "./bus.js";
+
 class Pixelart extends Phaser.Scene {
   constructor() {
     super({ key: "Pixelart" });
     this.colores = {
-      0: "0x000000",
-      1: "0x1D2B53",
-      2: "0x7E2553",
-      3: "0x008751",
-      4: "0xAB5236",
-      5: "0x5F574F",
-      6: "0xC2C3C7",
-      7: "0xFFF1E8",
-      8: "0xFF004D",
-      9: "0xFFA300",
-      10: "0xFFEC27",
-      11: "0x00E436",
-      12: "0x29ADFF",
-      13: "0x83769C",
-      14: "0xFF77A8",
-      15: "0xFFCCAA"
+      0: "#000000",
+      1: "#1D2B53",
+      2: "#7E2553",
+      3: "#008751",
+      4: "#AB5236",
+      5: "#5F574F",
+      6: "#C2C3C7",
+      7: "#FFF1E8",
+      8: "#FF004D",
+      9: "#FFA300",
+      10: "#FFEC27",
+      11: "#00E436",
+      12: "#29ADFF",
+      13: "#83769C",
+      14: "#FF77A8",
+      15: "#FFCCAA"
     }
   }
 
   obtenerColor(key, defaultValue = 0x000000) {
     const indice = Math.abs(key) % 16;
-    const colorFinal = this.colores[indice] || defaultValue;
-    return colorFinal;
+    return this.colores[indice];
   }
 
   preload() {
-    this.graphics = this.add.graphics();
+    //this.graphics = this.add.graphics();
+
+    this.canvas = this.textures.createCanvas('canvas', 128, 128);
+    this.c = this.canvas.context;
+
+    // este sprite es el que verá el usuario, y tiene el canvas
+    // como textura.
+    this.add.image(0, 0, 'canvas').setOrigin(0, 0);
   }
 
   create() {
-    //window.canvas = this;
-    //window.dispatchEvent(new CustomEvent("onload-phaserjs", { detail: { } }));
-  
+    let color = 0;
+
     // desactiva el menú para permitir dibujar con los dos
     // botones de mouse.
     this.input.mouse.disableContextMenu();
+
+    recibirMensaje(this, "señal-en-el-editor-de-pixelart-se-elige-un-color", (data) => {
+      color = data.color;
+    });
 
     this.input.on("pointerdown", (pointer) => {
       const x = pointer.x;
       const y = pointer.y;
 
       if (pointer.rightButtonDown()) {
-        //this.pixel(x, y, 2);
-        this.limpiar(x, y);
+        this.borrarPixel(x, y);
       } else {
-        this.pixel(x, y, 1);
+        this.pixel(x, y, color);
       }
 
     });
+
 
     this.input.on("pointermove", (pointer) => {
       if (pointer.isDown) {
@@ -59,22 +70,28 @@ class Pixelart extends Phaser.Scene {
         const y = pointer.y;
 
         if (pointer.rightButtonDown()) {
-          this.pixel(x, y, 2);
+          this.borrarPixel(x, y);
         } else {
-          this.pixel(x, y, 1);
+          this.pixel(x, y, color);
         }
       }
     });
   }
 
   pixel(x, y, color) {
-    let graphics = this.graphics;
-    graphics.lineStyle(1, this.obtenerColor(color));
-    graphics.strokeRect(x, y, 0, 0);
+    x = Math.floor(x);
+    y = Math.floor(y);
+
+    this.c.fillStyle = this.obtenerColor(color);
+    this.c.fillRect(x, y, 1, 1);
+    this.canvas.refresh();
   }
 
-  limpiar(x, y) {
-    this.graphics.clear(x, y, 1, 1, false);
+  borrarPixel(x, y) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    this.c.clearRect(x, y, 1, 1);
+    this.canvas.refresh();
   }
 
 }

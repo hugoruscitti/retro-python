@@ -24,7 +24,7 @@ class Configuracion extends HTMLElement {
       <dialog id="dialogo-configuracion" class="texto">
 
 
-      <div id="config" class="dn no-user-select">
+      <div id="config" class="no-user-select">
         <!-- TODO: opción desactivada -->
         <label>
           <input type="checkbox" id="live">

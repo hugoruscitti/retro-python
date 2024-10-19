@@ -9,6 +9,7 @@ const EVENTOS = [
   "señal-activar-el-modo-vim",  // indica si se activó o no el modo vim
   "señal-manual-cargado", // cuando el iframe del manual se carga por completo
   "señal-activar-modo-oscuro", // cuando se quiere cambiar el tema del editor.
+  "señal-en-el-editor-de-pixelart-se-elige-un-color", // cuando en el editor se selecciona un color nuevo.
 ]
 
 function enviarMensaje(sender, name, datos) {
@@ -26,6 +27,7 @@ function enviarMensaje(sender, name, datos) {
 }
 
 function recibirMensaje(receiver, name, callback) {
+
   if (!EVENTOS.includes(name)) {
     throw Error(`No se ha declarado la señal '${name}' previamente`);
   }

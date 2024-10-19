@@ -18,7 +18,7 @@ class AcercaDe extends HTMLElement {
         <p>retro-python es una aplicación para fomentar
         la creatividad. Te permite crear dibujos, animaciones
         y videojuegos utilizando código en un lenguaje
-        de programación de verdad llamado python.
+        de programación hermoso llamado python.
         </p>
 
         <p>

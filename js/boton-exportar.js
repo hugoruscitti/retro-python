@@ -20,13 +20,29 @@ class ShareButton extends HTMLElement {
       </button>
 
       <dialog id="dialogo-publicar">
-        <p>¡Tu creación ya se puede compatir!</p>
+        <div class="dialogo-publicar-contenido pa"> 
 
-        <img id="imagen-del-juego-publicado" src="">
+          <div>
+            ¡Tu creación ya está lista para compartir!
+          </div>
 
-        <div id="qrcode"></div>
+          <div class="pa">
+            <img id="imagen-del-juego-publicado" src="">
+          </div>
 
-        <span id="tooltip" class="tooltip pixelart">URL saved to clipboard</span>
+          <div class="pa">
+            <div id="qrcode">
+            </div>
+          </div>
+
+          <div>
+            También podés <a href="#" id="link-copiar" class="link-copiar">copiar el link
+              <span id="tooltip" class="tooltip pixelart">Copiado</span>
+            </a> para compartirlo.
+          </div>
+
+        </div>
+
 
         <form method="dialog">
           <button>
@@ -35,11 +51,8 @@ class ShareButton extends HTMLElement {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18" />
               </svg>
             </div>
-
-
-
-
-          Volver</button>
+            Volver
+          </button>
         </form>
       <dialog>
 
@@ -50,8 +63,19 @@ class ShareButton extends HTMLElement {
     const shareButton = document.querySelector("#share");
     const dialogo = document.querySelector("#dialogo-publicar");
     const imagen = document.querySelector("#imagen-del-juego-publicado");
-    const qr = document.querySelector("#qrcode")
-    const qrcode = new QRCode(qr, "https://retro-python.com.ar");
+    const qr = document.querySelector("#qrcode");
+    const linkCopiar = document.querySelector("#link-copiar");
+
+    const qrcode = new QRCode(qr, {
+      width: 128,
+      height: 128,
+      text: "https://retro-python.com.ar"
+    });
+
+    linkCopiar.addEventListener("click", (evento) => {
+      evento.preventDefault();
+      this.mostrarRespuestaDeCopiado();
+    });
 
     shareButton.addEventListener("click", () => {
       dialogo.showModal();
@@ -59,13 +83,14 @@ class ShareButton extends HTMLElement {
       game.renderer.snapshot(function(img) {
         imagen.src = img.src;
       });
+
       qrcode.clear();
-      qrcode.makeCode("https://pilas-engine.com.ar");
+      qrcode.makeCode("https://retro-python.com.ar");
 
       const data = {
         callback: (data) => {
           this.saveProjectInURL(data.code);
-          this.initShareButtonAnimationFeedback();
+          this.mostrarRespuestaDeCopiado();
         }
       }
 
@@ -74,7 +99,7 @@ class ShareButton extends HTMLElement {
 
   }
 
-  initShareButtonAnimationFeedback() {
+  mostrarRespuestaDeCopiado() {
     const shareButton = document.querySelector("#share");
     tooltip.classList.add("show-tooltip");
     shareButton.setAttribute("disabled", "disabled");

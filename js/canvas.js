@@ -257,20 +257,25 @@ class Canvas extends Phaser.Scene {
     }
   }
 
-  get_keys() {
-    return {
-      space: this.keys['space'],
-      up: this.keys['up'],
-      down: this.keys['down'],
-      left: this.keys['left'],
-      right: this.keys['right'],
-    }
-  }
-
   play_sound(index) {
     index = index % this.soundCount || 0;
     index = parseInt(index, 10);
     this.sound.play(`sound-${index}`);
+  }
+
+  update() {
+    const p = this.input.mousePointer;
+
+    window.espacio = this.keys['space'];
+    window.izquierda = this.keys['left'];
+    window.derecha = this.keys['right'];
+    window.arriba = this.keys['up'];
+    window.abajo = this.keys['down'];
+
+    window.mouse_x = parseInt(p.worldX, 10);
+    window.mouse_y = parseInt(p.worldY, 10);
+
+    window.click = p.leftButtonDown();
   }
 
 }
