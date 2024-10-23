@@ -12,7 +12,7 @@ class BarraDeBotones extends HTMLElement {
     this.innerHTML = `
       <div id="retro-barra-de-botones" class="barra-de-botones">
         <retro-run-button></retro-run-button>
-        <retro-boton-exportar></retro-boton-exportar>
+        <retro-boton-publicar></retro-boton-publicar>
 
         <retro-ejemplos></retro-ejemplos>
         <retro-configuracion></retro-configuracion>

@@ -25,6 +25,11 @@ class Editor extends HTMLElement {
       data.callback.call(this, {code: code});
     });
 
+    recibirMensaje(this, "señal-cargar-proyecto", (data) => {
+      this.editor.setValue(data.codigo);
+      this.editor.clearSelection();
+    });
+
     recibirMensaje(this, "señal-activar-el-modo-vim", (data) => {
       if (data.enabled) {
         this.editor.setKeyboardHandler("ace/keyboard/vim");

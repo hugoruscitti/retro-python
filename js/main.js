@@ -2,7 +2,7 @@ import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction 
 import Pantalla from "./pantalla.js";
 import Editor from "./editor.js";
 import Header from "./header.js";
-import ShareButton from "./boton-exportar.js";
+import BotonPublicar from "./boton-publicar.js";
 import RunButton from "./run-button.js";
 import Interprete from "./interprete.js";
 import Configuracion from "./configuracion.js";
@@ -13,7 +13,9 @@ import Ejemplos from "./retro-ejemplos.js"
 import EditorPixelart from "./retro-editor-pixelart.js"
 import PixelartCanvas from "./retro-pixelart-canvas.js"
 import PixelartColores from "./retro-pixelart-colores.js"
+import RetroPythonApp from "./retro-python-app.js"
 
+customElements.define("retro-python-app", RetroPythonApp);
 customElements.define("retro-pixelart-colores", PixelartColores);
 customElements.define("retro-pixelart-canvas", PixelartCanvas);
 customElements.define("retro-editor-pixelart", EditorPixelart);
@@ -23,7 +25,7 @@ customElements.define("retro-barra-de-botones", BarraDeBotones);
 customElements.define("retro-pantalla", Pantalla);
 customElements.define("retro-editor", Editor);
 customElements.define("retro-header", Header);
-customElements.define("retro-boton-exportar", ShareButton);
+customElements.define("retro-boton-publicar", BotonPublicar);
 customElements.define("retro-run-button", RunButton);
 customElements.define("retro-interprete", Interprete);
 customElements.define("retro-configuracion", Configuracion);
@@ -207,64 +209,17 @@ function run() {
   }
 }
 
-function crearSplitView() {
-  var sizesSplitCentral = localStorage.getItem('split-sizes-central');
-  var sizesSplitIzquierdo = localStorage.getItem('split-sizes-izquierdo');
-
-  if (sizesSplitCentral) {
-    sizesSplitCentral = JSON.parse(sizesSplitCentral)
-  } else {
-    sizesSplitCentral = null;
-  }
-
-  if (sizesSplitIzquierdo) {
-    sizesSplitIzquierdo = JSON.parse(sizesSplitIzquierdo)
-  } else {
-    sizesSplitIzquierdo = null;
-  }
-
-
-  // invoca a la biblioteca SplitJS para hacer
-  // que los paneles de puedan ajustar con el
-  // mouse.
-  //
-  // nota: los dos selectores son los hijos
-  // directos de "#center-layout" que tiene
-  // la propiedad "display: flex"
-  //
-  Split(['#result-panel', '#panel-de-codigo'], {
-    gutterAlign: 'start',
-    sizes: sizesSplitCentral,
-    gutter: function() {
-      const gutter = document.querySelector('#gutter')
-      return gutter
-    },
-    onDragEnd: function(sizes) {
-      localStorage.setItem('split-sizes-central', JSON.stringify(sizes))
-    },
-  });
-
-  Split(['retro-pantalla', 'retro-manual'], {
-    direction: 'vertical',
-    sizes: sizesSplitIzquierdo,
-    onDragEnd: function(sizes) {
-      localStorage.setItem('split-sizes-izquierdo', JSON.stringify(sizes))
-    },
-  });
-
-}
-
 
 document.addEventListener("DOMContentLoaded", function () {
-  const runButton = document.querySelector("#run");
-  const stopButton = document.querySelector("#stop");
-  const speedInput = document.querySelector("#speed");
-  const stepButton = document.querySelector("#step");
-  const tooltip = document.querySelector("#tooltip");
+  //const runButton = document.querySelector("#run");
+  //const stopButton = document.querySelector("#stop");
+  //const speedInput = document.querySelector("#speed");
+  //const stepButton = document.querySelector("#step");
+  //const tooltip = document.querySelector("#tooltip");
 
 
 
-  crearSplitView();
+  //crearSplitView();
 
   /*
 

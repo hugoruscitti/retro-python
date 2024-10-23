@@ -193,7 +193,7 @@ class Interprete extends HTMLElement {
 
   iniciarTemporizadorDeBuclePrincipal() {
     this.temporizador = window.canvas.time.addEvent({
-        delay: 1000 / 30,
+        delay: 1000 / 1,
         loop: true,
         callback: () => {
           // esta función la genera la función replaceMainLoopWithFunction

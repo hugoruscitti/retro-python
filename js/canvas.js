@@ -128,7 +128,13 @@ class Canvas extends Phaser.Scene {
     const indice = this.obtenerIndiceDeColor(color);
     this.objetosTexto[indice].text = texto
     this.renderTexture.draw(this.objetosTexto[indice], 0, this.posicionUltimoPrint);
-    this.posicionUltimoPrint += 10
+    console.log(this.posicionUltimoPrint);
+
+    if (this.posicionUltimoPrint > 120) {
+      this.renderTexture.draw(this.renderTexture, 0, -10);
+    } else {
+      this.posicionUltimoPrint += 10
+    }
   }
 
   linea(x, y, x2, y2, color) {
