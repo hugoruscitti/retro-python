@@ -2,7 +2,6 @@ window.DEBUG_BUS = false;
 window.DEBUG_BUS_ELEMENT = false;
 
 const EVENTOS = [
-  "signal-get-code",     // Pide el código del editor, se usa para el botón share.
   "señal-comenzar-a-ejecutar",          // Inicia el programa.
   "señal-activar-modo-live", // Define si tiene que ejecutar al editar o no.
   "señal-detener-la-ejecución",         // Define si tiene que ejecutar al editar o no.

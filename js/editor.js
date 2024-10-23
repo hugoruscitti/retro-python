@@ -1,10 +1,10 @@
 import { recibirMensaje, enviarMensaje } from "./bus.js";
 import { debounce } from "./utils.js";
+import { proyecto } from "./proyecto.js";
 
 class Editor extends HTMLElement {
 
   connectedCallback() {
-    const initialCode = this.loadInitialCode();
     this.runOnChange = false;
 
     this.innerHTML = `
@@ -13,17 +13,13 @@ class Editor extends HTMLElement {
         <input type='range' id='control'></input>
       </div>
     `;
-    this.editor = this.createAceEditor(initialCode);
+    this.editor = this.createAceEditor();
     this.conectarEventos();
 
     this.manual = document.createElement("div");
   }
 
   conectarEventos() {
-    recibirMensaje(this, "signal-get-code", (data) => {
-      const code = this.editor.getValue();
-      data.callback.call(this, {code: code});
-    });
 
     recibirMensaje(this, "señal-cargar-proyecto", (data) => {
       this.editor.setValue(data.codigo);
@@ -96,10 +92,8 @@ class Editor extends HTMLElement {
     
     editor.getSession().on('change', () => {
 
-      // intenta autocompletar código
-      //debounce(() => {
-        //editor.execCommand("startAutocomplete");
-      //}, 500);
+      const codigo = this.editor.getValue();
+      proyecto.actualizarCodigo(codigo);
 
       // Intenta ejecutar el código
       debounce(() => {
@@ -119,30 +113,6 @@ class Editor extends HTMLElement {
     });
 
     return editor;
-  }
-
-  loadInitialCode() {
-    // intenta obtener el código del script desde la url
-    const urlParams = new URLSearchParams(window.location.search);
-    const codeInUrl = urlParams.get('code');
-
-    if (codeInUrl !== null) {
-      // si encuentra el código, retorna la versión en texto y
-      // no serializada.
-      //
-      // Hoy hay un try porque se permite que la url tenga
-      // el código como la primer versión o un objeto json
-      // con varios atributos como en la versión nueva.
-      try {
-        const project = JSON.parse(atob(codeInUrl));
-        return project.code;
-      } catch {
-        return atob(codeInUrl);
-      }
-    } else {
-      // si el código no está en la url, retorna el código de ejemplo.
-      return `linea(0, 0, 50, 25, 1)`;
-    }
   }
 
   obtener(idManual) {

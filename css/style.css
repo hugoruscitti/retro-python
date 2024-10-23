@@ -436,7 +436,6 @@ div#canvas-pixelart {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid red;
 }
 
   .link-copiar {
@@ -466,4 +465,9 @@ div#canvas-pixelart {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.textura {
+  height: 160px;
+  image-rendering: pixelated;
 }

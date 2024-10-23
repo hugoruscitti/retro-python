@@ -21,7 +21,7 @@ class BotonPublicar extends HTMLElement {
         Publicar
       </button>
 
-      <dialog id="dialogo-publicar" open>
+      <dialog id="dialogo-publicar">
 
         <div id="cargador" class="pa dialogo-publicar-contenido">
           <div>Publicando...</div>
@@ -43,9 +43,7 @@ class BotonPublicar extends HTMLElement {
           </div>
 
           <div>
-            También podés <a href="#" id="link-copiar" class="link-copiar">copiar el link
-              <span id="tooltip" class="tooltip pixelart">Copiado</span>
-            </a> para compartirlo.
+            También podés <a href="#" target"_blank" id="link" class="link-copiar">publicar este link</a> para compartirlo.
           </div>
 
         </div>
@@ -69,8 +67,6 @@ class BotonPublicar extends HTMLElement {
   conectarEventos() {
     const publicar = document.querySelector("#publicar");
     const dialogo = document.querySelector("#dialogo-publicar");
-    const imagen = document.querySelector("#imagen-del-juego-publicado");
-    const linkCopiar = document.querySelector("#link-copiar");
     const qr = document.querySelector("#qrcode");
 
     this.qrcode = new QRCode(qr, {
@@ -79,45 +75,44 @@ class BotonPublicar extends HTMLElement {
       text: "https://retro-python.com.ar"
     });
 
-    linkCopiar.addEventListener("click", (evento) => {
-      evento.preventDefault();
-      this.mostrarRespuestaDeCopiado();
-    });
 
     publicar.addEventListener("click", () => {
       this.publicar();
       dialogo.showModal();
-
-      game.renderer.snapshot(function(img) {
-        imagen.src = img.src;
-      });
-
-
-      const data = {
-        callback: (data) => {
-          this.saveProjectInURL(data.code);
-          this.mostrarRespuestaDeCopiado();
-        }
-
-      }
-
-      enviarMensaje(this, "signal-get-code", data);
     });
 
   }
 
   async publicar() {
     const data = proyecto.obtenerProyectoCompleto();
+    const screenshot = await this.capturarPantalla();
+
+    const imagen = document.querySelector("#imagen-del-juego-publicado");
+    imagen.src = screenshot;
+    data.screenshot = screenshot;
+
     const { hash } = await this.subirProyecto(data);
     this.mostrarResultado(hash);
+  }
+
+  async capturarPantalla() {
+    return new Promise((success) => {
+      game.renderer.snapshot(function(img) {
+        success(img.src);
+      });
+    });
   }
 
   mostrarResultado(hash) {
     const cargador = document.querySelector("#cargador");
     const resultado = document.querySelector("#resultado");
+    const link = document.querySelector("#link");
+
+    const url = `${window.location.origin}/editor.html?proyecto=${hash}`;
+    link.href = url;
 
     this.qrcode.clear();
-    this.qrcode.makeCode(`${window.location.origin}/editor.html?proyecto={hash}`);
+    this.qrcode.makeCode(url);
 
     cargador.classList.add("dn");
     resultado.classList.remove("dn");
@@ -144,6 +139,7 @@ class BotonPublicar extends HTMLElement {
     });
   }
 
+  // todo borrar;
   mostrarRespuestaDeCopiado() {
     const publicar = document.querySelector("#publicar");
     tooltip.classList.add("show-tooltip");
@@ -155,20 +151,6 @@ class BotonPublicar extends HTMLElement {
     }, 1000);
   }
 
-  saveProjectInURL(code) {
-    const project = {
-      code: code
-    }
-
-    const base64Encoded = btoa(JSON.stringify(project));
-    var url = new URL(window.location.origin + window.location.pathname);
-    url.searchParams.append('code', base64Encoded);
-
-    const newURL = url.toString();
-
-    navigator.clipboard.writeText(newURL);
-    window.history.replaceState({}, window.title, newURL)
-  }
 }
 
 export default BotonPublicar;

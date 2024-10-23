@@ -1,4 +1,5 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
+import { proyecto } from "./proyecto.js";
 
 class EditorPixelart extends HTMLElement {
 
@@ -31,7 +32,7 @@ class EditorPixelart extends HTMLElement {
         </div>
 
         <div>
-          1 2 3 4
+          <img src="" id="textura" class="textura"/>
         </div>
 
         <form method="dialog">
@@ -53,8 +54,11 @@ class EditorPixelart extends HTMLElement {
   conectarEventos() {
     const boton = this.querySelector("#abrir-editor");
     const dialogo = this.querySelector("dialog");
+    const textura = this.querySelector("#textura");
     
     boton.addEventListener("click", function() {
+      const data = proyecto.obtenerProyectoCompleto();
+      textura.src = data.textura;
       dialogo.showModal();
     });
 

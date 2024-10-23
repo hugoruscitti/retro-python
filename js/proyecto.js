@@ -24,6 +24,13 @@ class Proyecto {
   }
 
 
+  actualizarCodigo(codigo) {
+    /* se llama cuando se cambia el contenido del programa en
+     * el editor de código. */
+    this.datos['codigo'] = codigo;
+    console.log("codigo", {codigo});
+  }
+
   obtenerProyectoCompleto() {
     return this.datos;
   }
