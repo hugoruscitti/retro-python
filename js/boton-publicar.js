@@ -111,6 +111,8 @@ class BotonPublicar extends HTMLElement {
     const url = `${window.location.origin}/editor.html?proyecto=${hash}`;
     link.href = url;
 
+    window.history.replaceState({} , "retro-python", url);
+
     this.qrcode.clear();
     this.qrcode.makeCode(url);
 

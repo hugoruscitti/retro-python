@@ -36,7 +36,7 @@ class Canvas extends Phaser.Scene {
   }
 
   obtenerIndiceDeColor(numero) {
-    return Math.abs(numero || 0) % 16;
+    return Math.floor(Math.abs(numero || 0)) % 16;
   }
 
   setKeymap(keyCode, name, attribute, value) {
@@ -183,6 +183,8 @@ class Canvas extends Phaser.Scene {
   }
 
   dibujar(indice, x, y) {
+    indice = Math.floor(Math.abs(indice || 0)) % 16*5;
+
     let renderTexture = this.renderTexture;
     renderTexture.drawFrame("sprites", indice, x-4, y-4);
     this.flip();
