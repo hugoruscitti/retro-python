@@ -10,6 +10,7 @@ const EVENTOS = [
   "señal-activar-modo-oscuro", // cuando se quiere cambiar el tema del editor.
   "señal-en-el-editor-de-pixelart-se-elige-un-color", // cuando en el editor se selecciona un color nuevo.
   "señal-cargar-proyecto",              // cuando termina de hacer el request para cargar el proyecto.
+  "señal-selecciona-sprite-en-canvas-textura",
 ]
 
 function enviarMensaje(sender, name, datos) {

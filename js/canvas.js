@@ -24,8 +24,6 @@ class Canvas extends Phaser.Scene {
       15: "0xFFCCAA"
     }
 
-    this.spriteCount = 31 + 1;
-    this.soundCount = 21 + 1;
     this.posicionUltimoPrint = 0
   }
 
@@ -124,14 +122,19 @@ class Canvas extends Phaser.Scene {
     this.renderTexture.draw(this.graphics);
   }
 
-  print(texto, color) {
+  print(texto, color, x, y) {
     const indice = this.obtenerIndiceDeColor(color);
     this.objetosTexto[indice].text = texto
-    this.renderTexture.draw(this.objetosTexto[indice], 0, this.posicionUltimoPrint);
-    console.log(this.posicionUltimoPrint);
+      
+    if (x === undefined && y === undefined) {
+      this.renderTexture.draw(this.objetosTexto[indice], 0, this.posicionUltimoPrint);
+    } else {
+      this.renderTexture.draw(this.objetosTexto[indice], x, y);
+    }
 
     if (this.posicionUltimoPrint > 120) {
-      this.renderTexture.draw(this.renderTexture, 0, -10);
+      this.posicionUltimoPrint = 0;
+      //this.renderTexture.draw(this.renderTexture, 0, -10);
     } else {
       this.posicionUltimoPrint += 10
     }
@@ -183,7 +186,16 @@ class Canvas extends Phaser.Scene {
   }
 
   dibujar(indice, x, y) {
-    indice = Math.floor(Math.abs(indice || 0)) % 16*5;
+    // si encuentra que en lugar de un índice numérico se
+    // envía una lista, entonces permite hacer una animación
+    // usando como variable auxiliar el 'cuadro' o contador
+    // del bucle principal.
+    if (indice._type && indice._type == "list") {
+      const i = window.cuadro % indice.length;
+      indice = indice[i];
+    }
+    
+    indice = Math.floor(Math.abs(indice || 0)) % (16*5);
 
     let renderTexture = this.renderTexture;
     renderTexture.drawFrame("sprites", indice, x-4, y-4);
@@ -219,11 +231,6 @@ class Canvas extends Phaser.Scene {
     return Math.floor(Math.random() * (b - a + 1) + a);
   }
 
-  cargar_imagenes(imagenBase64) {
-    this.load.image("sprites", imagenBase64);
-    this.load.start();
-  }
-
   random() {
     return Math.random();
   }
@@ -251,7 +258,7 @@ class Canvas extends Phaser.Scene {
   pixel(x, y, color) {
     let graphics = this.graphics;
     graphics.fillStyle(this.obtenerColor(color));
-    graphics.fillRect(x, y, 2, 2);
+    graphics.fillRect(x, y, 1, 1);
     this.flip();
   }
 
@@ -265,10 +272,8 @@ class Canvas extends Phaser.Scene {
     }
   }
 
-  play_sound(index) {
-    index = index % this.soundCount || 0;
-    index = parseInt(index, 10);
-    this.sound.play(`sound-${index}`);
+  sonido() {
+    // todo
   }
 
   update() {

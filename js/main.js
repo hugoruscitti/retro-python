@@ -9,17 +9,17 @@ import Configuracion from "./configuracion.js";
 import Manual from "./manual.js";
 import BarraDeBotones from "./retro-barra-de-botones.js"
 import AcercaDe from "./retro-acerca-de.js"
-import Ejemplos from "./retro-ejemplos.js"
 import EditorPixelart from "./retro-editor-pixelart.js"
 import PixelartCanvas from "./retro-pixelart-canvas.js"
 import PixelartColores from "./retro-pixelart-colores.js"
 import RetroPythonApp from "./retro-python-app.js"
+import RetroEjemplos from "./retro-ejemplos.js"
 
+customElements.define("retro-ejemplos", RetroEjemplos);
 customElements.define("retro-python-app", RetroPythonApp);
 customElements.define("retro-pixelart-colores", PixelartColores);
 customElements.define("retro-pixelart-canvas", PixelartCanvas);
 customElements.define("retro-editor-pixelart", EditorPixelart);
-customElements.define("retro-ejemplos", Ejemplos);
 customElements.define("retro-acerca-de", AcercaDe);
 customElements.define("retro-barra-de-botones", BarraDeBotones);
 customElements.define("retro-pantalla", Pantalla);

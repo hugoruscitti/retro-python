@@ -1,11 +1,12 @@
-var timeout = null;
+var temporizadores = {}
 
-function debounce(callback, wait) {
-  if (timeout) {
-    clearTimeout(timeout);
+function debounce(nombre, callback, wait) {
+  if (temporizadores[nombre]) {
+    clearTimeout(temporizadores[nombre]);
+    temporizadores[nombre] = null;
   }
 
-  timeout = setTimeout(callback, wait);
+  temporizadores[nombre] = setTimeout(callback, wait);
 }
 
 export { debounce }

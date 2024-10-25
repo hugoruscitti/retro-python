@@ -5,6 +5,7 @@ class EditorPixelart extends HTMLElement {
 
   connectedCallback() {
     this.crearHTML();
+    this.configurarCanvasDeTextura();
     this.conectarEventos();
   }
 
@@ -31,8 +32,10 @@ class EditorPixelart extends HTMLElement {
           </div>
         </div>
 
-        <div>
+        <div class="contenedor-canvas-textura">
+          <canvas id="canvas-textura" width="128" height="40"></canvas>
           <img src="" id="textura" class="textura"/>
+          <div id="cursor" class="cursor-canvas-textura"></div>
         </div>
 
         <form method="dialog">
@@ -54,14 +57,79 @@ class EditorPixelart extends HTMLElement {
   conectarEventos() {
     const boton = this.querySelector("#abrir-editor");
     const dialogo = this.querySelector("dialog");
+    const canvasTextura = this.querySelector("#canvas-textura");
     const textura = this.querySelector("#textura");
     
-    boton.addEventListener("click", function() {
+    boton.addEventListener("click", () => {
       const data = proyecto.obtenerProyectoCompleto();
+      this.moverCursor(0, 0);
+
+      textura.addEventListener("load", () => {
+        this.cargarCanvas();
+      });
+
       textura.src = data.textura;
       dialogo.showModal();
     });
 
+    canvasTextura.addEventListener("mousemove", (evento) => {
+      const { fila, columna } = this.obtenerCoordenadaDesdeEvento(evento);
+      this.moverCursor(fila, columna);
+    });
+
+    canvasTextura.addEventListener("click", (evento) => {
+      const { fila, columna } = this.obtenerCoordenadaDesdeEvento(evento);
+      const indice = fila * 16 + columna;
+      enviarMensaje(this, "señal-selecciona-sprite-en-canvas-textura", {indice});
+      this.seleccionarCuadroPorIndice(indice);
+    });
+
+  }
+
+  seleccionarCuadroPorIndice() {
+    const canvasTextura = this.querySelector("#canvas-textura");
+    const textura = this.querySelector("#textura");
+    const ctx = canvasTextura.getContext("2d");
+    ctx.drawImage(textura, 0, 0);
+  }
+
+  obtenerCoordenadaDesdeEvento(evento) {
+    const canvasTextura = this.querySelector("#canvas-textura");
+    const rect = canvasTextura.getClientRects()[0];
+    const x = evento.pageX - rect.left;
+    const y = evento.pageY - rect.top;
+    const fila = Math.floor(y/32);
+    const columna = Math.floor(x/32);
+    return { fila, columna };
+  }
+
+  moverCursor(fila, columna) {
+    const cursor = this.querySelector("#cursor");
+    fila = Math.max(fila, 0);
+    columna = Math.max(columna, 0);
+
+    cursor.style.left = `${columna*32}px`;
+    cursor.style.top = `${fila*32}px`;
+  }
+
+  cargarCanvas() {
+    const canvasTextura = this.querySelector("#canvas-textura");
+    const ctx = canvasTextura.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
+    this.pintarTextura();
+  }
+
+  pintarTextura() {
+    const canvasTextura = this.querySelector("#canvas-textura");
+    const textura = this.querySelector("#textura");
+    const ctx = canvasTextura.getContext("2d");
+    ctx.drawImage(textura, 0, 0, textura.naturalWidth, textura.naturalHeight, 0, 0, 512, 160);
+  }
+
+  configurarCanvasDeTextura() {
+    const canvasTextura = this.querySelector("#canvas-textura");
+    const ctx = canvasTextura.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
   }
 
   disconnectedCallback() {

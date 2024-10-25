@@ -76,7 +76,7 @@ class Editor extends HTMLElement {
       showGutter: true,
       behavioursEnabled: false,
       fontFamily: "code",
-      fontSize: "18pt"
+      fontSize: "12pt"
     });
 
     editor.setKeyboardHandler("ace/keyboard/vim");
@@ -92,15 +92,17 @@ class Editor extends HTMLElement {
     
     editor.getSession().on('change', () => {
 
-      const codigo = this.editor.getValue();
-      proyecto.actualizarCodigo(codigo);
+      debounce("cuando-cambia-codigo", () => {
+        const codigo = this.editor.getValue();
+        proyecto.actualizarCodigo(codigo);
+      }, 500);
 
       // Intenta ejecutar el código
-      debounce(() => {
+      debounce("live", () => {
         if (this.runOnChange) {
           enviarMensaje(this, "señal-comenzar-a-ejecutar");
         }
-      }, 50);
+      }, 500);
 
     });
       

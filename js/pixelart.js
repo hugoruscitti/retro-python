@@ -94,6 +94,11 @@ class Pixelart extends Phaser.Scene {
     this.canvas.refresh();
   }
 
+  cambiarSprite(indice) {
+    console.log("Cambiando al indice " + indice);
+  }
+
+
 }
 
 

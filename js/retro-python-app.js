@@ -54,10 +54,6 @@ class RetroPythonApp extends HTMLElement {
       <div class="center-layout">
 
         <div class="result-panel" id="result-panel">
-          <div class="barra-cabecera-del-canvas">
-            &nbsp;
-          </div>
-
           <retro-run-indicator></retro-run-indicator>
 
           <retro-pantalla></retro-pantalla>

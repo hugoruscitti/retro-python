@@ -16,6 +16,8 @@ class Pantalla extends HTMLElement {
       type: Phaser.AUTO,
       width: 128,
       height: 128,
+      mode: Phaser.Scale.FIT,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
       backgroundColor: "#777777",
       pixelArt: true,
       parent: 'canvas',

@@ -25,9 +25,9 @@ class Interprete extends HTMLElement {
 
   vincularFuncionesPersonalizadas() {
 
-    function print(args, color) {
-      window.print(args, color);
-      console.log("FUNCIÓN PRINT: ", args);
+    function print(args, color, x, y) {
+      window.print(args, color, x, y);
+      //console.log("FUNCIÓN PRINT: ", args);
     }
 
     filbert.pythonRuntime.functions.print = print;
@@ -62,7 +62,7 @@ class Interprete extends HTMLElement {
     try {
       ast = createASTFromPython(code);
     } catch (e) {
-      this.detenerEjecucion();
+      enviarMensaje(this, "señal-detener-la-ejecución", {});
       this.mostrarError(e);
       return;
     }
@@ -83,7 +83,7 @@ class Interprete extends HTMLElement {
       ast = replaceMainLoopWithFunction(ast);
       //debugger;
     } else {
-      // marca el fin del programa, llamando a una función 'done'
+      // marca el fin del programa, llamando a una función 'terminarPrograma'
       // para indicarle al editor que el programa terminó.
       const fin = filbert.parse("fin()")
       ast.body.push(fin.body[0])
@@ -123,11 +123,8 @@ class Interprete extends HTMLElement {
     // de dibujado.
     const c = window.canvas;
 
+    window.cuadro = 0;
     window.linea = c.linea.bind(c);
-
-    //funcion interna, para cargar las imagenes del juego
-    //que están en base64
-    window.__cargar_imagenes = c.cargar_imagenes.bind(c);
 
     window.pintar = c.pintar.bind(c);
     window.borrar = c.borrar.bind(c);
@@ -148,7 +145,7 @@ class Interprete extends HTMLElement {
     window.flip = c.flip.bind(c);
 
     window.fin = () => {
-      this.done();
+      this.terminarPrograma();
     }
 
     // Dejar esta función porque es importante
@@ -181,10 +178,10 @@ class Interprete extends HTMLElement {
           // esta función la genera la función replaceMainLoopWithFunction
           // solamente si el programa tiene un bucle principal.
             try {
+              window.cuadro += 1;
               window.__bloque_while();
             } catch (e) {
-              alert("un error!");
-              this.detenerEjecucion();
+              enviarMensaje(this, "señal-detener-la-ejecución", {});
               this.mostrarError(e);
             }
           /*
@@ -209,9 +206,8 @@ class Interprete extends HTMLElement {
     }
   }
 
-  done() {
+  terminarPrograma() {
     setTimeout(() => {
-      //stopTimer();
       this.ejecutando = false;
       enviarMensaje(this, "señal-detener-la-ejecución", {});
     }, 500);

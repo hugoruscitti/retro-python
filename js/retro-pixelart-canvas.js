@@ -30,6 +30,10 @@ class PixelartCanvas extends HTMLElement {
   }
 
   conectarEventos() {
+    recibirMensaje(this, "señal-selecciona-sprite-en-canvas-textura", (data) => {
+      const escena = this.pixelart.scene.scenes[0];
+      escena.cambiarSprite(data.indice);
+    });
   }
 
   disconnectedCallback() {
