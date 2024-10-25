@@ -4,20 +4,16 @@ function hasMainLoopInThisAST(ast) {
 
 
 function createASTFromPython(code) {
-  /*
-    @param code: string[] - Python code separated by lines.
-
-    @return: object - AST of the Python code.
-  */
   const options = {
     locations: false,
     ranges: false,
   }
-  return filbert.parse(code.join("\n"), options);
+  return filbert.parse(code, options);
 }
 
 function replaceMainLoopWithFunction(ast) {
-  return ast.body.map(nodo => {
+  let aux = createASTFromPython("");
+  aux.body = ast.body.map(nodo => {
 
     // si encuentra un bloque while asume que
     // es el mainloop y lo reemplaza por una
@@ -41,15 +37,26 @@ function replaceMainLoopWithFunction(ast) {
       const cuerpo_while = nodo.body;
 
       declaracion.body.body = cuerpo_while.body
+
+      // todo: acá sería útil poder poner una llamada a flip cuando
+      // se termina de ejecutar el código del loop.
+      
       return declaracion;
     }
 
     return nodo;
   });
+
+  return aux;
+}
+
+function generarJavaScript(ast) {
+  return escodegen.generate(ast);
 }
 
 export {
   hasMainLoopInThisAST,
   createASTFromPython,
   replaceMainLoopWithFunction,
+  generarJavaScript,
 };

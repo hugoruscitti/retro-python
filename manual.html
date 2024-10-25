@@ -1,0 +1,443 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/manual.css" />
+
+    <script>
+      function cargar_indice_de_contenidos() {
+        const indice = document.querySelector("#indice");
+        const headers = document.querySelectorAll("h3");
+
+        const links = Array.from(headers).map(header => {
+          const texto = header.innerText;
+          const id = header.getAttribute("id");
+          return "<li><a href='#" + id + "'>" + texto + "</a></li>";
+        });
+
+        indice.innerHTML = "<ul>" + links.join("") + "</ul>";
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        cargar_indice_de_contenidos();
+      });
+    </script>
+
+    <style>
+    a {
+      text-decoration: none;
+    }
+    </style>
+  </head>
+  <body>
+
+      <div class="retro-manual">
+        <h1>Manual</h1>
+
+        <div id="indice">
+          <!-- 
+            NOTA: este contenido se autocompleta con la función
+            JavaScript cargar_indice_de_contenidos()
+          -->
+        </div>
+
+
+        <h2>Conceptos generales</h2>
+
+
+        <p>¡Gracias por leer esta sección!, pocas personas leen los manuales,
+        así que es todo un privilegio que estés aquí, mirando esto :)</p>
+
+        <p>Intentaré ser muy breve: esta herramienta te permite crear
+        gráficos, animaciones y video juegos que se pueden mostrar
+        y compartir con todo el mundo!!</p>
+
+        <p>Contamos con una pantalla pequeña de 128x128 píxeles y 16
+        colores, que parece poco... pero te permiten hacer muchas
+        cosas.</p>
+
+        <p>Las coordenadas de pantalla comienzan en la esquina superior
+        izquierda, donde está el punto (0, 0):</p>
+
+
+        <p>y los colores están enumerados del 0 al 15. No hay problema
+        con pasarse de esos colores, ya que es una paleta circular, se
+        repite constántemente.</p>
+
+
+        <h2>Primeros pasos</h2>
+
+        <p>Si es tu primera vez aquí, hagamos un recorrido:</p>
+
+        <p>Vas a ver 3 paneles en pantalla, el area de juego, el editor
+        de código y esta pantalla donde está el manual.</p>
+
+        <p>Comencemos escribiendo algo de código en el panel, borra
+        todo el código que veas y escribe este código:</p>
+
+        <pre>print("Hola mundo", 11)</pre>
+
+        <p>Ahora, pulsá el botón "Ejecutar", deberías ver el mensaje
+        "Hola mundo" pintado de color verde en la parte izquierda
+        de la pantalla.</p>
+
+
+        <p>¿qué significa lo anterior?. Bueno, la función <code>print</code> de python
+        permite mostrar texto en pantalla, y el número 11 indica
+        que queremos imprimir el color verde.</p>
+
+        <p>Aquí, retro-python se toma algunas licencias para hacer
+        más interesante la programación, los colores se eligen
+        de una paleta de 16 colores, y es muy fácil introducirlos
+        en cualquier programa.</p>
+
+        <p>Por ejemplo, en lugar de 11 podrías llamar a la función
+        <code>azar()</code> y de esa forma mostrar un "hola mundo"
+        diferente en cada ejecución.</p>
+
+        <p>Te toca a vos, escribí este código en lugar del
+        anterior:
+
+        <pre>print("Hola mundo", azar())
+print("este es programa", azar())</pre>
+
+        <p>y pulsá el botón <em>ejecutar</em>, tantas veces
+        como quieras, cada vez que ejecutes el programa el texto
+        se mostrará de un color diferente.</p>
+
+
+        <p>Poder usar colores y números aleatorios está bueno, porque
+        dan vida a los programas muy fácilmente.</p>
+
+        <p>Hagamos otro cambio, en lugar de mostrar solo dos lineas, pidamos
+        a python que repita esto 32 veces así:</p>
+
+        <pre>for x in range(32):
+  print("Hola mundo", azar())
+  print("este es programa", azar())</pre>
+
+        <p>Ahora, el entorno se encargó de llenar la pantalla de
+        texto de muchos colores.</p>
+
+        <p>Ok, ahora es tiempo para hacer una pausa. ¿notaste que el
+        programa se ejecutó inmediatamente?.</p>
+
+        <p>La mayoría de los programas funcionan así, comienzan, hacen
+        algo y terminan. Ahora, ¿y si quisieramos hacer animaciones o
+        programas interactivos?</p>
+
+        <p>Hacer un programa interactivo a partir de aquí es fácil, lo
+        que tenemos que hacer es introducir un búcle de repetición
+        con while.</p>
+
+        <pre>while True:
+  print("Hola mundo", azar())
+  print("este es programa", azar())</pre>
+
+        <p>Ahora pulsa de nuevo el botón <em>ejecutar</em>, deberías
+        ver al programa "viviendo!", en lugar de mostrar la pantalla
+        de una sola vez.</p>
+
+        <p>y claro, a partir de aquí podrías hacer mil cosas, o
+        más!</p>
+
+        <p>Por ejemplo, en lugar de imprimir un texto podrías
+        mostrar lineas que salen del centro de la pantalla hacia todos
+        lados así:</p>
+
+        <pre>while True:
+  borrar()
+  linea(64, 64, azar(), azar(), azar())</pre>
+
+        <p>O lo que quieras!!, no te dejes engañar por las limitaciones
+        de pantalla o colores, con retro-python se puede hacer de todo!</p>
+
+        <h2>Funciones disponibles</h2>
+
+
+        <div>
+          <h3 id="manual-print">print</h3>
+            Esta función te permite mostrar texto en pantalla.
+
+            <pre>print(texto, color, x, y)</pre>
+
+            Por ejemplo, si se llama a la función de esta forma:
+
+            <pre id="ejemplo">print("hola mundo!")</pre>
+
+        </div>
+
+        <div>
+          <h3 id="manual-linea">linea</h3>
+            Dibuja una linea de color entre dos puntos
+
+            <pre>linea(x, y, x2, y2, color)</pre>
+
+            Por ejemplo, si se llama a la función de esta forma:
+
+            <pre id="ejemplo">linea(5, 5, 200, 200, 12)</pre>
+
+            Se dibujará esta linea:
+
+            <img class="imagen-ejemplo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAmUlEQVRYR+3Xuw2AMAwEUDICHXsxJ3vRMYIRJQISf+4ciniCJ+vOkouIyNRxygD8ZgPLdkz7Oqen4ZaBHohHCLMRry3IRHzWMAtRvQMZiOYhYiOagKuXTIQKwESoASyECcBAmAFohAuARLgBKEQIgECEAVEEBBBBwABeBBTgQcABVgQFYEHQAFoEFaBB0AEtRAqg9mwMQPcNnLrmx6EmqR7BAAAAAElFTkSuQmCC"></img>
+        </div>
+
+
+        <div>
+
+          <h3 id="manual-borrar">borrar</h3>
+          Borra la pantalla por completo.
+
+          <pre id="ejemplo">borrar()</pre>
+        </div>
+
+        <div>
+
+          <h3 id="manual-pintar">pintar</h3>
+          Pinta la pantalla de un solo color por completo.
+
+          Por ejemplo, para pintar la pantalla de color
+          blanco se puede invocar a la función de esta forma:
+
+          <pre id="ejemplo">pintar(7)</pre>
+        </div>
+
+
+        <div>
+
+        <h3 id="manual-pixel">pixel</h3>
+          Dibuja un píxel.
+
+          <pre>pixel(x, y, color)</pre>
+
+          Por ejemplo, para dibujar un pixel en el centro de la pantalla:
+
+          <pre id="ejemplo">pixel(64, 64, 2)</pre>
+        </div>
+
+
+     <div>
+
+        <h3 id="manual-circulo">circulo</h3>
+          Dibuja un círculo.
+
+          <pre>circulo(x, y, radio, color, relleno)</pre>
+
+          Esta función puede dibujar un círculo en pantalla, el
+          círculo puede ser solo el contorno o un círculo completamente
+          sólido.
+
+          Por ejemplo, para dibujar un círculo sólido de color
+          blanco en el centro de la pantalla se puede llamar
+          a la función así:
+
+          <pre id="ejemplo">circulo(64, 64, 25, 7, True)</pre>
+
+      </div>
+
+      <div>
+
+        <h3 id="manual-rectangulo">rectángulo</h3>
+          Dibuja un rectángulo.
+
+          <pre>rectangulo(x, y, ancho, alto, color, relleno)</pre>
+
+          Esta función puede dibujar un rectángulo en la pantalla, el
+          rectánculo se puede dibujar como un contorno o un
+          rectángulo completo.
+
+          Por ejemplo, para dibujar un rectángulo vacío de color
+          naranja en centro de la pantalla se puede llamar
+          a la función así:
+
+          <pre id="ejemplo">rectangulo(54, 54, 20, 20, 9, False)</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-dibujar">dibujar</h3>
+          Dibuja un grafico del editor de pixeles sobre la pantalla.
+
+          <pre>dibujar(indice, x, y)</pre>
+
+          Por ejemplo, para dibujar el primer
+          grafico en el centro de la pantalla:
+
+          <pre id="ejemplo">dibujar(0, 64, 64)</pre>
+        </div>
+
+      <h2>Funciones utilitarias</h2>
+
+      <div>
+        <h3 id="manual-azar">azar</h3>
+          Retorna un número aleatorio.
+
+          <pre>azar(minimo, máximo)</pre>
+
+          El número que se retornará estará delimitado
+          por el valor mínimo y máximo de sus argumentos, y
+          entre los resultados se podrán incluir esos
+          valores también.
+
+          Por ejemplo, llamando a la función así:
+
+          <pre id="ejemplo">azar(0, 5)</pre>
+
+          El resultado podría ser cualquiera de estos
+          números: 0, 1, 2, 3, 4 o inclusive 5
+
+      </div>
+
+      <h2>Funciones trigronométricas</h2>
+
+      <div>
+        <h3 id="manual-seno">seno</h3>
+          Retorna el valor de seno de un argumento en radianes.
+
+          <pre>seno(angulo_en_radios)</pre>
+
+          <pre id="ejemplo">seno(0.5)</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-coseno">coseno</h3>
+          Retorna el valor del coseno de un argumento en radianes.
+
+          <pre>coseno(angulo_en_radios)</pre>
+
+          <pre id="ejemplo">coseno(0.5)</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-tangente">tangente</h3>
+          Retorna el valor del tangente de un argumento en radianes.
+
+          <pre>tangente(angulo_en_radios)</pre>
+
+          <pre id="ejemplo">tangente(0.5)</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-arcotangente">arcotangente</h3>
+          Retorna el valor del arcotangente de un argumento en radianes.
+
+          <pre>arcotangente(angulo_en_radios)</pre>
+
+          <pre id="ejemplo">arcotangente(0.5)</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-arcotangente2">arcotangente2</h3>
+          Retorna el valor del arcotangente2 de un argumento en radianes.
+
+          <pre>arcotangente2(angulo_en_radios)</pre>
+
+          <pre id="ejemplo">arcotangente2(0.5)</pre>
+
+      </div>
+
+      <h2>Variales</h2>
+      
+      <p>Hay un conjunto de variales que puedes usar
+      para consultar los controles y la posición del
+      mouse.</p>
+
+      <div>
+        <h3 id="manual-izquieda">izquierda</h3>
+          Indica si el jugador pulsó la tecla izquierda
+          del teclado o movió el gamepad en esa dirección.
+
+          <pre>if izquierda:
+    print("ha pulsado izquierda")</pre>
+
+          <pre id="ejemplo">izquierda</pre>
+
+      </div>
+
+
+      <div>
+        <h3 id="manual-izquieda">derecha</h3>
+          Indica si el jugador pulsó la tecla derecha
+          del teclado o movió el gamepad en esa dirección.
+
+          <pre>if derecha:
+    print("ha pulsado derecha")</pre>
+
+          <pre id="ejemplo">derecha</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-izquieda">arriba</h3>
+          Indica si el jugador pulsó la tecla arriba
+          del teclado o movió el gamepad en esa dirección.
+
+          <pre>if arriba:
+    print("ha pulsado arriba")</pre>
+
+          <pre id="ejemplo">arriba</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-izquieda">abajo</h3>
+          Indica si el jugador pulsó la tecla abajo
+          del teclado o movió el gamepad en esa dirección.
+
+          <pre>if abajo:
+    print("ha pulsado abajo")</pre>
+
+          <pre id="ejemplo">abajo</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-izquieda">espacio</h3>
+          Indica si el jugador pulsó la tecla espacio
+          del teclado o movió el gamepad en esa dirección.
+
+          <pre>if espacio:
+    print("ha pulsado espacio")</pre>
+
+          <pre id="ejemplo">espacio</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-izquieda">mouse_x</h3>
+          Indica la posición horizontal del mouse.
+
+          <pre>print("mouse_x es " + mouse_x)</pre>
+
+          <pre id="ejemplo">mouse_x</pre>
+
+      </div>
+
+
+      <div>
+        <h3 id="manual-izquieda">mouse_y</h3>
+          Indica si el jugador pulsó la tecla mouse_y
+          del teclado o movió el gamepad en esa dirección.
+
+          <pre>print("mouse_y es " + mouse_x)</pre>
+
+          <pre id="ejemplo">mouse_y</pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-click">click</h3>
+          Indica si el botón del mouse está pulsado.
+
+          <pre>if click:
+    print("han hecho click !!!")</pre>
+
+          <pre id="ejemplo" class="dn">click</pre>
+
+      </div>
+
+
+  </body>
+</html>
