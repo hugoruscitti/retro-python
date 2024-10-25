@@ -47,24 +47,24 @@ class Canvas extends Phaser.Scene {
     this.graphics = new Phaser.GameObjects.Graphics(this, WIDTH, HEIGHT);
     this.renderTexture = this.add.renderTexture(0, 0, WIDTH, HEIGHT).setOrigin(0, 0);
 
-    const xml = require("../static/recursos/fuente.jpg");
+    const xml = require("/static/recursos/fuente.jpg");
 
-    this.load.bitmapFont("fuente-0", require("../static/recursos/fuente-0.png"), xml);
-    this.load.bitmapFont("fuente-1", require("../static/recursos/fuente-1.png"), xml);
-    this.load.bitmapFont("fuente-2", require("../static/recursos/fuente-2.png"), xml);
-    this.load.bitmapFont("fuente-3", require("../static/recursos/fuente-3.png"), xml);
-    this.load.bitmapFont("fuente-4", require("../static/recursos/fuente-4.png"), xml);
-    this.load.bitmapFont("fuente-5", require("../static/recursos/fuente-5.png"), xml);
-    this.load.bitmapFont("fuente-6", require("../static/recursos/fuente-6.png"), xml);
-    this.load.bitmapFont("fuente-7", require("../static/recursos/fuente-7.png"), xml);
-    this.load.bitmapFont("fuente-8", require("../static/recursos/fuente-8.png"), xml);
-    this.load.bitmapFont("fuente-9", require("../static/recursos/fuente-9.png"), xml);
-    this.load.bitmapFont("fuente-10", require("../static/recursos/fuente-10.png"), xml);
-    this.load.bitmapFont("fuente-11", require("../static/recursos/fuente-11.png"), xml);
-    this.load.bitmapFont("fuente-12", require("../static/recursos/fuente-12.png"), xml);
-    this.load.bitmapFont("fuente-13", require("../static/recursos/fuente-13.png"), xml);
-    this.load.bitmapFont("fuente-14", require("../static/recursos/fuente-14.png"), xml);
-    this.load.bitmapFont("fuente-15", require("../static/recursos/fuente-15.png"), xml);
+    this.load.bitmapFont("fuente-0", require("/static/recursos/fuente-0.png"), xml);
+    this.load.bitmapFont("fuente-1", require("/static/recursos/fuente-1.png"), xml);
+    this.load.bitmapFont("fuente-2", require("/static/recursos/fuente-2.png"), xml);
+    this.load.bitmapFont("fuente-3", require("/static/recursos/fuente-3.png"), xml);
+    this.load.bitmapFont("fuente-4", require("/static/recursos/fuente-4.png"), xml);
+    this.load.bitmapFont("fuente-5", require("/static/recursos/fuente-5.png"), xml);
+    this.load.bitmapFont("fuente-6", require("/static/recursos/fuente-6.png"), xml);
+    this.load.bitmapFont("fuente-7", require("/static/recursos/fuente-7.png"), xml);
+    this.load.bitmapFont("fuente-8", require("/static/recursos/fuente-8.png"), xml);
+    this.load.bitmapFont("fuente-9", require("/static/recursos/fuente-9.png"), xml);
+    this.load.bitmapFont("fuente-10", require("/static/recursos/fuente-10.png"), xml);
+    this.load.bitmapFont("fuente-11", require("/static/recursos/fuente-11.png"), xml);
+    this.load.bitmapFont("fuente-12", require("/static/recursos/fuente-12.png"), xml);
+    this.load.bitmapFont("fuente-13", require("/static/recursos/fuente-13.png"), xml);
+    this.load.bitmapFont("fuente-14", require("/static/recursos/fuente-14.png"), xml);
+    this.load.bitmapFont("fuente-15", require("/static/recursos/fuente-15.png"), xml);
 
 
     this.keys = {
