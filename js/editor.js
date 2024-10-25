@@ -79,7 +79,7 @@ class Editor extends HTMLElement {
       fontSize: "12pt"
     });
 
-    editor.setKeyboardHandler("ace/keyboard/vim");
+    //editor.setKeyboardHandler("ace/keyboard/vim");
     editor.setHighlightActiveLine(false);
 
     recibirMensaje(this, "señal-activar-modo-oscuro", (data) => {

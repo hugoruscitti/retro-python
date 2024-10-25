@@ -476,4 +476,10 @@ button#abrir-ejemplos {
   grid-template-columns: repeat(4, 1fr);
   max-height: 400px;
   overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.contenido-dialogo-de-configuracion {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }

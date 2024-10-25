@@ -27,22 +27,27 @@ class Configuracion extends HTMLElement {
 
 
       <div id="config" class="no-user-select">
-        <!-- TODO: opción desactivada -->
-        <label>
-          <input type="checkbox" id="live">
-          Ejecutar automáticamente
-        </label>
-        <!-- FIN TODO: opción desactivada -->
 
-        <label>
-          <input type="checkbox" id="vim" checked="checked">
-          Modo VIM 
-        </label>
+        <div class="contenido-dialogo-de-configuracion">
+          <!-- TODO: opción desactivada -->
+          <!--
+          <label>
+            <input type="checkbox" id="live">
+            Ejecutar automáticamente
+          </label>
+          -->
+          <!-- FIN TODO: opción desactivada -->
 
-        <label>
-          <input type="checkbox" id="modo-oscuro" checked="checked">
-          Modo oscuro
-        </label>
+          <label>
+            <input type="checkbox" id="vim">
+            Modo VIM 
+          </label>
+
+          <label>
+            <input type="checkbox" id="modo-oscuro" checked="checked">
+            Modo oscuro
+          </label>
+        </div>
 
         <form method="dialog">
           <button>Aplicar la configuración</button>
@@ -60,9 +65,11 @@ class Configuracion extends HTMLElement {
       dialogo.showModal();
     });
 
+    /*
     this.querySelector("#live").addEventListener("change", function(e) {
       enviarMensaje(this, "señal-activar-modo-live", { enabled: e.target.checked });
     });
+    */
 
     this.querySelector("#vim").addEventListener("change", function(e) {
       enviarMensaje(this, "señal-activar-el-modo-vim", { enabled: e.target.checked });
