@@ -1,9 +1,11 @@
-
 import { enviarMensaje, recibirMensaje } from "./bus.js";
+import { HOST } from "./configuracion.js";
+
 
 class RetroEjemplos extends HTMLElement {
 
   connectedCallback() {
+    this.ejemplosCargados = false;
     this.crearHTML();
     this.conectarEventos();
   }
@@ -24,6 +26,8 @@ class RetroEjemplos extends HTMLElement {
       <dialog>
 
         <div class="contenedor-de-ejemplos">
+
+          <div id="contenido-de-ejemplos"></div>
 
         <form method="dialog">
           <button>
@@ -48,8 +52,47 @@ class RetroEjemplos extends HTMLElement {
 
     boton.addEventListener("click", () => {
       dialogo.showModal();
+
+      if (!this.ejemplosCargados) {
+        this.cargarEjemplos();
+      }
     });
   }
+
+
+  async cargarEjemplos() {
+    const contenido = this.querySelector("#contenido-de-ejemplos");
+    contenido.innerText = "cargando ...";
+
+    const respuesta = await this.solicitarListaDeEjemplosAlServidor();
+
+    const ejemplosComoHTML = respuesta.ejemplos.map((e) => {
+      return `
+        <div>
+          <a href="/editor.html?proyecto=${e.hash}">
+            <img src="${e.screenshot}">
+          </a>
+        </div>
+      `;
+    });
+
+    contenido.innerHTML = ejemplosComoHTML.join("\n");
+  }
+
+  solicitarListaDeEjemplosAlServidor() {
+    return new Promise((success, error) => {
+      const url = `${HOST}/ejemplos`;
+      fetch(url)
+        .then(resolve => resolve.json())
+        .then(data => {
+          success(data);
+        })
+        .catch((err) => {
+          error(err);
+        });
+    });
+  }
+
 
   disconnectedCallback() {
   }

@@ -1,6 +1,6 @@
 import { enviarMensaje } from "./bus.js";
 import { proyecto } from "./proyecto.js";
-const HOST = "http://127.0.0.1:8000/";
+import { HOST } from "./configuracion.js";
 
 class BotonPublicar extends HTMLElement {
 

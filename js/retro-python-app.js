@@ -1,5 +1,5 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
-const HOST = "http://127.0.0.1:8000/";
+import { HOST } from "./configuracion.js";
 import { proyecto } from "./proyecto.js";
 
 class RetroPythonApp extends HTMLElement {

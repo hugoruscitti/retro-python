@@ -1,5 +1,7 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
 
+//const HOST = "http://127.0.0.1:8000";
+const HOST = "https://retro-python-backend.pilas-engine.com.ar";
 
 class Configuracion extends HTMLElement {
 
@@ -75,4 +77,4 @@ class Configuracion extends HTMLElement {
 
 }
 
-export default Configuracion;
+export { Configuracion, HOST };
