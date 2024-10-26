@@ -15,7 +15,7 @@ class Proyecto {
       "version": "1",
       "screenshot": "una captura de pantalla",
       "textura": "textura",
-      "codigo": "print(\"hola placeholder mundo!!\")\r\nwhile True:\r\n  print(\"que tal?\")"
+      "codigo": ""
     }
 
     recibirMensaje(this, "señal-cargar-proyecto", (data) => {
