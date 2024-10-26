@@ -17,6 +17,11 @@ class RetroPythonApp extends HTMLElement {
       await this.cargarProyecto(proyecto);
       this.ocultarOverlay();
     } else {
+
+      const data = proyecto.obtenerProyectoCompleto();
+      console.log(data);
+      enviarMensaje(this, "señal-cargar-proyecto", data);
+
       this.ocultarOverlay();
     }
   }

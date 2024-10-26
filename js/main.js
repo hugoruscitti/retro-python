@@ -60,26 +60,8 @@ function show_error(error) {
   alert(error);
 }
 
-/*
- * Toma el código en python, extrae el mainloop en una
- * función llamada `__bloque_while` y sobre-escribe la
- * función.
- */
-function updateMainLoop(code) {
-  const ast = createASTFromPython(code);
 
-  const newAst = replaceMainLoopWithFunction(ast);
-  const functionAST = newAst.filter(e => e.id).filter(e => e.id.name === "__bloque_while")[0];
-
-  const js = escodegen.generate(functionAST);
-  const exportAsGlobal = "window.__bloque_while = __bloque_while";
-
-  let eval_string = js + exportAsGlobal;
-
-  (0, eval)(eval_string);
-}
-
-function run() {
+function __deprecated_run() {
   const code = editor.state.doc.text;
   filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
 

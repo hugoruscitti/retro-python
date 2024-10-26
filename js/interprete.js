@@ -93,6 +93,7 @@ class Interprete extends HTMLElement {
     let extra = "";
 
     if (hasMainLoop) {
+      console.log("inyectando bloque while");
       extra = "window.__bloque_while = __bloque_while;";
     }
 
@@ -178,8 +179,12 @@ class Interprete extends HTMLElement {
           // esta función la genera la función replaceMainLoopWithFunction
           // solamente si el programa tiene un bucle principal.
             try {
-              window.cuadro += 1;
-              window.__bloque_while();
+              if (window.__bloque_while) {
+                window.cuadro += 1;
+                window.__bloque_while();
+              } else {
+                console.log("warning to do: la función __bloque_while no existe aún")
+              }
             } catch (e) {
               enviarMensaje(this, "señal-detener-la-ejecución", {});
               this.mostrarError(e);
