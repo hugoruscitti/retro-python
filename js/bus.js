@@ -11,6 +11,7 @@ const EVENTOS = [
   "señal-en-el-editor-de-pixelart-se-elige-un-color", // cuando en el editor se selecciona un color nuevo.
   "señal-cargar-proyecto",              // cuando termina de hacer el request para cargar el proyecto.
   "señal-selecciona-sprite-en-canvas-textura",
+  "señal-pulsa-ctrl-s",
 ]
 
 function enviarMensaje(sender, name, datos) {

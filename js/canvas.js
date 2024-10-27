@@ -291,6 +291,30 @@ class Canvas extends Phaser.Scene {
     window.click = p.leftButtonDown();
   }
 
+  sonido(indice) {
+    let configuracion = "random";
+
+    const tiposDeSonidos = [
+      "pickupCoin",
+      "laserShoot",
+      "explosion",
+      "powerUp",
+      "hitHurt",
+      "jump",
+      "blipSelect",
+      "synth",
+      "tone",
+      "click",
+    ]
+
+    if (indice !== undefined) {
+      indice = Math.floor(Math.abs(indice)) % 10;
+    }
+
+    const sonido = sfxr.generate(configuracion);
+    sfxr.play(sonido);
+  }
+
 }
 
 

@@ -37,23 +37,40 @@ class RunButton extends HTMLElement {
     const ejecutar = document.querySelector("#ejecutar");
     const detener = document.querySelector("#detener");
 
+    recibirMensaje(this, "señal-pulsa-ctrl-s", () => {
+      if (this.ejecutando) {
+        this.pulsaDetener();
+      } else {
+        this.pulsaEjecutar();
+      }
+    });
+
     ejecutar.addEventListener("click", () => {
-      enviarMensaje(this, "señal-comenzar-a-ejecutar");
-      ejecutar.classList.add("dn");
-      detener.classList.remove("dn");
-      this.ejecutando = true;
+      this.pulsaEjecutar();
     });
 
     detener.addEventListener("click", () => {
-      enviarMensaje(this, "señal-detener-la-ejecución");
+      this.pulsaDetener();
     });
 
     recibirMensaje(this, "señal-detener-la-ejecución", () => {
-      ejecutar.classList.remove("dn");
-      detener.classList.add("dn");
-      this.ejecutando = false;
+      this.pulsaDetener();
     });
 
+  }
+
+  pulsaEjecutar() {
+    enviarMensaje(this, "señal-comenzar-a-ejecutar");
+    ejecutar.classList.add("dn");
+    detener.classList.remove("dn");
+    this.ejecutando = true;
+  }
+
+  pulsaDetener() {
+    enviarMensaje(this, "señal-detener-la-ejecución");
+    ejecutar.classList.remove("dn");
+    detener.classList.add("dn");
+    this.ejecutando = false;
   }
 
 }

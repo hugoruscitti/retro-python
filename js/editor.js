@@ -9,9 +9,11 @@ class Editor extends HTMLElement {
 
     this.innerHTML = `
       <div id="editor"></div>
+      <!--
       <div id="editor-asistente">
         <input type='range' id='control'></input>
       </div>
+      -->
     `;
     this.editor = this.createAceEditor();
     this.conectarEventos();
@@ -109,7 +111,7 @@ class Editor extends HTMLElement {
     editor.commands.addCommand({
       name: "RUN",
       exec: () => {
-        enviarMensaje(this, "señal-comenzar-a-ejecutar");
+        enviarMensaje(this, "señal-pulsa-ctrl-s");
       },
       bindKey: {mac: "cmd-s", win: "ctrl-s"}
     });

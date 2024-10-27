@@ -145,6 +145,8 @@ class Interprete extends HTMLElement {
     window.pixel = c.pixel.bind(c);
     window.flip = c.flip.bind(c);
 
+    window.sonido = c.sonido.bind(c);
+
     window.fin = () => {
       this.terminarPrograma();
     }
@@ -172,6 +174,10 @@ class Interprete extends HTMLElement {
   }
 
   iniciarTemporizadorDeBuclePrincipal() {
+    if (this.temporizador) {
+      this.destruirTemporizador();
+    }
+
     this.temporizador = window.canvas.time.addEvent({
         delay: 1000 / 30,
         loop: true,
@@ -204,11 +210,15 @@ class Interprete extends HTMLElement {
 
   detenerEjecucion() {
     if (this.temporizador) {
-      this.temporizador.destroy()
-      this.temporizador = null;
-      this.ejecutando = false;
+      this.destruirTemporizador();
       enviarMensaje(this, "señal-detener-la-ejecución", {});
     }
+  }
+
+  destruirTemporizador() {
+    this.temporizador.destroy()
+    this.temporizador = null;
+    this.ejecutando = false;
   }
 
   terminarPrograma() {
