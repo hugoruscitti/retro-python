@@ -48,6 +48,7 @@ class Editor extends HTMLElement {
       this.activarAutocompletado(data.contenido);
     });
 
+    /*
     this.querySelector("#control").addEventListener("input", (e) => {
       const valor = e.target.value; 
       const seleccion = {
@@ -63,6 +64,7 @@ class Editor extends HTMLElement {
 
       this.editor.session.doc.replace(seleccion, valor);
     });
+    */
 
   }
 
@@ -81,7 +83,7 @@ class Editor extends HTMLElement {
       fontSize: "12pt"
     });
 
-    //editor.setKeyboardHandler("ace/keyboard/vim");
+    editor.setKeyboardHandler("ace/keyboard/vim");
     editor.setHighlightActiveLine(false);
 
     recibirMensaje(this, "señal-activar-modo-oscuro", (data) => {
