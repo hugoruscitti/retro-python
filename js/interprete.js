@@ -98,7 +98,7 @@ class Interprete extends HTMLElement {
     }
 
     //let eval_string = js + exportAsGlobal;
-    console.group("Código JavaScript");
+    //console.group("Código JavaScript");
 
     let evalString = `
       function main() {
@@ -116,8 +116,8 @@ class Interprete extends HTMLElement {
       window.canvas.load.start();
     `;
 
-    console.log(evalString);
-    console.groupEnd();
+    //console.log(evalString);
+    //console.groupEnd();
 
     // canvasCanvas es el objeto que representa la
     // escena y que contiene todas las funciones

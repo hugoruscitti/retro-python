@@ -1,6 +1,6 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
 
-class RunButton extends HTMLElement {
+class BotonEjecutar extends HTMLElement {
 
   connectedCallback() {
     this.crearHTML();
@@ -39,35 +39,37 @@ class RunButton extends HTMLElement {
 
     recibirMensaje(this, "señal-pulsa-ctrl-s", () => {
       if (this.ejecutando) {
-        this.pulsaDetener();
+        enviarMensaje(this, "señal-detener-la-ejecución");
       } else {
-        this.pulsaEjecutar();
+        enviarMensaje(this, "señal-comenzar-a-ejecutar");
       }
     });
 
     ejecutar.addEventListener("click", () => {
-      this.pulsaEjecutar();
+      enviarMensaje(this, "señal-comenzar-a-ejecutar");
     });
 
     detener.addEventListener("click", () => {
-      this.pulsaDetener();
+      enviarMensaje(this, "señal-detener-la-ejecución");
+    });
+
+    recibirMensaje(this, "señal-comenzar-a-ejecutar", () => {
+      this.ejecutar();
     });
 
     recibirMensaje(this, "señal-detener-la-ejecución", () => {
-      this.pulsaDetener();
+      this.detener();
     });
 
   }
 
-  pulsaEjecutar() {
-    enviarMensaje(this, "señal-comenzar-a-ejecutar");
+  ejecutar() {
     ejecutar.classList.add("dn");
     detener.classList.remove("dn");
     this.ejecutando = true;
   }
 
-  pulsaDetener() {
-    enviarMensaje(this, "señal-detener-la-ejecución");
+  detener() {
     ejecutar.classList.remove("dn");
     detener.classList.add("dn");
     this.ejecutando = false;
@@ -75,4 +77,4 @@ class RunButton extends HTMLElement {
 
 }
 
-export default RunButton;
+export default BotonEjecutar;

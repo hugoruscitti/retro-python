@@ -95,10 +95,6 @@ class RetroPythonApp extends HTMLElement {
   conectarEventos() {
     document.addEventListener("DOMContentLoaded", () => {
       this.crearSplitView();
-
-
-
-      //this.ocultarOverlay();
     });
   }
 
@@ -138,7 +134,7 @@ class RetroPythonApp extends HTMLElement {
     // directos de "#center-layout" que tiene
     // la propiedad "display: flex"
     //
-    Split(['#result-panel', '#panel-de-codigo'], {
+    window.splitVertical = Split(['#result-panel', '#panel-de-codigo'], {
       gutterAlign: 'start',
       sizes: sizesSplitCentral,
       gutter: function() {
@@ -150,7 +146,7 @@ class RetroPythonApp extends HTMLElement {
       },
     });
 
-    Split(['retro-pantalla', 'retro-manual'], {
+    window.splitHorizontal = Split(['retro-pantalla', 'retro-manual'], {
       direction: 'vertical',
       sizes: sizesSplitIzquierdo,
       onDragEnd: function(sizes) {

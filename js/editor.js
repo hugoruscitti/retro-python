@@ -83,7 +83,7 @@ class Editor extends HTMLElement {
       fontSize: "12pt"
     });
 
-    editor.setKeyboardHandler("ace/keyboard/vim");
+    //editor.setKeyboardHandler("ace/keyboard/vim");
     editor.setHighlightActiveLine(false);
 
     recibirMensaje(this, "señal-activar-modo-oscuro", (data) => {
@@ -96,10 +96,8 @@ class Editor extends HTMLElement {
     
     editor.getSession().on('change', () => {
 
-      debounce("cuando-cambia-codigo", () => {
-        const codigo = this.editor.getValue();
-        proyecto.actualizarCodigo(codigo);
-      }, 500);
+      const codigo = this.editor.getValue();
+      proyecto.actualizarCodigo(codigo);
 
       // Intenta ejecutar el código
       debounce("live", () => {
