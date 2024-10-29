@@ -20,7 +20,13 @@ class PixelartColores extends HTMLElement {
 
   crearHTML() {
     const elementosColores = this.colores.map((color, indice) => {
-      return `<div class="color" data-indice="${indice}" style="background-color: ${color};">
+      let texto = "white";
+
+      if (indice > 5) {
+        texto = "black";
+      }
+
+      return `<div class="color" data-indice="${indice}" style="color: ${texto}; background-color: ${color};">
         ${indice}
       </div>`;
     });

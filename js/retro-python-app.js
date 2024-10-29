@@ -5,7 +5,7 @@ import { proyecto } from "./proyecto.js";
 class RetroPythonApp extends HTMLElement {
 
   connectedCallback() {
-    //proyecto.iniciar();
+    proyecto.iniciar();
     this.crearHTML();
     this.conectarEventos();
     this.iniciar();

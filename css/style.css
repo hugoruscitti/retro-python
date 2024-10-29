@@ -383,7 +383,8 @@ div#canvas-pixelart {
   height: 32px;
   display: inline-block;
   text-align: center;
-  line-height: 1.5;
+  line-height: 2.4;
+  font-size: small;
   cursor: pointer;
 }
 
