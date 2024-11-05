@@ -22,6 +22,7 @@ class Header extends HTMLElement {
 
           <retro-editor-pixelart></retro-editor-pixelart>
           <retro-ejemplos></retro-ejemplos>
+          <retro-comentarios></retro-comentarios>
             
         </div>
       </div>

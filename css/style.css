@@ -247,12 +247,26 @@ a {
 
 #error {
   position: absolute;
-    color: white;
-    background-color: red;
-    padding: 1em;
-    /* margin-top: 2em; */
-    right: 0;
-    /* margin-right: 1em; */
+  color: white;
+  background-color: red;
+  padding: 10px;
+  right: 10px;
+  top: 10px;
+  z-index: 999;
+  line-height: 1.5;
+  min-width: 350px;
+}
+
+#error #detalle {
+  padding-top: 10px;
+}
+
+#error button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  min-width: 25px;
+  line-height: 1.5;
 }
 
 .dn {
@@ -484,3 +498,18 @@ button#abrir-ejemplos {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+.contenedor-de-comentarios {
+  width: 720px;
+}
+
+.contenedor-de-comentarios iframe {
+  border: 1px solid gray;
+  margin-bottom: 15px;
+}
+
+
+/* Desactiva la marca para indiciar donde
+ * se abren o cierran los paréntesis.
+ */
+.ace_editor .ace_marker-layer .ace_bracket { display: none }

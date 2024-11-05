@@ -225,9 +225,6 @@ class Canvas extends Phaser.Scene {
   }
 
   azar(a, b) {
-    a = a || 0;
-    b = b || 128;
-
     return Math.floor(Math.random() * (b - a + 1) + a);
   }
 

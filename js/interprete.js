@@ -1,6 +1,6 @@
 import { enviarMensaje } from "./bus.js";
+import { python } from "./servicios/python.js";
 import { recibirMensaje } from "./bus.js";
-import { hasMainLoopInThisAST, createASTFromPython, replaceMainLoopWithFunction, generarJavaScript } from "./ast.js";
 import { proyecto } from "./proyecto.js";
 
 
@@ -12,28 +12,25 @@ class Interprete extends HTMLElement {
 
     this.crearHTML();
     this.conectarEventos();
-    this.vincularFuncionesPersonalizadas();
   }
 
   crearHTML() {
     this.innerHTML = `<div>
       <div id="error">
+        <button id="boton-ocultar-error">✕</button>
+
+        <div>Oh, parece que hubo un error:</div>
+
+        <div id="detalle"></div>
       </div>
     </div>`;
+
     this.limpiarErrores();
   }
 
-  vincularFuncionesPersonalizadas() {
-
-    function print(args, color, x, y) {
-      window.print(args, color, x, y);
-      //console.log("FUNCIÓN PRINT: ", args);
-    }
-
-    filbert.pythonRuntime.functions.print = print;
-  }
 
   conectarEventos() {
+    const botonOcultarError = this.querySelector("#boton-ocultar-error");
 
     // cuando llega el mensaje run, solicita el código como
     // string e inicia la ejecución
@@ -42,12 +39,43 @@ class Interprete extends HTMLElement {
       this.ejecutar(data.codigo, data.textura);
     });
 
+    botonOcultarError.addEventListener("click", () => {
+      this.limpiarErrores();
+    });
+
+    recibirMensaje(this, "señal-mostrar-error", (data) => {
+      this.mostrarError(data.detalle);
+    });
+
     recibirMensaje(this, "señal-detener-la-ejecución", () => {
       this.detenerEjecucion();
     });
+
+    recibirMensaje(this, "señal-detener-la-ejecución", () => {
+      this.ejecutando = false;
+    });
   }
 
-  ejecutar(code, textura) {
+  ejecutar(codigo, textura) {
+    const c = window.canvas;
+    this.ejecutando = true;
+
+    this.limpiarErrores();
+
+    // Arma el contexto de ejecución para comunicar python con JavaScript
+    python.ejecutar(codigo, textura, {
+      continuar_ejecucion: () => {
+        return this.ejecutando;
+      },
+      canvas: canvas,
+      __fin: () => {
+        this.terminarPrograma();
+      }
+    });
+
+
+
+    /*
     filbert.defaultOptions.runtimeParamName = "filbert.pythonRuntime"
     
     if (this.ejecutando) {
@@ -170,6 +198,7 @@ class Interprete extends HTMLElement {
     }
 
 
+    */
     
   }
 
@@ -230,16 +259,60 @@ class Interprete extends HTMLElement {
 
   limpiarErrores() {
     const errorContainer = document.querySelector("#error");
-    errorContainer.innerText = "";
     errorContainer.style.display = "none";
   }
 
   mostrarError(error) {
-    const errorContainer = document.querySelector("#error");
-    errorContainer.innerText = error;
+    const errorContainer = this.querySelector("#error");
+    const detalleDelError = this.querySelector("#error #detalle");
+
+
+    error = this.traducirError(error);
+
+    detalleDelError.innerHTML = error.join("<br/>");
     errorContainer.style.display = "block";
     console.error(error);
   }
+
+
+  traducirError(error) {
+    /*
+     * Los errores de python suelen ser textos como estos:
+     *
+     * [
+     *    "  File \"<exec>\", line 3, in <module>",
+     *    "NameError: name '__fin' is not defined"
+     * ]
+     *
+     * Sin embargo, aquí en retropython no nos interesa ese
+     * detalle, alcanza con indicar el número de linea y traducir
+     * algunos tipos de errores comunes.
+     *
+     * Esta función se encarga de traducir y simplificar esos
+     * errores.
+     */
+
+    return error.map(e => {
+
+      e = e.replace(`  File "<exec>", `, "")
+      e = e.replace(`File "<unknown>", `, "") 
+      e = e.replace(`, in <module>`, "");
+      e = e.replace(`, in `, ", en ");
+      e = e.replace("line", "En la linea número");
+      e = e.replace(`File \"<exec>\", `, "");
+
+      e = e.replace(/NameError: name (.*) is not defined/, "La variable o función $1 no está definida")
+      e = e.replace(/Did you mean: (.*)?/, "¿Quisiste escribir $1");
+      e = e.replace("SyntaxError: invalid syntax", "Error de sintáxis");
+      e = e.replace("SyntaxError: '(' was never closed", "No se cerró el paréntesis (")
+
+
+
+      return e;
+
+    });
+  }
 }
+
 
 export default Interprete;
