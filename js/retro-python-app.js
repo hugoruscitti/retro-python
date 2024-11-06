@@ -1,6 +1,15 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
 import { HOST } from "./configuracion.js";
 import { proyecto } from "./proyecto.js";
+import { python } from "./servicios/python.js";
+
+
+function esperar(mensaje) {
+  return new Promise((success) => {
+    console.log("***", mensaje);
+    setTimeout(success, 2000);
+  });
+}
 
 class RetroPythonApp extends HTMLElement {
 
@@ -12,18 +21,22 @@ class RetroPythonApp extends HTMLElement {
   }
 
   async iniciar() {
+    await esperar("iniciando el proyecto");
+
     if (window.location.search.includes("proyecto=")) {
       const proyecto = /proyecto=(.*)/.exec(window.location.search)[1];
       await this.cargarProyecto(proyecto);
-      this.ocultarOverlay();
     } else {
-
       const data = proyecto.obtenerProyectoCompleto();
       console.log(data);
       enviarMensaje(this, "señal-cargar-proyecto", data);
-
-      this.ocultarOverlay();
     }
+
+    await esperar("listo, comenzando a cargar pyodide");
+    await python.iniciar();
+
+    this.ocultarOverlay();
+
   }
 
   cargarProyecto(hashDeProyecto) {

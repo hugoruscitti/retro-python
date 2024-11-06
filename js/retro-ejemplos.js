@@ -41,6 +41,7 @@ class RetroEjemplos extends HTMLElement {
             Volver al proyecto
           </button>
         </form>
+        </div>
       </dialog>
 
     `;

@@ -99,12 +99,15 @@ class Editor extends HTMLElement {
       const codigo = this.editor.getValue();
       proyecto.actualizarCodigo(codigo);
 
+
       // Intenta ejecutar el código
+      /*
       debounce("live", () => {
         if (this.runOnChange) {
           enviarMensaje(this, "señal-comenzar-a-ejecutar");
         }
       }, 500);
+      */
 
     });
       

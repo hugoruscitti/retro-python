@@ -1,6 +1,7 @@
 <html>
   <head>
-    <link rel="stylesheet" href="./css/manual.css" />
+    <link rel="stylesheet" type="text/css" href="./css/manual.css" />
+    <link rel="stylesheet" type="text/css" href="./css/monokai.css" />
 
     <script>
       function cargar_indice_de_contenidos() {
@@ -73,7 +74,7 @@
         <p>Comencemos escribiendo algo de código en el panel, borra
         todo el código que veas y escribe este código:</p>
 
-        <pre>print("Hola mundo", 11)</pre>
+        <pre><code data-languaje="python">print("Hola mundo", 11)</code></pre>
 
         <p>Ahora, pulsá el botón "Ejecutar", deberías ver el mensaje
         "Hola mundo" pintado de color verde en la parte izquierda
@@ -96,8 +97,8 @@
         <p>Te toca a vos, escribí este código en lugar del
         anterior:
 
-        <pre>print("Hola mundo", azar())
-print("este es programa", azar())</pre>
+        <pre><code data-languaje="python">print("Hola mundo", azar())
+print("este es programa", azar())</code></pre>
 
         <p>y pulsá el botón <em>ejecutar</em>, tantas veces
         como quieras, cada vez que ejecutes el programa el texto
@@ -110,9 +111,9 @@ print("este es programa", azar())</pre>
         <p>Hagamos otro cambio, en lugar de mostrar solo dos lineas, pidamos
         a python que repita esto 32 veces así:</p>
 
-        <pre>for x in range(32):
+        <pre><code data-languaje="python">for x in range(32):
   print("Hola mundo", azar())
-  print("este es programa", azar())</pre>
+  print("este es programa", azar())</code></pre>
 
         <p>Ahora, el entorno se encargó de llenar la pantalla de
         texto de muchos colores.</p>
@@ -128,7 +129,7 @@ print("este es programa", azar())</pre>
         que tenemos que hacer es introducir un búcle de repetición
         con while.</p>
 
-        <pre>while True:
+        <pre><code data-languaje="python">while True:
   print("Hola mundo", azar())
   print("este es programa", azar())</pre>
 
@@ -143,7 +144,7 @@ print("este es programa", azar())</pre>
         mostrar lineas que salen del centro de la pantalla hacia todos
         lados así:</p>
 
-        <pre>while True:
+        <pre><code data-languaje="python">while True:
   borrar()
   linea(64, 64, azar(), azar(), azar())</pre>
 
@@ -296,6 +297,27 @@ print("este es programa", azar())</pre>
 
           El resultado podría ser cualquiera de estos
           números: 0, 1, 2, 3, 4 o inclusive 5
+
+      </div>
+
+      <div>
+        <h3 id="manual-esperar">esperar</h3>
+          Deja pasar cuadros de animación simulando una espera de tiempo.
+
+          <pre>espera(cantidad_de_cuadros)</pre>
+
+          Los programas en retro-python funcionan a 30 cuadros por
+          segundo, así que esta función debe ser llamada indicando
+          la cantidad de cuadros que se quiere esperar.
+
+          Si se quiere esperar 2 segundos, se tendría que llamar con
+          el argumento 30*2.
+
+          Por ejemplo, llamando a la función así:
+
+          <pre id="ejemplo">esperar(1)</pre>
+
+          El programa esperará 1/30 segundo.
 
       </div>
 

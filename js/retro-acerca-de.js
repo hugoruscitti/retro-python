@@ -30,6 +30,14 @@ class AcercaDe extends HTMLElement {
         de programación hermoso llamado python.
         </p>
 
+        <p>La herramienta está siendo desarrollada
+        por mí, Hugo Ruscitti, que escribo sobre este
+        proyecto y otros
+        (como <a href="https://pilas-engine.com.ar" target="_blank">pilas-engine</a>)
+        en mi
+        <a href="https://examplelab.com.ar" target="_blank">blog</a>.
+        </p>
+
         <p>
 
             <div>

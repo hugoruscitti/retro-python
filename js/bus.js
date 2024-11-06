@@ -12,6 +12,7 @@ const EVENTOS = [
   "señal-cargar-proyecto",              // cuando termina de hacer el request para cargar el proyecto.
   "señal-selecciona-sprite-en-canvas-textura",
   "señal-pulsa-ctrl-s",
+  "señal-mostrar-error",
 ]
 
 function enviarMensaje(sender, name, datos) {
