@@ -24,6 +24,17 @@ class Canvas extends Phaser.Scene {
       15: "0xFFCCAA"
     }
 
+    this.variables = {
+      mouse_x: 0,
+      mouse_y: 0,
+      click: false,
+      espacio: false,
+      izquierda: false,
+      derecha: false,
+      arriba: false,
+      abajo: false,
+    };
+
     this.posicionUltimoPrint = 0
   }
 
@@ -228,9 +239,6 @@ class Canvas extends Phaser.Scene {
     return Math.floor(Math.random() * (b - a + 1) + a);
   }
 
-  random() {
-    return Math.random();
-  }
 
   seno(r) {
     return Math.sin(r);
@@ -259,33 +267,21 @@ class Canvas extends Phaser.Scene {
     this.flip();
   }
 
-  get_mouse() {
-    const p = this.input.mousePointer;
-    return {
-      x: parseInt(p.worldX, 10),
-      y: parseInt(p.worldY, 10),
-      left: p.leftButtonDown(),
-      right: p.rightButtonDown(),
-    }
-  }
-
-  sonido() {
-    // todo
-  }
-
   update() {
     const p = this.input.mousePointer;
 
-    window.espacio = this.keys['space'];
-    window.izquierda = this.keys['left'];
-    window.derecha = this.keys['right'];
-    window.arriba = this.keys['up'];
-    window.abajo = this.keys['down'];
 
-    window.mouse_x = parseInt(p.worldX, 10);
-    window.mouse_y = parseInt(p.worldY, 10);
+    this.variables = {
+      mouse_y: parseInt(p.worldY, 10),
+      mouse_x: parseInt(p.worldX, 10),
+      click: p.leftButtonDown(),
+      espacio: this.keys['space'],
+      izquierda: this.keys['left'],
+      derecha: this.keys['right'],
+      arriba: this.keys['up'],
+      abajo: this.keys['down'],
+    }
 
-    window.click = p.leftButtonDown();
   }
 
   sonido(indice) {

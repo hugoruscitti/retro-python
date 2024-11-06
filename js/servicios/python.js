@@ -24,8 +24,26 @@ import ast
 import contexto
 import asyncio
 
-def alerta(nombre="sin nombre"):
-  contexto.canvas.alerta(nombre)
+mouse_x = 64
+mouse_y = 64
+cuadro = 0
+click = False
+
+def __actualizar_globales():
+  global cuadro
+  global mouse_x, mouse_y, click
+
+  cuadro += 1
+
+  mouse_x = contexto.canvas.variables.mouse_x
+  mouse_y = contexto.canvas.variables.mouse_y
+  click = contexto.canvas.variables.click
+
+  espacio = contexto.canvas.variables.espacio
+  izquierda = contexto.canvas.variables.izquierda
+  derecha = contexto.canvas.variables.derecha
+  arriba = contexto.canvas.variables.arriba
+  abajo = contexto.canvas.variables.abajo
 
 def linea(x, y, x1, y1, color):
   contexto.canvas.linea(x, y, x1, y1, color)
@@ -33,16 +51,31 @@ def linea(x, y, x1, y1, color):
 def azar(a=0, b=128):
   return contexto.canvas.azar(a, b)
 
+def seno(r):
+  return contexto.canvas.seno(r)
+
+def coseno(r):
+  return contexto.canvas.coseno(r)
+
+def arcotangente(r):
+  return contexto.canvas.arcotangente(r)
+
+def arcotangente2(r):
+  return contexto.canvas.arcotangente2(r)
+
 async def __inicio():
   borrar()
+  __actualizar_globales()
   await asyncio.sleep(0.1)
 
 async def esperar(cuadros=30):
+
   for x in range(cuadros):
     # se hacen pausas muy cortitas, y en cada una
     # de ellas se intenta ver si el programa se
     # interrumpe o no.
     if contexto.continuar_ejecucion():
+      __actualizar_globales()
       await asyncio.sleep(1/30)
     else:
       terminar()
@@ -56,9 +89,23 @@ def __fin():
 def pintar(color):
   contexto.canvas.pintar(color)
 
+def circulo(x, y, radio, color, relleno):
+  contexto.canvas.circulo(x, y, radio, color, relleno)
+
+def dibujar(indice, x, y):
+  contexto.canvas.dibujar(indice, x, y)
 
 def borrar():
   contexto.canvas.borrar()
+
+def rectangulo(x, y, width, height, color, relleno):
+  contexto.canvas.rectangulo(x, y, width, height, color, relleno)
+
+def pixel(x, y, color):
+  contexto.canvas.pixel(x, y, color)
+
+def print(mensaje, color=0, x=None, y=None):
+  contexto.canvas.print(mensaje, color, x, y)
 
 # __codigo viene de JavaScript
 nodo = ast.parse(__codigo)
@@ -76,6 +123,7 @@ class Transformador(ast.NodeTransformer):
   # al final de cada while, agrega una pausa para poder
   # crear main-loops.
   def visit_While(self, nodo):
+    super().generic_visit(nodo)
     pausa = ast.parse("await esperar(1)")
     nodo.body.append(pausa)
     return nodo
@@ -101,12 +149,7 @@ ast.unparse(nodo)`);
       /*
        * TODO exponer estas funciones
        *
-      linea: c.linea.bind(c),
-
-      circulo: c.circulo.bind(c),
       dibujar: c.dibujar.bind(c),
-      rectangulo: c.rectangulo.bind(c),
-      azar: c.azar.bind(c),
       print: c.print.bind(c),
 
       seno: c.seno.bind(c),
