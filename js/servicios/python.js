@@ -32,6 +32,7 @@ click = False
 def __actualizar_globales():
   global cuadro
   global mouse_x, mouse_y, click
+  global espacio, izquierda, derecha, arriba, abajo
 
   cuadro += 1
 
