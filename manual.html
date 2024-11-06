@@ -302,22 +302,21 @@ print("este es programa", azar())</code></pre>
 
       <div>
         <h3 id="manual-esperar">esperar</h3>
-          Deja pasar cuadros de animación simulando una espera de tiempo.
+          Deja pasar una cantidad determinada de segundos.
 
-          <pre>espera(cantidad_de_cuadros)</pre>
+          <pre>espera(segundos)</pre>
 
-          Los programas en retro-python funcionan a 30 cuadros por
-          segundo, así que esta función debe ser llamada indicando
-          la cantidad de cuadros que se quiere esperar.
-
-          Si se quiere esperar 2 segundos, se tendría que llamar con
-          el argumento 30*2.
+          Tener en cuenta que a esta función podemos enviarle
+          fracciones de segundos, para hacer pausas muy cortas. Por
+          ejemplo, si queremos esperar medio segundo, podemos
+          enviarle como argumento 1/2, o enviarle 1/10 si queremos
+          esperar una décima de segundo.
 
           Por ejemplo, llamando a la función así:
 
-          <pre id="ejemplo">esperar(1)</pre>
+          <pre id="ejemplo">esperar(1/2)</pre>
 
-          El programa esperará 1/30 segundo.
+          El programa esperará medio segundo.
 
       </div>
 

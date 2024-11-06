@@ -29,6 +29,9 @@ mouse_y = 64
 cuadro = 0
 click = False
 
+def __flip():
+  contexto.canvas.flip()
+
 def __actualizar_globales():
   global cuadro
   global mouse_x, mouse_y, click
@@ -69,22 +72,27 @@ async def __inicio():
   __actualizar_globales()
   await asyncio.sleep(0.1)
 
-async def esperar(cuadros=30):
+async def esperar(segundos=1):
+  espera = min(segundos, 1/30)
 
-  for x in range(cuadros):
+  while segundos > 0:
     # se hacen pausas muy cortitas, y en cada una
     # de ellas se intenta ver si el programa se
     # interrumpe o no.
     if contexto.continuar_ejecucion():
       __actualizar_globales()
-      await asyncio.sleep(1/30)
+      __flip()
+      await asyncio.sleep(espera)
+      segundos -= espera
     else:
       terminar()
 
 def terminar():
+    __flip()
     exit(0)
 
 def __fin():
+  __flip()
   contexto.__fin()
 
 def pintar(color):
@@ -125,7 +133,7 @@ class Transformador(ast.NodeTransformer):
   # crear main-loops.
   def visit_While(self, nodo):
     super().generic_visit(nodo)
-    pausa = ast.parse("await esperar(1)")
+    pausa = ast.parse("await esperar(1/30)")
     nodo.body.append(pausa)
     return nodo
 

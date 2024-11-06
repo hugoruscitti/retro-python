@@ -159,27 +159,11 @@ class Canvas extends Phaser.Scene {
     graphics.moveTo(x, y);
     graphics.lineTo(x2, y2);
     graphics.strokePath();
-
-
-    this.flip();
-    graphics.clear();
   }
 
   pintar(color) {
     this.borrar();
     this.rectangulo(0, 0, 128, 128, color, true);
-    /*
-    transparencia = transparencia || 0;
-    let graphics = this.graphics;
-
-    const opacidad = (transparencia%128)*-0.1 + 1;
-
-    graphics.fillStyle(this.obtenerColor(color), opacidad);
-    graphics.fillRect(0, 0, WIDTH, HEIGHT)
-
-    this.flip();
-    graphics.fillStyle(this.obtenerColor(color), 1);
-    */
   }
 
   circulo(x, y, radio, color, relleno) {
@@ -192,8 +176,6 @@ class Canvas extends Phaser.Scene {
     } else {
       graphics.strokeCircle(x, y, radio);
     }
-
-    this.flip();
   }
 
   dibujar(indice, x, y) {
@@ -210,7 +192,6 @@ class Canvas extends Phaser.Scene {
 
     let renderTexture = this.renderTexture;
     renderTexture.drawFrame("sprites", indice, x-4, y-4);
-    this.flip();
   }
 
   rectangulo(x, y, width, height, color, relleno) {
@@ -223,8 +204,6 @@ class Canvas extends Phaser.Scene {
     } else {
       graphics.strokeRect(x, y, width, height);
     }
-
-    this.flip();
   }
 
   borrar() {
@@ -264,7 +243,6 @@ class Canvas extends Phaser.Scene {
     let graphics = this.graphics;
     graphics.fillStyle(this.obtenerColor(color));
     graphics.fillRect(x, y, 1, 1);
-    this.flip();
   }
 
   update() {
