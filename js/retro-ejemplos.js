@@ -20,7 +20,7 @@ class RetroEjemplos extends HTMLElement {
           </svg>
         </div>
 
-        Ver ejemplos
+        <span class="ocultar-en-mobile">Ver ejemplos</span>
       </button>
 
       <dialog>

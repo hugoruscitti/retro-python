@@ -486,6 +486,11 @@ button#abrir-ejemplos {
   width: 200px;
 }
 
+button#abrir-comentarios {
+  margin-left: 5px;
+  width: 200px;
+}
+
 #contenido-de-ejemplos {
   gap: 5px;
   display: grid;
@@ -514,3 +519,21 @@ button#abrir-ejemplos {
  * se abren o cierran los paréntesis.
  */
 .ace_editor .ace_marker-layer .ace_bracket { display: none }
+
+@media (max-width: 700px) {
+  .ocultar-en-mobile {
+    display: none;
+  }
+
+  button {
+    min-width: 50px;
+  }
+
+  .icono {
+    padding-right: 0px;
+  }
+
+  button#abrir-editor, button#abrir-ejemplos, button#abrir-comentarios {
+    width: 50px;
+  }
+}

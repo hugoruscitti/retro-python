@@ -17,7 +17,7 @@ class BotonEjecutar extends HTMLElement {
           </svg>
         </div>
 
-        Ejecutar
+        <span class="ocultar-en-mobile">Ejecutar</span>
       </button>
 
       <button id="detener" class="dn">
@@ -27,7 +27,7 @@ class BotonEjecutar extends HTMLElement {
           </svg>
         </div>
 
-        Detener
+        <span class="ocultar-en-mobile">Detener</span>
       </button>
     `;
 

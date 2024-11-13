@@ -18,7 +18,7 @@ class EditorPixelart extends HTMLElement {
           </svg>
         </div>
 
-        Abrir el editor pixelart
+        <span class="ocultar-en-mobile">Abrir el editor pixelart</span>
       </button>
 
       <dialog>
