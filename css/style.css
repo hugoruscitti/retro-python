@@ -336,6 +336,7 @@ retro-pantalla {
   height: 28px;
   display: inline-block;
   background-image: url("../static/img/logo-header.png");
+  cursor: pointer;
 }
 
 
