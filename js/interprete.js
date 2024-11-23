@@ -289,23 +289,32 @@ class Interprete extends HTMLElement {
      * algunos tipos de errores comunes.
      *
      * Esta función se encarga de traducir y simplificar esos
-     * errores.
+     * errores para que se vean en español.
+     *
+     *
      */
 
     return error.map(e => {
+      console.log("Traducción, original '${e}'");
 
       e = e.replace(`  File "<exec>", `, "")
       e = e.replace(`File "<unknown>", `, "") 
       e = e.replace(`, in <module>`, "");
       e = e.replace(`, in `, ", en ");
-      e = e.replace("line", "En la linea número");
+      e = e.replace("line", "en la linea número");
       e = e.replace(`File \"<exec>\", `, "");
 
       e = e.replace(/NameError: name (.*) is not defined/, "La variable o función $1 no está definida")
       e = e.replace(/Did you mean: (.*)?/, "¿Quisiste escribir $1");
       e = e.replace("SyntaxError: invalid syntax", "Error de sintáxis");
       e = e.replace("SyntaxError: '(' was never closed", "No se cerró el paréntesis (")
+      e = e.replace("IndentationError", "Error de identación");
+      e = e.replace("expected an indented block after ", "se esperaba una identación después de ");
+      e = e.replace("statement on", "");
+      e = e.replace("unexpected indent", "identación no esperada");
+      e = e.replace("unindent does not match any outer indentation level", "la des-identanción no coincide con las lineas anteriores");
 
+      console.log("Traducción, luego de traducir quedó '${e}'");
 
 
       return e;

@@ -30,13 +30,11 @@ class Pixelart extends Phaser.Scene {
   }
 
   preload() {
-    //this.graphics = this.add.graphics();
-
-    this.canvas = this.textures.createCanvas('canvas', 128, 128);
+    this.canvas = this.textures.createCanvas('canvas', 8, 8);
     this.c = this.canvas.context;
 
     // este sprite es el que verá el usuario, y tiene el canvas
-    // como textura.
+    // como textura para poder dibujar sobre él.
     this.add.image(0, 0, 'canvas').setOrigin(0, 0);
   }
 
@@ -85,6 +83,8 @@ class Pixelart extends Phaser.Scene {
     this.c.fillStyle = this.obtenerColor(color);
     this.c.fillRect(x, y, 1, 1);
     this.canvas.refresh();
+
+    enviarMensaje(this, "señal-pixelart-cambia-pixel", {x, y, color});
   }
 
   borrarPixel(x, y) {
@@ -92,12 +92,19 @@ class Pixelart extends Phaser.Scene {
     y = Math.floor(y);
     this.c.clearRect(x, y, 1, 1);
     this.canvas.refresh();
+
+    enviarMensaje(this, "señal-pixelart-borra-pixel", {x, y});
   }
 
-  cambiarSprite(indice) {
-    console.log("Cambiando al indice " + indice);
+  pintarCuadro(datos) {
+    this.c.clearRect(0, 0, 8, 8);
+    datos.map(({x, y, color}) => {
+      let {r, g, b} = color;
+      this.c.fillStyle = `rgb(${r}, ${g}, ${b})`;
+      this.c.fillRect(x, y, 1, 1);
+    });
+    this.canvas.refresh();
   }
-
 
 }
 

@@ -79,6 +79,7 @@ button {
   text-align: center;
   align-content: center;
   justify-content: center;
+  user-select: none;
 }
 
 .tooltip {
@@ -267,6 +268,7 @@ a {
   top: 10px;
   min-width: 25px;
   line-height: 1.5;
+  user-select: none;
 }
 
 .dn {
@@ -387,6 +389,7 @@ div#canvas-pixelart {
   height: 256px;
   background-image: url("/static/img/transparente.png");
   background-repeat: repeat;
+  background-color: #bbbbbb;
 }
 
 .contenedor-editor-pixelart {
@@ -527,6 +530,7 @@ button#abrir-comentarios {
 
   button {
     min-width: 50px;
+    user-select: none;
   }
 
   .icono {
@@ -536,4 +540,45 @@ button#abrir-comentarios {
   button#abrir-editor, button#abrir-ejemplos, button#abrir-comentarios {
     width: 50px;
   }
+}
+
+.cuadro-de-textura {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+#retro-cuadros-de-textura-pixelart img {
+  outline: 1px solid red;
+
+}
+
+#retro-cuadros-de-textura-pixelart {
+  position: relative;
+}
+
+#cursor-de-textura {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(100, 100, 200, 0.25);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+#cursor-de-cuadro {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  outline: 2px solid rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+#textura {
+  width: 512px;
+  image-rendering: pixelated;
+}
+
+#cursor-de-textura {
 }

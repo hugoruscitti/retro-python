@@ -21,6 +21,10 @@ class Proyecto {
     recibirMensaje(this, "señal-cargar-proyecto", (data) => {
       this.datos = data;
     });
+
+    recibirMensaje(this, "señal-actualizar-textura-del-proyecto", (data) => {
+      this.datos.textura = data.textura;
+    });
   }
 
 
