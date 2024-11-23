@@ -20,8 +20,11 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
 
     var imagenTemporal = new Image();
 
-    imagenTemporal.onload = function() {
+    imagenTemporal.onload = () => {
       ctx.drawImage(imagenTemporal, 0, 0);
+
+      const datos = this.obtenerColoresDeLaGrilla(0, 0);
+      enviarMensaje(this, "señal-selecciona-sprite-en-canvas-textura", datos);
     };
 
     imagenTemporal.src = data.textura;
