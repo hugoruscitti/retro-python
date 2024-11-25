@@ -179,15 +179,6 @@ class Canvas extends Phaser.Scene {
   }
 
   dibujar(indice, x, y) {
-    // si encuentra que en lugar de un índice numérico se
-    // envía una lista, entonces permite hacer una animación
-    // usando como variable auxiliar el 'cuadro' o contador
-    // del bucle principal.
-    if (indice._type && indice._type == "list") {
-      const i = window.cuadro % indice.length;
-      indice = indice[i];
-    }
-    
     indice = Math.floor(Math.abs(indice || 0)) % (16*5);
 
     let renderTexture = this.renderTexture;
@@ -263,8 +254,7 @@ class Canvas extends Phaser.Scene {
   }
 
   sonido(indice) {
-    let configuracion = "random";
-
+    let tipo = "random";
     const tiposDeSonidos = [
       "pickupCoin",
       "laserShoot",
@@ -279,10 +269,11 @@ class Canvas extends Phaser.Scene {
     ]
 
     if (indice !== undefined) {
-      indice = Math.floor(Math.abs(indice)) % 10;
+      indice = Math.floor(Math.abs(indice)) % tiposDeSonidos.length;
+      tipo = tiposDeSonidos[indice];
     }
 
-    const sonido = sfxr.generate(configuracion);
+    const sonido = sfxr.generate(tipo);
     sfxr.play(sonido);
   }
 }

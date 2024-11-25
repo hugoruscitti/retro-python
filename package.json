@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "vite"
+    "dev": "vite --host=0.0.0.0"
   },
   "dependencies": {
     "vite": "^5.4.10"

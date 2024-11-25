@@ -22,6 +22,7 @@ class PixelartCanvas extends HTMLElement {
       height: 8,
       pixelArt: true,
       transparent: true,
+      zoom: 32,
       parent: 'canvas-pixelart',
       scene: Pixelart
     };
@@ -30,9 +31,21 @@ class PixelartCanvas extends HTMLElement {
   }
 
   conectarEventos() {
-    recibirMensaje(this, "señal-selecciona-sprite-en-canvas-textura", (data) => {
+    recibirMensaje(this, "señal-selecciona-sprite-en-canvas-textura", (datos) => {
       const escena = this.pixelart.scene.scenes[0];
-      escena.cambiarSprite(data.indice);
+      escena.pintarCuadro(datos);
+    });
+
+    recibirMensaje(this, "señal-alternar-fondo-transparente", (datos) => {
+      const fondo = this.querySelector("#canvas-pixelart");
+      const colorClaro =  "rgb(187, 187, 187)";
+      const colorOscuro =  "rgb(0, 0, 0)";
+
+      if (fondo.style.backgroundColor === colorClaro || !fondo.style.backgroundColor) {
+        fondo.style.backgroundColor = colorOscuro;
+      } else {
+        fondo.style.backgroundColor = colorClaro;
+      }
     });
   }
 

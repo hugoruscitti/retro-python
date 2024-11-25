@@ -14,7 +14,11 @@ import PixelartColores from "./retro-pixelart-colores.js"
 import RetroPythonApp from "./retro-python-app.js"
 import RetroEjemplos from "./retro-ejemplos.js"
 import RetroComentarios from "./retro-comentarios.js"
+import CuadrosDeTexturaPixelart from "./retro-cuadros-de-textura-pixelart.js"
+import RetroBotonVolver from "./retro-boton-volver.js"
 
+customElements.define("retro-boton-volver", RetroBotonVolver);
+customElements.define("retro-cuadros-de-textura-pixelart", CuadrosDeTexturaPixelart);
 customElements.define("retro-ejemplos", RetroEjemplos);
 customElements.define("retro-comentarios", RetroComentarios);
 customElements.define("retro-python-app", RetroPythonApp);

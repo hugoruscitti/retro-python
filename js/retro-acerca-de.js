@@ -19,7 +19,8 @@ class AcercaDe extends HTMLElement {
       </div>
 
 
-    Acerca de...</button>
+      <span class="ocultar-en-mobile">Acerca de...</span>
+    </button>
 
       <dialog id="dialogo-acerca-de" class="texto">
         <h1>retro-python</h1>

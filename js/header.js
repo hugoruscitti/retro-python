@@ -12,8 +12,7 @@ class Header extends HTMLElement {
       <div class="header">
         <div class="header-1">
           <div>
-            <div class="logo">
-            </div>
+            <a href="/"><div class="logo"></div></a>
           </div>
 
           <div class="expandir-flex">

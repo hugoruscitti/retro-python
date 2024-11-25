@@ -8,10 +8,15 @@ class ServicioPython {
 
   async iniciar() {
     this.pyodide = await loadPyodide();
+    await this.pyodide.loadPackage("jedi");
   }
 
   async ejecutar(codigoOriginal, textura, contexto) {
     this.pyodide.registerJsModule("contexto", contexto);
+
+    contexto.canvas.textures.remove('sprites');
+    contexto.canvas.load.spritesheet("sprites", textura, { frameWidth: 8, frameHeight: 8 } );
+    contexto.canvas.load.start();
 
     try {
       console.log("🔥 Detectando código para ejecutar, este es el código original")
@@ -102,6 +107,12 @@ def circulo(x, y, radio, color, relleno):
   contexto.canvas.circulo(x, y, radio, color, relleno)
 
 def dibujar(indice, x, y):
+  # si en lugar de un número se envía una lista, intenta hacer
+  # una animación tomando cuadros de animación de esa lista.
+  if type(indice).__name__ == "list":
+    i = cuadro % len(indice)
+    indice = indice[i]
+
   contexto.canvas.dibujar(indice, x, y)
 
 def borrar():
@@ -115,6 +126,9 @@ def pixel(x, y, color):
 
 def print(mensaje, color=0, x=None, y=None):
   contexto.canvas.print(mensaje, color, x, y)
+
+def sonido(indice=None):
+  contexto.canvas.sonido(indice)
 
 # __codigo viene de JavaScript
 nodo = ast.parse(__codigo)

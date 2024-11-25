@@ -7,7 +7,7 @@ import { python } from "./servicios/python.js";
 function esperar(mensaje) {
   return new Promise((success) => {
     console.log("***", mensaje);
-    setTimeout(success, 2000);
+    setTimeout(success, 50);
   });
 }
 

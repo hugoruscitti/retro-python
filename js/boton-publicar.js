@@ -18,7 +18,7 @@ class BotonPublicar extends HTMLElement {
           </svg>
         </div>
 
-        Publicar
+        <span class="ocultar-en-mobile">Publicar</span>
       </button>
 
       <dialog id="dialogo-publicar">
