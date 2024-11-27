@@ -21,8 +21,9 @@ class EditorPixelart extends HTMLElement {
       </button>
 
       <dialog>
-
         <div class="contenedor-editor-pixelart">
+
+        <div class="flex">
           <div>
             <retro-pixelart-canvas></retro-pixelart-canvas>
           </div>
@@ -37,6 +38,7 @@ class EditorPixelart extends HTMLElement {
 
         <retro-boton-volver/>
 
+</div>
       </dialog>
     `;
   }
@@ -47,6 +49,12 @@ class EditorPixelart extends HTMLElement {
     
     boton.addEventListener("click", () => {
       dialogo.showModal();
+    });
+
+    dialogo.addEventListener("click", (evento) => {
+      if (evento.target.tagName  === "DIALOG") {
+        dialogo.close();
+      }
     });
 
   }

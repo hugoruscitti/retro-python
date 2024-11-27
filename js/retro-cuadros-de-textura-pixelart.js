@@ -38,8 +38,10 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
         <canvas id="textura" width="128" height="40"></canvas>
       </div>
 
-      <div>
-        Cuadro actual: <span id="cuadro">0</span>
+      <div class="editor-de-pixelart-consejo">
+        Para dibujar este cuadro número <span id="cuadro">0</span>
+        podrías usar un código como este
+        <code>dibujar(<span id="cuadroEjemplo">0</span>, 64, 64)</code>.
       </div>
 
       <button id="alternar-fondo">Alternar fondo</button>
@@ -59,6 +61,7 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
     const cursorDeCuadro = this.querySelector("#cursor-de-cuadro");
     const canvas = this.querySelector("#textura")
     const cuadro = this.querySelector("#cuadro")
+    const cuadroEjemplo = this.querySelector("#cuadroEjemplo")
 
     canvas.addEventListener("mousemove", (evento) => {
       let columna = parseInt(evento.offsetX / 32, 10);
@@ -73,6 +76,7 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
 
     recibirMensaje(this, "señal-cambia-el-cuadro-en-la-grilla", (datos) => {
       cuadro.innerText = datos.cuadro;
+      cuadroEjemplo.innerText = datos.cuadro;
     });
 
     canvas.addEventListener("click", (evento) => {

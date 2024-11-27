@@ -24,13 +24,9 @@ class RetroEjemplos extends HTMLElement {
       </button>
 
       <dialog>
-
         <div class="contenedor-de-ejemplos">
-
           <div id="contenido-de-ejemplos"></div>
-
           <retro-boton-volver/>
-
         </div>
       </dialog>
 
@@ -65,6 +61,12 @@ class RetroEjemplos extends HTMLElement {
         this.cargarEjemplos();
       }
     });
+
+    dialogo.addEventListener("click", (evento) => {
+      if (evento.target.tagName  === "DIALOG") {
+        dialogo.close();
+      }
+    });
   }
 
 
@@ -84,7 +86,7 @@ class RetroEjemplos extends HTMLElement {
       `;
     });
 
-    contenido.innerHTML = ejemplosComoHTML.join("\n");
+    contenido.innerHTML = "<div class='contenedor-de-grilla-de-ejemplos'>" + ejemplosComoHTML.join("\n") + "</div>";
   }
 
   solicitarListaDeEjemplosAlServidor() {
