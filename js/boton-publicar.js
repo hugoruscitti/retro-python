@@ -23,7 +23,7 @@ class BotonPublicar extends HTMLElement {
 
       <dialog id="dialogo-publicar">
 
-        <div id="cargador" class="pa dialogo-publicar-contenido">
+        <div id="cargador" class="dialogo-publicar-contenido">
           <div class="dialogo-publicar-contenido-cargando">
             <div>
                 <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +39,7 @@ class BotonPublicar extends HTMLElement {
           </div>
         </div>
 
-        <div id="resultado" class="dn dialogo-publicar-contenido pa"> 
+        <div id="resultado" class="dn dialogo-publicar-contenido"> 
 
           <div>
             ¡Tu creación ya está lista para compartir!

@@ -57,6 +57,12 @@ class RetroComentarios extends HTMLElement {
       dialogo.showModal();
       contenedorIframe.innerHTML = this.codigoIframe;
     });
+
+    dialogo.addEventListener("click", (evento) => {
+      if (evento.target.tagName  === "DIALOG") {
+        dialogo.close();
+      }
+    });
   }
 
 }

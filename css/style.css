@@ -430,6 +430,7 @@ div#canvas-pixelart {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1em;
 }
 
   .link-copiar {
@@ -528,6 +529,7 @@ button#abrir-comentarios {
 
 .contenedor-de-comentarios {
   width: 720px;
+  padding: 1em;
 }
 
 .contenedor-de-comentarios iframe {
