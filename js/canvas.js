@@ -55,9 +55,31 @@ class Canvas extends Phaser.Scene {
   }
 
   preload() {
-    this.graphics = new Phaser.GameObjects.Graphics(this, WIDTH, HEIGHT);
-    this.renderTexture = this.add.renderTexture(0, 0, WIDTH, HEIGHT).setOrigin(0, 0);
 
+    // Estos 3 objetos son importantes:
+    //
+    // - graphics se utiliza como buffer para dibujar lineas, círculos y
+    // rectángulos. Este objeto asegura que se dibuje usando píxeles y sin
+    // ningún tipo de difuminado.
+    //
+    // - buffer es donde se integrarán todos los dibujados antes de llevarlos a
+    // la pantalla
+    //
+    // - textura es lo que el usuario verá, tener en cuenta que nunca se dibuja
+    // directamente acá, sino que la única parte en donde se modifica esta
+    // textura es en la función "flip", que se llamar aútomáticamente cuando se
+    // invoca a la función "esperar", cuando termina el programa o cuando se
+    // completa un ciclo de un bucle como "while".
+    
+    this.graphics = new Phaser.GameObjects.Graphics(this, WIDTH, HEIGHT);
+    this.buffer = new Phaser.GameObjects.RenderTexture(this, 0, 0, WIDTH, HEIGHT).setOrigin(0, 0);
+    this.textura = this.add.renderTexture(0, 0, WIDTH, HEIGHT).setOrigin(0, 0);
+
+    this.cargarFuentes();
+    this.conectarEventosDeTeclado();
+  }
+
+  cargarFuentes() {
     const xml = "/static/recursos/fuente.jpg";
 
     this.load.bitmapFont("fuente-0", "/static/recursos/fuente-0.png", xml);
@@ -76,8 +98,9 @@ class Canvas extends Phaser.Scene {
     this.load.bitmapFont("fuente-13", "/static/recursos/fuente-13.png", xml);
     this.load.bitmapFont("fuente-14", "/static/recursos/fuente-14.png", xml);
     this.load.bitmapFont("fuente-15", "/static/recursos/fuente-15.png", xml);
+  }
 
-
+  conectarEventosDeTeclado() {
     this.keys = {
       space: false,
       up: false,
@@ -101,7 +124,6 @@ class Canvas extends Phaser.Scene {
       this.setKeymap(event.code, "ArrowLeft", "left", false);
       this.setKeymap(event.code, "ArrowRight", "right", false);
     });
-
   }
 
   create() {
@@ -127,10 +149,11 @@ class Canvas extends Phaser.Scene {
     }
   }
 
-  // función interna para volcar los gráficos sobre
-  // el buffer principal.
+  // función interna para volcar los gráficos sobre la textura
+  // principal que será visible por el usuario.
   flip() {
-    this.renderTexture.draw(this.graphics);
+    this.textura.clear();
+    this.textura.draw(this.buffer);
   }
 
   print(texto, color, x, y) {
@@ -138,70 +161,69 @@ class Canvas extends Phaser.Scene {
     this.objetosTexto[indice].text = texto
       
     if (x === undefined && y === undefined) {
-      this.renderTexture.draw(this.objetosTexto[indice], 0, this.posicionUltimoPrint);
+      this.buffer.draw(this.objetosTexto[indice], 0, this.posicionUltimoPrint);
     } else {
-      this.renderTexture.draw(this.objetosTexto[indice], x, y);
+      this.buffer.draw(this.objetosTexto[indice], x, y);
     }
 
     if (this.posicionUltimoPrint > 120) {
       this.posicionUltimoPrint = 0;
-      //this.renderTexture.draw(this.renderTexture, 0, -10);
     } else {
       this.posicionUltimoPrint += 10
     }
   }
 
   linea(x, y, x2, y2, color) {
-    let graphics = this.graphics;
-
-    graphics.lineStyle(1, this.obtenerColor(color));
-    graphics.beginPath();
-    graphics.moveTo(x, y);
-    graphics.lineTo(x2, y2);
-    graphics.strokePath();
+    this.graphics.lineStyle(1, this.obtenerColor(color));
+    this.graphics.beginPath();
+    this.graphics.moveTo(x, y);
+    this.graphics.lineTo(x2, y2);
+    this.graphics.strokePath();
+    this.buffer.draw(this.graphics);
+    this.graphics.clear();
   }
 
   pintar(color) {
-    this.borrar();
     this.rectangulo(0, 0, 128, 128, color, true);
   }
 
   circulo(x, y, radio, color, relleno) {
-    let graphics = this.graphics;
-    graphics.fillStyle(this.obtenerColor(color));
-    graphics.lineStyle(1, this.obtenerColor(color));
+    this.graphics.fillStyle(this.obtenerColor(color));
+    this.graphics.lineStyle(1, this.obtenerColor(color));
 
     if (relleno) {
-      graphics.fillCircle(x, y, radio);
+      this.graphics.fillCircle(x, y, radio);
     } else {
-      graphics.strokeCircle(x, y, radio);
+      this.graphics.strokeCircle(x, y, radio);
     }
+    this.buffer.draw(this.graphics);
+    this.graphics.clear();
   }
 
   dibujar(indice, x, y) {
     indice = Math.floor(Math.abs(indice || 0)) % (16*5);
 
-    let renderTexture = this.renderTexture;
-    renderTexture.drawFrame("sprites", indice, x-4, y-4);
+    this.buffer.drawFrame("sprites", indice, x-4, y-4);
   }
 
   rectangulo(x, y, width, height, color, relleno) {
-    let graphics = this.graphics;
-    graphics.lineStyle(1, this.obtenerColor(color));
-    graphics.fillStyle(this.obtenerColor(color));
+    this.graphics.lineStyle(1, this.obtenerColor(color));
+    this.graphics.fillStyle(this.obtenerColor(color));
 
     if (relleno) {
-      graphics.fillRect(x, y, width, height);
+      this.graphics.fillRect(x, y, width, height);
     } else {
-      graphics.strokeRect(x, y, width, height);
+      this.graphics.strokeRect(x, y, width, height);
     }
+
+    this.buffer.draw(this.graphics);
+    this.graphics.clear();
   }
 
   borrar() {
-    let graphics = this.graphics;
-    let renderTexture = this.renderTexture;
-    graphics.clear();
-    renderTexture.clear();
+    this.buffer.clear();
+    this.graphics.clear();
+    this.textura.clear();
     this.posicionUltimoPrint=0
   }
 
@@ -231,9 +253,10 @@ class Canvas extends Phaser.Scene {
   }
 
   pixel(x, y, color) {
-    let graphics = this.graphics;
-    graphics.fillStyle(this.obtenerColor(color));
-    graphics.fillRect(x, y, 1, 1);
+    this.graphics.fillStyle(this.obtenerColor(color));
+    this.graphics.fillRect(x, y, 1, 1);
+    this.buffer.draw(this.graphics);
+    this.graphics.clear();
   }
 
   update() {
@@ -275,6 +298,12 @@ class Canvas extends Phaser.Scene {
 
     const sonido = sfxr.generate(tipo);
     sfxr.play(sonido);
+  }
+
+  distancia(x1, y1, x2, y2) {
+    const a = x1 - x2;
+    const b = y1 - y2;
+    return parseInt(Math.sqrt(a*a + b*b), 10);
   }
 }
 

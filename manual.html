@@ -166,7 +166,7 @@ print("este es programa", azar())</code></pre>
 
             Por ejemplo, si se llama a la función de esta forma:
 
-            <pre id="ejemplo"><code class="language-python"> print("hola mundo!", 11)</code></pre>
+            <pre id="ejemplo"><code class="language-python">print("hola mundo!", 11)</code></pre>
 
         </div>
 
@@ -174,11 +174,11 @@ print("este es programa", azar())</code></pre>
           <h3 id="manual-linea">linea</h3>
             Dibuja una linea de color entre dos puntos
 
-            <pre><code class="language-python">(x, y, x2, y2, color)</code></pre>
+            <pre><code class="language-python">linea(x, y, x2, y2, color)</code></pre>
 
             Por ejemplo, si se llama a la función de esta forma:
 
-            <pre id="ejemplo"><code class="language-python"> (5, 5, 200, 200, 12)</code></pre>
+            <pre id="ejemplo"><code class="language-python">linea(5, 5, 200, 200, 12)</code></pre>
 
             Se dibujará esta linea:
 
@@ -202,7 +202,7 @@ print("este es programa", azar())</code></pre>
           Por ejemplo, para pintar la pantalla de color
           blanco se puede invocar a la función de esta forma:
 
-          <pre id="ejemplo"><code class="language-python"> pintar(7)</code></pre>
+          <pre id="ejemplo"><code class="language-python">pintar(7)</code></pre>
         </div>
 
 
@@ -211,11 +211,11 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-pixel">pixel</h3>
           Dibuja un píxel.
 
-          <pre><code class="language-python"> pixel(x, y, color)</code></pre>
+          <pre><code class="language-python">pixel(x, y, color)</code></pre>
 
           Por ejemplo, para dibujar un pixel en el centro de la pantalla:
 
-          <pre id="ejemplo"><code class="language-python"> pixel(64, 64, 2)</code></pre>
+          <pre id="ejemplo"><code class="language-python">pixel(64, 64, 2)</code></pre>
         </div>
 
 
@@ -234,7 +234,7 @@ print("este es programa", azar())</code></pre>
           blanco en el centro de la pantalla se puede llamar
           a la función así:
 
-          <pre id="ejemplo"><code class="language-python"> circulo(64, 64, 25, 7, True)</code></pre>
+          <pre id="ejemplo"><code class="language-python">circulo(64, 64, 25, 7, True)</code></pre>
 
       </div>
 
@@ -243,7 +243,7 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-rectangulo">rectángulo</h3>
           Dibuja un rectángulo.
 
-          <pre><code class="language-python"> rectangulo(x, y, ancho, alto, color, relleno)</code></pre>
+          <pre><code class="language-python">rectangulo(x, y, ancho, alto, color, relleno)</code></pre>
 
           Esta función puede dibujar un rectángulo en la pantalla, el
           rectánculo se puede dibujar como un contorno o un
@@ -261,25 +261,25 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-dibujar">dibujar</h3>
           Dibuja un grafico del editor de pixeles sobre la pantalla.
 
-          <pre><code class="language-python"> dibujar(indice, x, y)</code></pre>
+          <pre><code class="language-python">dibujar(indice, x, y)</code></pre>
 
           Por ejemplo, para dibujar el primer
           grafico en el centro de la pantalla:
 
-          <pre id="ejemplo"><code class="language-python"> dibujar(0, 64, 64)</code></pre>
+          <pre id="ejemplo"><code class="language-python">dibujar(0, 64, 64)</code></pre>
         </div>
 
       <div>
         <h3 id="manual-sonido">sonido</h3>
           Reproduce un sonido de salto, explosión, monedas etc...
 
-          <pre><code class="language-python"> sonido(indice)</code></pre>
+          <pre><code class="language-python">sonido(indice)</code></pre>
 
           El índice tiene que ser un número entre 0 y 10 para indicar
           el tipo de sonido. Si no se envía un índice, la función va
           a reproducir un sonido al azar.
 
-          <pre id="ejemplo"><code class="language-python"> sonido()</code></pre>
+          <pre id="ejemplo"><code class="language-python">sonido()</code></pre>
 
           <pre id="ejemplo">sonido()</pre>
 
@@ -363,7 +363,7 @@ print("este es programa", azar())</code></pre>
 
           Por ejemplo, llamando a la función así:
 
-          <pre id="ejemplo"><code class="language-python"> azar()</code></pre>
+          <pre id="ejemplo"><code class="language-python">azar()</code></pre>
 
           El resultado podría ser cualquiera de estos
           números: 0, 1, 2, 3, 4 o inclusive 5
@@ -374,7 +374,7 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-esperar">esperar</h3>
           Deja pasar una cantidad determinada de segundos.
 
-          <pre><code class="language-python"> espera(segundos)</code></pre>
+          <pre><code class="language-python">espera(segundos)</code></pre>
 
           Tener en cuenta que a esta función podemos enviarle
           fracciones de segundos, para hacer pausas muy cortas. Por
@@ -384,9 +384,27 @@ print("este es programa", azar())</code></pre>
 
           Por ejemplo, llamando a la función así:
 
-          <pre id="ejemplo"><code class="language-python"> esperar(1/2)</code></pre>
+          <pre id="ejemplo"><code class="language-python">esperar(1/2)</code></pre>
 
           El programa esperará medio segundo.
+
+      </div>
+
+      <div>
+        <h3 id="manual-distancia">distancia</h3>
+          Retorna la distancia entre dos puntos
+
+          <pre><code class="language-python">distancia(x1, y1, x2, y2)</code></pre>
+
+          El número que se retornará es la cantidad de píxeles en
+          diagonal entre un punto y otro.
+
+          Por ejemplo, si se quiere saber la distancia entre la esquina
+          superior izquierda de la pantalla y el centro de la pantalla
+          se puede ejecutar la función así:
+
+          <pre id="ejemplo"><code class="language-python">distancia(0, 0, 50, 50)</code></pre>
+
 
       </div>
 
@@ -398,7 +416,7 @@ print("este es programa", azar())</code></pre>
 
           <pre><code class="language-python">seno(angulo_en_radios)</code></pre>
 
-          <pre id="ejemplo"><code class="language-python"> seno(0.5)</code></pre>
+          <pre id="ejemplo"><code class="language-python">seno(0.5)</code></pre>
 
       </div>
 
@@ -406,9 +424,9 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-coseno">coseno</h3>
           Retorna el valor del coseno de un argumento en radianes.
 
-          <pre><code class="language-python"> coseno(angulo_en_radios)</code></pre>
+          <pre><code class="language-python">coseno(angulo_en_radios)</code></pre>
 
-          <pre id="ejemplo"><code class="language-python"> coseno(0.5)</code></pre>
+          <pre id="ejemplo"><code class="language-python">coseno(0.5)</code></pre>
 
       </div>
 
@@ -416,9 +434,9 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-tangente">tangente</h3>
           Retorna el valor del tangente de un argumento en radianes.
 
-          <pre><code class="language-python"> tangente(angulo_en_radios)</code></pre>
+          <pre><code class="language-python">tangente(angulo_en_radios)</code></pre>
 
-          <pre id="ejemplo"><code class="language-python"> tangente(0.5)</code></pre>
+          <pre id="ejemplo"><code class="language-python">tangente(0.5)</code></pre>
 
       </div>
 
@@ -426,9 +444,9 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-arcotangente">arcotangente</h3>
           Retorna el valor del arcotangente de un argumento en radianes.
 
-          <pre><code class="language-python"> arcotangente(angulo_en_radios)</code></pre>
+          <pre><code class="language-python">arcotangente(angulo_en_radios)</code></pre>
 
-          <pre id="ejemplo"><code class="language-python"> arcotangente(0.5)</code></pre>
+          <pre id="ejemplo"><code class="language-python">arcotangente(0.5)</code></pre>
 
       </div>
 
@@ -436,7 +454,7 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-arcotangente2">arcotangente2</h3>
           Retorna el valor del arcotangente2 de un argumento en radianes.
 
-          <pre><code class="language-python"> arcotangente2(angulo_en_radios)</code></pre>
+          <pre><code class="language-python">arcotangente2(angulo_en_radios)</code></pre>
 
           <pre id="ejemplo"><code class="language-python">arcotangente2(0.5)</code></pre>
 
@@ -469,7 +487,7 @@ print("este es programa", azar())</code></pre>
           <pre><code class="language-python"> if derecha:
     print("ha pulsado derecha")</code></pre>
 
-          <pre id="ejemplo"><code class="language-python"> derecha</code></pre>
+          <pre id="ejemplo"><code class="language-python">derecha</code></pre>
 
       </div>
 
@@ -478,10 +496,10 @@ print("este es programa", azar())</code></pre>
           Indica si el jugador pulsó la tecla arriba
           del teclado o movió el gamepad en esa dirección.
 
-          <pre><code class="language-python"> if arriba:
+          <pre><code class="language-python">if arriba:
     print("ha pulsado arriba")</code></pre>
 
-          <pre id="ejemplo"><code class="language-python"> arriba</code></pre>
+          <pre id="ejemplo"><code class="language-python">arriba</code></pre>
 
       </div>
 
@@ -490,7 +508,7 @@ print("este es programa", azar())</code></pre>
           Indica si el jugador pulsó la tecla abajo
           del teclado o movió el gamepad en esa dirección.
 
-          <pre><code class="language-python"> if abajo:
+          <pre><code class="language-python">if abajo:
     print("ha pulsado abajo")</code></pre>
 
           <pre id="ejemplo"><code class="language-python">abajo</code></pre>
@@ -502,10 +520,10 @@ print("este es programa", azar())</code></pre>
           Indica si el jugador pulsó la tecla espacio
           del teclado o movió el gamepad en esa dirección.
 
-          <pre><code class="language-python"> if espacio:
+          <pre><code class="language-python">if espacio:
     print("ha pulsado espacio")</code></pre>
 
-          <pre id="ejemplo"><code class="language-python"> espacio</code></pre>
+          <pre id="ejemplo"><code class="language-python">espacio</code></pre>
 
       </div>
 
@@ -513,9 +531,9 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-izquieda">mouse_x</h3>
           Indica la posición horizontal del mouse.
 
-          <pre><code class="language-python"> print("mouse_x es " + mouse_x)</code></pre>
+          <pre><code class="language-python">print("mouse_x es " + mouse_x)</code></pre>
 
-          <pre id="ejemplo"><code class="language-python"> mouse_x</code></pre>
+          <pre id="ejemplo"><code class="language-python">mouse_x</code></pre>
 
       </div>
 
@@ -535,7 +553,7 @@ print("este es programa", azar())</code></pre>
         <h3 id="manual-click">click</h3>
           Indica si el botón del mouse está pulsado.
 
-          <pre><code class="language-python"> if click:
+          <pre><code class="language-python">if click:
     print("han hecho click !!!")</code></pre>
 
           <pre id="ejemplo" class="dn"><code class="language-python">click</code></pre>

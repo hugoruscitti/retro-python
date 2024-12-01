@@ -118,6 +118,9 @@ def dibujar(indice, x, y):
 def borrar():
   contexto.canvas.borrar()
 
+def distancia(x1, y1, x2, y2):
+  return contexto.canvas.distancia(x1, y1, x2, y2)
+
 def rectangulo(x, y, width, height, color, relleno):
   contexto.canvas.rectangulo(x, y, width, height, color, relleno)
 
