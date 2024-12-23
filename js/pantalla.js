@@ -1,17 +1,28 @@
 import Canvas from "./canvas.js";
+import CanvasNuevo from "./canvas-nuevo.js";
 
 class Pantalla extends HTMLElement {
 
   connectedCallback() {
     this.innerHTML = `
-      <div id='canvas'></div>
+      <div class="canvas-container">
+        <canvas id="gameCanvas" width="128" height="128"></canvas>
+      </div>
     `;
 
-    this.crearCanvasDePhaser();
+    this.crearCanvas();
+    //this.__deprecated__crearCanvasDePhaser();
     this.conectarEventos();
   }
 
-  crearCanvasDePhaser() {
+  crearCanvas() {
+    const canvas = document.getElementById("gameCanvas");
+    const contenedor = document.querySelector("retro-pantalla");
+
+    window.canvas = new CanvasNuevo(canvas, contenedor);
+  }
+
+  __deprecated__crearCanvasDePhaser() {
     const config = {
       type: Phaser.AUTO,
       width: 128,

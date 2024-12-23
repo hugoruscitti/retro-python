@@ -150,6 +150,8 @@ class RetroPythonApp extends HTMLElement {
     window.splitVertical = Split(['#result-panel', '#panel-de-codigo'], {
       gutterAlign: 'start',
       sizes: sizesSplitCentral,
+      minSize: [130],
+      snapOffset: 0,
       gutter: function() {
         const gutter = document.querySelector('#gutter')
         return gutter
@@ -157,14 +159,31 @@ class RetroPythonApp extends HTMLElement {
       onDragEnd: function(sizes) {
         localStorage.setItem('split-sizes-central', JSON.stringify(sizes))
       },
+      onDrag: function() {
+        // todo: enviar una señal acá.
+        ajustarTamaño();
+      }
     });
 
     window.splitHorizontal = Split(['retro-pantalla', 'retro-manual'], {
       direction: 'vertical',
       sizes: sizesSplitIzquierdo,
+      minSize: [128],
+      snapOffset: 0,
       onDragEnd: function(sizes) {
         localStorage.setItem('split-sizes-izquierdo', JSON.stringify(sizes))
       },
+      onDrag: function() {
+        // todo: enviar una señal acá.
+        ajustarTamaño();
+      }
+    });
+
+
+    ajustarTamaño();
+
+    window.addEventListener("resize", function() {
+      ajustarTamaño();
     });
 
   }
