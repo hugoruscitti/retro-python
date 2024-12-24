@@ -231,7 +231,6 @@ class Canvas extends Phaser.Scene {
     return Math.floor(Math.random() * (b - a + 1) + a);
   }
 
-
   seno(r) {
     return Math.sin(r);
   }
@@ -261,7 +260,6 @@ class Canvas extends Phaser.Scene {
 
   update() {
     const p = this.input.mousePointer;
-
 
     this.variables = {
       mouse_y: parseInt(p.worldY, 10),

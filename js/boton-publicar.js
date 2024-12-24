@@ -108,10 +108,10 @@ class BotonPublicar extends HTMLElement {
   }
 
   async capturarPantalla() {
+    const canvas = document.querySelector("#gameCanvas");
     return new Promise((success) => {
-      game.renderer.snapshot(function(img) {
-        success(img.src);
-      });
+      const src = canvas.toDataURL();
+      success(src);
     });
   }
 
