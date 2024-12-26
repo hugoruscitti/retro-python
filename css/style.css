@@ -460,6 +460,26 @@ div#canvas-pixelart {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+.overlay svg {
+  margin-right: 0.5em;
+}
+
+.overlay .texto {
+  color: white;
+}
+
+.overlay-texto {
+  display: flex;
+  align-items: center;
+}
+
+.barras-de-progreso {
+  color: white;
+  padding-top: 3em;
+  opacity: 0.75;
 }
 
 .textura {

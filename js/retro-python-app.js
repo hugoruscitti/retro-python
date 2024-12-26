@@ -58,11 +58,46 @@ class RetroPythonApp extends HTMLElement {
     this.innerHTML = `
 
     <div class="overlay" id="overlay">
-      <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <style>.spinner_ajPY{transform-origin:center;animation:spinner_AtaB .75s infinite linear}@keyframes spinner_AtaB{100%{transform:rotate(360deg)}}</style>
-        <path fill="white" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/>
-        <path fill="white" d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_ajPY"/>
-      </svg>
+
+      <div class="overlay-texto">
+        <svg width="26" height="26" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <style>.spinner_ajPY{transform-origin:center;animation:spinner_AtaB .75s infinite linear}@keyframes spinner_AtaB{100%{transform:rotate(360deg)}}</style>
+          <path fill="white" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/>
+          <path fill="white" d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_ajPY"/>
+        </svg>
+
+        <div class="texto">
+          Iniciando Python 3.12.1
+        </div>
+      </div>
+
+      <div>
+
+        <div class="barras-de-progreso">
+
+          <div>
+            <div>biblioteca stdlib</div>
+            <progress id='stdlib' value="0" step="0.01" max="1"></progress>
+          </div>
+
+          <div>
+            <div>entorno pyodide</div>
+            <progress id='pyodide' value="0" step="0.01" max="1"></progress>
+          </div>
+
+          <div>
+            <div>biblioteca parso</div>
+            <progress id='parso' value="0" step="0.01" max="1"></progress>
+          </div>
+
+          <div>
+            <div>biblioteca jedi</div>
+            <progress id='jedi' value="0" step="0.01" max="1"></progress>
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
     <retro-interprete></retro-interprete>
@@ -109,6 +144,32 @@ class RetroPythonApp extends HTMLElement {
     document.addEventListener("DOMContentLoaded", () => {
       this.crearSplitView();
     });
+
+    recibirMensaje(this, "señal-carga", (datos) => {
+
+      if (datos.url.includes("python_stdlib")) {
+        const progreso = this.querySelector("#stdlib");
+        progreso.value = datos.progreso;
+      }
+
+      if (datos.url.includes("jedi")) {
+        const progreso = this.querySelector("#jedi");
+        progreso.value = datos.progreso;
+      }
+
+      if (datos.url.includes("parso")) {
+        const progreso = this.querySelector("#parso");
+        progreso.value = datos.progreso;
+      }
+      
+      if (datos.url.includes("pyodide.asm.wasm")) {
+        const progreso = this.querySelector("#pyodide");
+        progreso.value = datos.progreso;
+      }
+
+    });
+
+
   }
 
   mostrarOverlay() {

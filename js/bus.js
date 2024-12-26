@@ -17,6 +17,7 @@ const EVENTOS = [
   "señal-pixelart-borra-pixel",
   "señal-actualizar-textura-del-proyecto",
   "señal-cambia-el-cuadro-en-la-grilla",
+  "señal-carga",
 ]
 
 function enviarMensaje(sender, name, datos) {

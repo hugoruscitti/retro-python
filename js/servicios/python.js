@@ -7,8 +7,46 @@ class ServicioPython {
   }
 
   async iniciar() {
+    console.log("Iniciando!!!");
+
+    let fetchOriginal = fetch;
+    let fetchWithProgress = async (url) => {
+      
+      const urlComoTexto = "" + url;
+
+      if (!urlComoTexto.includes("pyodide") && !urlComoTexto.includes("ace")) {
+        return fetchOriginal(url);
+      }
+
+      const response = await fetchOriginal(url);
+      // May be incorrect if compressed
+      const contentLength = response.headers.get("Content-Length");
+      const total = parseInt(contentLength, 10);
+
+      let bytesLoaded = 0;
+      const ts = new TransformStream({
+        transform (chunk, ctrl) {
+          // Put some custom progress function here.
+          bytesLoaded += chunk.byteLength;
+
+          enviarMensaje(this, "señal-carga", {
+            url: urlComoTexto,
+            progreso: bytesLoaded / total,
+          });
+
+          ctrl.enqueue(chunk)
+        }
+      });
+
+      return new Response(response.body.pipeThrough(ts), response);
+    }
+    globalThis.fetch = fetchWithProgress;
+
     this.pyodide = await loadPyodide();
     await this.pyodide.loadPackage("jedi");
+
+    globalThis.fetch = fetchOriginal; // put back original fetch
+
   }
 
   async ejecutar(codigoOriginal, textura, contexto) {
@@ -35,8 +73,6 @@ mouse_y = 64
 cuadro = 0
 click = False
 
-def __flip():
-  contexto.canvas.flip()
 
 def __actualizar_globales():
   global cuadro
@@ -45,7 +81,8 @@ def __actualizar_globales():
 
   cuadro += 1
 
-  mouse_x = contexto.canvas.variables.mouse_x
+  datos = contexto.canvas.actualizar()
+  mouse_x = datos.mouse_x
   mouse_y = contexto.canvas.variables.mouse_y
   click = contexto.canvas.variables.click
 
@@ -87,18 +124,15 @@ async def esperar(segundos=1):
     # interrumpe o no.
     if contexto.continuar_ejecucion():
       __actualizar_globales()
-      __flip()
       await asyncio.sleep(espera)
       segundos -= espera
     else:
       terminar()
 
 def terminar():
-    __flip()
     exit(0)
 
 def __fin():
-  __flip()
   contexto.__fin()
 
 def pintar(color):

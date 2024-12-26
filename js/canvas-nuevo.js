@@ -3,10 +3,9 @@ class CanvasNuevo {
   constructor(canvas, contenedor) {
     this.canvas = canvas;
 
-    // todo: completar esto mirando el archivo js/canvas.js
     this.variables = {
-      mouse_y: false,
-      mouse_x: false,
+      mouse_y: 22,
+      mouse_x: 4444,
       click: false,
       espacio: false,
       izquierda: false,
@@ -14,6 +13,8 @@ class CanvasNuevo {
       arriba: false,
       abajo: false,
     }
+
+    this.conectarEventos(canvas);
 
     this.colores = {
       0: "#000000",
@@ -48,7 +49,6 @@ class CanvasNuevo {
         return;
       }
 
-      console.log(scale);
         scale = Math.floor(scale);
         canvas.style.width = `${Math.round(scale * canvas.width)}px`;
         canvas.style.height = `${Math.round(scale * canvas.height)}px`;
@@ -60,11 +60,40 @@ class CanvasNuevo {
 
   }
 
+  conectarEventos(canvas) {
+    function cuandoPulsaTecla(evento) {
+      console.log("down", evento);
+    }
+
+    function cuandoSueltaTecla(evento) {
+      console.log("up", evento);
+    }
+
+    //window.addEventListener("keydown", cuandoPulsaTecla, false);
+    //window.addEventListener("keyup", cuandoSueltaTecla, false);
+
+    canvas.addEventListener("mousemove", (evento) => {
+      const escala = evento.target.clientWidth / 128;
+      const x = Math.floor(evento.offsetX / escala);
+      const y = Math.floor(evento.offsetY / escala);
+
+      console.log({x, y});
+      this.variables.mouse_x = x;
+      this.variables.mouse_y = y;
+
+    }, false);
+  }
+
+  actualizar() {
+    return this.variables;
+  }
+
   obtenerColor(key, defaultValue = 0x000000) {
     const indice = this.obtenerIndiceDeColor(key)
     const colorFinal = this.colores[indice] || defaultValue;
     return colorFinal;
   }
+
   obtenerIndiceDeColor(numero) {
     return Math.floor(Math.abs(numero || 0)) % 16;
   }
@@ -72,7 +101,6 @@ class CanvasNuevo {
   actualizarTextura(textura) {
     console.log(`Se debe actualizar la textura`);
   }
-
 
   borrar() {
     this.ctx.clearRect(0, 0, 128, 128);
@@ -101,7 +129,6 @@ class CanvasNuevo {
   arcotangente2(r) {
     return Math.atan2(r);
   }
-
 
   pixel(x, y, color) {
     const ctx = this.ctx;
@@ -182,12 +209,6 @@ class CanvasNuevo {
       this.linea(x, y+alto-1, x+ancho-1, y+alto-1, color);
       this.linea(x, y, x, y+alto-1, color);
     }
-  }
-
-
-
-
-  flip() {
   }
 
   print(texto, color, x, y) {
@@ -766,9 +787,7 @@ class CanvasNuevo {
       let matriz = letterMap[letra];
 
       if (matriz) {
-        console.log({filas: matriz.length});
         for (let fila=0; fila<matriz.length; fila++) {
-          console.log({columnas: matriz[fila].length});
           for (let columna=0; columna<matriz[fila].length; columna++) {
             if (matriz[fila][columna]) {
               this.pixel(x+columna + 6*i, y+fila, color);
