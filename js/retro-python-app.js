@@ -147,24 +147,28 @@ class RetroPythonApp extends HTMLElement {
 
     recibirMensaje(this, "señal-carga", (datos) => {
 
-      if (datos.url.includes("python_stdlib")) {
-        const progreso = this.querySelector("#stdlib");
-        progreso.value = datos.progreso;
-      }
+      if (isFinite(datos.progreso)) {
 
-      if (datos.url.includes("jedi")) {
-        const progreso = this.querySelector("#jedi");
-        progreso.value = datos.progreso;
-      }
+        if (datos.url.includes("python_stdlib")) {
+          const progreso = this.querySelector("#stdlib");
+          progreso.value = datos.progreso;
+        }
 
-      if (datos.url.includes("parso")) {
-        const progreso = this.querySelector("#parso");
-        progreso.value = datos.progreso;
-      }
-      
-      if (datos.url.includes("pyodide.asm.wasm")) {
-        const progreso = this.querySelector("#pyodide");
-        progreso.value = datos.progreso;
+        if (datos.url.includes("jedi")) {
+          const progreso = this.querySelector("#jedi");
+          progreso.value = datos.progreso;
+        }
+
+        if (datos.url.includes("parso")) {
+          const progreso = this.querySelector("#parso");
+          progreso.value = datos.progreso;
+        }
+        
+        if (datos.url.includes("pyodide.asm.wasm")) {
+          const progreso = this.querySelector("#pyodide");
+          progreso.value = datos.progreso;
+        }
+
       }
 
     });

@@ -199,12 +199,12 @@ a {
 }
 
 .gutter.gutter-horizontal {
-  background-image: url('/static/img/horizontal-gutter.png');
+  background-image: url('./static/img/horizontal-gutter.png');
   cursor: col-resize;
 }
 
 .gutter.gutter-vertical {
-  background-image: url('/static/img/vertical-gutter.png');
+  background-image: url('./static/img/vertical-gutter.png');
   cursor: row-resize;
   min-height: 10px;
 }

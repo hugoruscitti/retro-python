@@ -9,13 +9,13 @@ class Manual extends HTMLElement {
 
   crearHTML() {
     let iframe = document.createElement('iframe');
-    iframe.src = new URL('/manual.html', import.meta.url);
+    iframe.sandbox = "allow-forms allow-scripts allow-same-origin";
+    iframe.src = new URL('../manual.html', import.meta.url);
     this.appendChild(iframe);
   }
 
   conectarEventos() {
     const iframe = this.querySelector("iframe");
-
 
     iframe.addEventListener("load", () => {
       const contenido = iframe.contentDocument.querySelector(".retro-manual").innerHTML;

@@ -4,7 +4,8 @@ all:
 	@echo ""
 	@echo "  make iniciar"
 	@echo "  make ejecutar"
-	@echo "  make crear-imagenes-de-fuentes"
+	@echo "  make electron"
+	@echo "  make binarios"
 	@echo ""
 
 iniciar:
@@ -13,5 +14,11 @@ iniciar:
 ejecutar:
 	npm run dev
 
-crear-imagenes-de-fuentes:
-	python utils/crear-imagenes-de-fuentes.py
+binarios:
+	@echo "este comando demorará unos 10 o 15 minutos ..."
+	CSC_IDENTITY_AUTO_DISCOVERY=false time ./node_modules/.bin/electron-builder -mwl
+	@echo "los archivos generados están en el directorio 'dist'"
+	ls dist/retro-python* | grep -v block
+
+electron:
+	./node_modules/.bin/electron .
