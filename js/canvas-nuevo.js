@@ -98,8 +98,19 @@ class CanvasNuevo {
     return Math.floor(Math.abs(numero || 0)) % 16;
   }
 
-  actualizarTextura(textura) {
-    console.log(`Se debe actualizar la textura`);
+  async actualizarTextura(textura) {
+    return new Promise((success) => {
+      this.image = new Image();
+      this.image.onload = function() {
+        success();
+      };
+      this.image.src = textura;
+    });
+  }
+
+  dibujar(indice, x, y) {
+    const columna = indice % 16;
+    this.ctx.drawImage(this.image, columna * 8, 0, 8, 8, x, y, 8, 8);
   }
 
   borrar() {

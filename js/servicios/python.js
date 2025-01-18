@@ -52,7 +52,7 @@ class ServicioPython {
   async ejecutar(codigoOriginal, textura, contexto) {
     this.pyodide.registerJsModule("contexto", contexto);
 
-    contexto.canvas.actualizarTextura(textura);
+    await contexto.canvas.actualizarTextura(textura);
     //contexto.canvas.textures.remove('sprites');
     //contexto.canvas.load.spritesheet("sprites", textura, { frameWidth: 8, frameHeight: 8 } );
     //contexto.canvas.load.start();
