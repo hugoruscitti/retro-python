@@ -22,9 +22,7 @@ class AcercaDe extends HTMLElement {
       <span class="ocultar-en-mobile">Acerca de...</span>
     </button>
 
-      <dialog id="dialogo-acerca-de" class="texto">
-        <h1>retro-python</h1>
-
+      <dialog id="dialogo-acerca-de" class="texto pa3">
         <p>retro-python es una aplicación para fomentar
         la creatividad. Te permite crear dibujos, animaciones
         y videojuegos utilizando código en un lenguaje
@@ -71,6 +69,13 @@ class AcercaDe extends HTMLElement {
 
     boton.addEventListener("click", function() {
       dialogo.showModal();
+    });
+
+    // permite cerrar el diálogo si hacen click fuera del area principal.
+    dialogo.addEventListener("click", (evento) => {
+      if (evento.target.tagName  === "DIALOG") {
+        dialogo.close();
+      }
     });
   }
 

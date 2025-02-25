@@ -1,15 +1,7 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
-import { HOST } from "./configuracion.js";
 import { proyecto } from "./proyecto.js";
-import { python } from "./servicios/python.js";
+import { cargarProyecto, cargarEjemplo, esperar } from "./utils.js";
 
-
-function esperar(mensaje) {
-  return new Promise((success) => {
-    console.log("***", mensaje);
-    setTimeout(success, 50);
-  });
-}
 
 class RetroPythonApp extends HTMLElement {
 
@@ -21,38 +13,19 @@ class RetroPythonApp extends HTMLElement {
   }
 
   async iniciar() {
-    await esperar("iniciando el proyecto");
-
     if (window.location.search.includes("proyecto=")) {
       const proyecto = /proyecto=(.*)/.exec(window.location.search)[1];
-      await this.cargarProyecto(proyecto);
+      const data = await cargarProyecto(proyecto);
+      enviarMensaje(this, "señal-cargar-proyecto", data);
     } else {
       const data = proyecto.obtenerProyectoCompleto();
-      console.log(data);
       enviarMensaje(this, "señal-cargar-proyecto", data);
     }
-
-    await esperar("listo, comenzando a cargar pyodide");
-    await python.iniciar();
 
     this.ocultarOverlay();
 
   }
 
-  cargarProyecto(hashDeProyecto) {
-    return new Promise((success, error) => {
-      const url = `${HOST}/obtener/${hashDeProyecto}`;
-      fetch(url)
-        .then(resolve => resolve.json())
-        .then(data => {
-          enviarMensaje(this, "señal-cargar-proyecto", data);
-          success(data);
-        })
-        .catch((err) => {
-          error(err);
-        });
-    });
-  }
 
   crearHTML() {
     this.innerHTML = `
@@ -106,9 +79,8 @@ class RetroPythonApp extends HTMLElement {
 
       <div class="center-layout">
 
-        <div class="result-panel" id="result-panel">
-          <retro-run-indicator></retro-run-indicator>
-
+        <div class="panel-de-la-pantalla" id="result-panel">
+          <retro-barra-de-botones-de-pantalla></retro-barra-de-botones-de-pantalla>
           <retro-pantalla></retro-pantalla>
           <retro-manual></retro-manual>
         </div>
@@ -125,7 +97,6 @@ class RetroPythonApp extends HTMLElement {
       </div>
 
       <div class="footer">
-        <retro-acerca-de></retro-acerca-de>
       </div>
 
     </div>
@@ -143,6 +114,14 @@ class RetroPythonApp extends HTMLElement {
   conectarEventos() {
     document.addEventListener("DOMContentLoaded", () => {
       this.crearSplitView();
+    });
+
+    recibirMensaje(this, "señal-abrir-ejemplo-local", async (datos) => {
+      enviarMensaje(this, "señal-detener-la-ejecución");
+      await esperar(0.1);
+      const ejemplo = await cargarEjemplo(datos.nombre);
+      enviarMensaje(this, "señal-cargar-proyecto", ejemplo);
+      enviarMensaje(this, "señal-comenzar-a-ejecutar");
     });
 
     recibirMensaje(this, "señal-carga", (datos) => {
@@ -233,7 +212,7 @@ class RetroPythonApp extends HTMLElement {
     window.splitHorizontal = Split(['retro-pantalla', 'retro-manual'], {
       direction: 'vertical',
       sizes: sizesSplitIzquierdo,
-      minSize: [128],
+      minSize: [128, 90],
       snapOffset: 0,
       onDragEnd: function(sizes) {
         localStorage.setItem('split-sizes-izquierdo', JSON.stringify(sizes))
@@ -243,7 +222,6 @@ class RetroPythonApp extends HTMLElement {
         ajustarTamaño();
       }
     });
-
 
     ajustarTamaño();
 

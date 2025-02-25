@@ -26,7 +26,7 @@ class Configuracion extends HTMLElement {
       <dialog id="dialogo-configuracion" class="texto">
 
 
-      <div id="config" class="no-user-select">
+      <div id="config" class="no-user-select pa2">
 
         <div class="contenido-dialogo-de-configuracion">
           <!-- TODO: opción desactivada -->

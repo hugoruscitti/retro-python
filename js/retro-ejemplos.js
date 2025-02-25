@@ -1,5 +1,6 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
 import { HOST } from "./configuracion.js";
+import { cargarProyecto } from "./utils.js";
 
 
 class RetroEjemplos extends HTMLElement {
@@ -53,9 +54,11 @@ class RetroEjemplos extends HTMLElement {
   conectarEventos() {
     const boton = this.querySelector("#abrir-ejemplos");
     const dialogo = this.querySelector("dialog");
+    const contenedor = this.querySelector("#contenido-de-ejemplos");
 
     boton.addEventListener("click", () => {
       dialogo.showModal();
+      enviarMensaje(this, "señal-detener-la-ejecución");
 
       if (!this.ejemplosCargados) {
         this.cargarEjemplos();
@@ -65,6 +68,17 @@ class RetroEjemplos extends HTMLElement {
     dialogo.addEventListener("click", (evento) => {
       if (evento.target.tagName  === "DIALOG") {
         dialogo.close();
+      }
+    });
+
+    contenedor.addEventListener("click", async (evento) => {
+      if (evento.target.tagName == "IMG") {
+        const hash = evento.target.parentNode.dataset.hash;
+        const data = await cargarProyecto(hash);
+        enviarMensaje(this, "señal-detener-la-ejecución");
+        enviarMensaje(this, "señal-cargar-proyecto", data);
+        dialogo.close();
+        enviarMensaje(this, "señal-comenzar-a-ejecutar");
       }
     });
   }
@@ -79,8 +93,8 @@ class RetroEjemplos extends HTMLElement {
     const ejemplosComoHTML = respuesta.ejemplos.map((e) => {
       return `
         <div>
-          <a href="/editor.html?proyecto=${e.hash}">
-            <img src="${e.screenshot}">
+          <a href="#" data-hash="${e.hash}">
+            <img class="bg-light-gray" src="${e.screenshot}">
           </a>
         </div>
       `;

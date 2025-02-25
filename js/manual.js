@@ -18,10 +18,27 @@ class Manual extends HTMLElement {
     const iframe = this.querySelector("iframe");
 
     iframe.addEventListener("load", () => {
-      const contenido = iframe.contentDocument.querySelector(".retro-manual").innerHTML;
+      const div = iframe.contentDocument.querySelector(".retro-manual");
 
-      enviarMensaje(this, "señal-manual-cargado", {contenido});
+      // se envía la señal indicando que se cargó el manual solo
+      // si el usuario abrió la sección del manual. Este condicional
+      // está acá porque este mismo iframe puede abrir otras secciones
+      // que no son el manual, como la sección "ejemplos".
+      if (div) {
+        const contenido = div.innerHTML;
+        enviarMensaje(this, "señal-manual-cargado", {contenido});
+      }
     });
+
+    // si llega un mensaje desde el iframe:
+    window.addEventListener("message", function(evento) {
+      if (evento.data.id == "mensaje-abrir-ejemplo") {
+        enviarMensaje(this, "señal-abrir-ejemplo-local", {
+          nombre: evento.data.nombre
+        });
+      }
+    });
+
 
   }
 

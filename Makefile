@@ -41,9 +41,9 @@ crear-binarios:
 	@echo "${Y}Este comando demorará unos 10 o 15 minutos ...${N}"
 	@sleep 2
 	@echo "Borrando binarios anteriores..."
-	rm dist/retro-python*
+	rm -rf dist/retro-python*
 	@sleep 1
-	CSC_IDENTITY_AUTO_DISCOVERY=false time ./node_modules/.bin/electron-builder -mwl
+	CSC_IDENTITY_AUTO_DISCOVERY=false time ./node_modules/.bin/electron-builder -mwl --universal
 	@echo "${Y}los archivos generados están en el directorio 'dist'${N}"
 	ls dist/retro-python* | grep -v block
 	@echo "${Y}el siguiente paso es subirlos como release aquí https://github.com/hugoruscitti/retro-python/tags${N}"

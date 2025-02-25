@@ -6852,6 +6852,27 @@ exports.handler = {
         var editor = data.editor;
         var cm = editor.state.cm;
         var vim = getVim(cm);
+
+
+        // INICIO: Personalización para retro-python:
+        // este código permite ejecutar el código si se pulsa <SPACE> dos veces muy
+        // rápido cuando se está en modo normal de vim.
+        if (!vim.insertMode && key === "space") {
+          const ahora = new Date().getTime();
+
+          if (window.ultimaPulsacionDeSpace) {
+            const dt = (ahora - window.ultimaPulsacionDeSpace) / 1000;
+
+            if (dt < 0.4) {
+              return { command: "RUN", passEvent: true };
+            }
+
+          }
+
+          window.ultimaPulsacionDeSpace = ahora;
+        }
+        // FIN: Personalización para retro-python:
+
         if (keyCode == -1)
             return;
         if (!vim.insertMode) {

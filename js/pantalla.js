@@ -1,44 +1,121 @@
-import Canvas from "./canvas.js";
-import CanvasNuevo from "./canvas-nuevo.js";
+import { conectarCanvasAlWorker, detenerEjecucionDePython, actualizarEstadoDelTeclado, enviarEventoDelMouse } from "./servicios/workerApi.mjs";
 
 class Pantalla extends HTMLElement {
 
   connectedCallback() {
     this.innerHTML = `
       <div class="canvas-container">
-        <canvas id="gameCanvas" width="128" height="128"></canvas>
+        <canvas tabindex="1" id="gameCanvas" width="128" height="128"></canvas>
       </div>
     `;
 
     this.crearCanvas();
-    //this.__deprecated__crearCanvasDePhaser();
-    this.conectarEventos();
   }
 
   crearCanvas() {
     const canvas = document.getElementById("gameCanvas");
     const contenedor = document.querySelector("retro-pantalla");
 
-    window.canvas = new CanvasNuevo(canvas, contenedor);
+    conectarCanvasAlWorker(canvas);
+
+    canvas.addEventListener("keydown", (evento) => {
+      const tecla = evento.code;
+
+      if (tecla === "Escape") {
+        detenerEjecucionDePython();
+      }
+
+      if (tecla === "ArrowLeft" || tecla === "KeyH") {
+        actualizarEstadoDelTeclado({izquierda: true});
+      }
+
+      if (tecla === "ArrowUp" || tecla === "KeyK") {
+        actualizarEstadoDelTeclado({arriba: true});
+      }
+
+      if (tecla === "ArrowRight" || tecla === "KeyL") {
+        actualizarEstadoDelTeclado({derecha: true});
+      }
+
+      if (tecla === "ArrowDown" || tecla === "KeyJ") {
+        actualizarEstadoDelTeclado({abajo: true});
+      }
+
+      if (tecla === "Space" || tecla === "KeyZ" || tecla === "KeyC") {
+        actualizarEstadoDelTeclado({boton: true});
+      }
+
+      if (tecla === "KeyX") {
+        actualizarEstadoDelTeclado({boton_secundario: true});
+      }
+
+    }, false);
+
+    canvas.addEventListener("keyup", (evento) => {
+      const tecla = evento.code;
+
+      if (tecla === "ArrowLeft" || tecla === "KeyH") {
+        actualizarEstadoDelTeclado({izquierda: false});
+      }
+
+      if (tecla === "ArrowUp" || tecla === "KeyK") {
+        actualizarEstadoDelTeclado({arriba: false});
+      }
+
+      if (tecla === "ArrowRight" || tecla === "KeyL") {
+        actualizarEstadoDelTeclado({derecha: false});
+      }
+
+      if (tecla === "ArrowDown" || tecla === "KeyJ") {
+        actualizarEstadoDelTeclado({abajo: false});
+      }
+    }, false);
+
+    canvas.addEventListener("mousemove", (evento) => {
+      const escala = evento.target.clientWidth / 128;
+      const x = Math.floor(evento.offsetX / escala);
+      const y = Math.floor(evento.offsetY / escala);
+      enviarEventoDelMouse({x, y});
+    }, false);
+
+    canvas.addEventListener("mousedown", (evento) => {
+      const escala = evento.target.clientWidth / 128;
+      const x = Math.floor(evento.offsetX / escala);
+      const y = Math.floor(evento.offsetY / escala);
+      enviarEventoDelMouse({x, y, click: evento.which === 1});
+    }, false);
+
+    canvas.addEventListener("mouseup", (evento) => {
+      const escala = evento.target.clientWidth / 128;
+      const x = Math.floor(evento.offsetX / escala);
+      const y = Math.floor(evento.offsetY / escala);
+      enviarEventoDelMouse({x, y, click: !(evento.which === 1)});
+    }, false);
+
+    this.conectarFuncionParaAjustarTamaño(canvas, contenedor);
   }
 
-  __deprecated__crearCanvasDePhaser() {
-    const config = {
-      type: Phaser.AUTO,
-      width: 128,
-      height: 128,
-      mode: Phaser.Scale.FIT,
-      autoCenter: Phaser.Scale.CENTER_BOTH,
-      backgroundColor: "#777777",
-      pixelArt: true,
-      parent: 'canvas',
-      scene: Canvas
-    };
+  conectarFuncionParaAjustarTamaño(canvas, contenedor) {
 
-    window.game = new Phaser.Game(config);
-  }
+    function ajustarTamaño() {
+        let scale = Math.min(
+          contenedor.clientWidth / canvas.width,
+          contenedor.clientHeight / canvas.height
+        );
 
-  conectarEventos() {
+      if (scale < 1) {
+        return;
+      }
+
+        scale = Math.floor(scale);
+        canvas.style.width = `${Math.round(scale * canvas.width)}px`;
+        canvas.style.height = `${Math.round(scale * canvas.height)}px`;
+      canvas.setAttribute("scale", scale);
+      }
+
+    // TODO: evitar exponer esta función acá, en lugar
+    // de eso generar un evento y responder a el.
+    window.ajustarTamaño = ajustarTamaño; 
   }
 }
 

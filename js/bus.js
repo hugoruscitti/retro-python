@@ -2,7 +2,6 @@ window.DEBUG_BUS = true;
 
 const EVENTOS = [
   "señal-comenzar-a-ejecutar",          // Inicia el programa.
-  "señal-activar-modo-live", // Define si tiene que ejecutar al editar o no.
   "señal-detener-la-ejecución",         // Define si tiene que ejecutar al editar o no.
   "señal-activar-el-modo-vim",  // indica si se activó o no el modo vim
   "señal-manual-cargado", // cuando el iframe del manual se carga por completo
@@ -18,6 +17,8 @@ const EVENTOS = [
   "señal-actualizar-textura-del-proyecto",
   "señal-cambia-el-cuadro-en-la-grilla",
   "señal-carga",
+  "señal-cargar-editor-pixelart",
+  "señal-abrir-ejemplo-local",
 ]
 
 function enviarMensaje(sender, name, datos) {
