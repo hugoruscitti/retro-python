@@ -1,8 +1,7 @@
-window.DEBUG_BUS = false;
+window.DEBUG_BUS = true;
 
 const EVENTOS = [
   "señal-comenzar-a-ejecutar",          // Inicia el programa.
-  "señal-activar-modo-live", // Define si tiene que ejecutar al editar o no.
   "señal-detener-la-ejecución",         // Define si tiene que ejecutar al editar o no.
   "señal-activar-el-modo-vim",  // indica si se activó o no el modo vim
   "señal-manual-cargado", // cuando el iframe del manual se carga por completo
@@ -17,6 +16,8 @@ const EVENTOS = [
   "señal-pixelart-borra-pixel",
   "señal-actualizar-textura-del-proyecto",
   "señal-cambia-el-cuadro-en-la-grilla",
+  "señal-cargar-editor-pixelart",
+  "señal-abrir-ejemplo-local",
 ]
 
 function enviarMensaje(sender, name, datos) {
@@ -46,6 +47,7 @@ function recibirMensaje(receiver, name, callback) {
   window.addEventListener(name, (e) => {
     if (window.DEBUG_BUS) {
       console.log("Receptor →", receiver);
+      console.log(callback);
     }
 
     callback.call(this, e.detail, e);

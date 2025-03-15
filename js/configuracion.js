@@ -2,6 +2,7 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 
 //const HOST = "http://127.0.0.1:8000";
 const HOST = "https://retro-python-backend.pilas-engine.com.ar";
+const CONFIRMAR_CIERRE = false;
 
 class Configuracion extends HTMLElement {
 
@@ -26,7 +27,7 @@ class Configuracion extends HTMLElement {
       <dialog id="dialogo-configuracion" class="texto">
 
 
-      <div id="config" class="no-user-select">
+      <div id="config" class="no-user-select pa2">
 
         <div class="contenido-dialogo-de-configuracion">
           <!-- TODO: opción desactivada -->
@@ -84,4 +85,4 @@ class Configuracion extends HTMLElement {
 
 }
 
-export { Configuracion, HOST };
+export { Configuracion, HOST, CONFIRMAR_CIERRE };

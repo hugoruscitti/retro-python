@@ -23,22 +23,23 @@ class EditorPixelart extends HTMLElement {
       <dialog>
         <div class="contenedor-editor-pixelart">
 
-        <div class="flex">
-          <div>
-            <retro-pixelart-canvas></retro-pixelart-canvas>
+          <div class="flex">
+            <div>
+              <retro-pixelart-canvas></retro-pixelart-canvas>
+            </div>
+            <div>
+              <retro-pixelart-colores></retro-pixelart-colores>
+            </div>
           </div>
-          <div>
-            <retro-pixelart-colores></retro-pixelart-colores>
+
+          <div class="contenedor-canvas-textura">
+            <retro-cuadros-de-textura-pixelart></retro-cuadros-de-textura-pixelart>
           </div>
+
+          <retro-boton-volver/>
+
         </div>
 
-        <div class="contenedor-canvas-textura">
-          <retro-cuadros-de-textura-pixelart></retro-cuadros-de-textura-pixelart>
-        </div>
-
-        <retro-boton-volver/>
-
-</div>
       </dialog>
     `;
   }
@@ -48,6 +49,8 @@ class EditorPixelart extends HTMLElement {
     const dialogo = this.querySelector("dialog");
     
     boton.addEventListener("click", () => {
+      enviarMensaje(this, "señal-detener-la-ejecución", {});
+      enviarMensaje(this, "señal-cargar-editor-pixelart", {});
       dialogo.showModal();
     });
 

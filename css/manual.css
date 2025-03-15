@@ -26,3 +26,15 @@ img {
 .dn {
   display: none;
 }
+
+      a {
+        text-decoration: none;
+      }
+
+      #subir {
+        position: fixed;
+        right: 0.5em;
+        bottom: 0.5em;
+        cursor: pointer;
+        line-height: 1.5;
+      }

@@ -7,14 +7,7 @@ class Editor extends HTMLElement {
   connectedCallback() {
     this.runOnChange = false;
 
-    this.innerHTML = `
-      <div id="editor"></div>
-      <!--
-      <div id="editor-asistente">
-        <input type='range' id='control'></input>
-      </div>
-      -->
-    `;
+    this.innerHTML = `<div id="editor"></div>`;
     this.editor = this.createAceEditor();
     this.conectarEventos();
 
@@ -31,13 +24,49 @@ class Editor extends HTMLElement {
     recibirMensaje(this, "señal-activar-el-modo-vim", (data) => {
       if (data.enabled) {
         this.editor.setKeyboardHandler("ace/keyboard/vim");
+
+        ace.config.loadModule("ace/keybinding/vim", function() {
+          const Vim = require("ace/keyboard/vim").Vim
+          // space en modo normal no avanza, esto es útil
+          // para el atajo de dos space para guardar.
+          Vim.map("<Space>", "lh", "normal")
+        });
+
       } else {
         this.editor.setKeyboardHandler();
       }
     });
 
-    recibirMensaje(this, "señal-activar-modo-live", (data) => {
-      this.runOnChange = data.enabled;
+    recibirMensaje(this, "señal-comenzar-a-ejecutar", () => {
+      this.editor.setReadOnly(true);
+
+      const editor = document.querySelector("#editor");
+      editor.style.opacity = "0.75";
+
+      const canvas = document.querySelector("canvas#gameCanvas");
+      canvas.focus();
+      canvas.click();
+    });
+
+    recibirMensaje(this, "señal-detener-la-ejecución", () => {
+      this.editor.setReadOnly(false);
+
+      function hacerFocoEnElEditor() {
+        const error = document.querySelector("#error");
+
+        // Intenta hacer foco de nuevo en el editor, excepto
+        // que exista un error.
+        if (error.style.display == "none") {
+          this.editor.focus();
+        }
+      }
+
+      setTimeout(hacerFocoEnElEditor.bind(this), 100);
+      setTimeout(hacerFocoEnElEditor.bind(this), 200);
+      setTimeout(hacerFocoEnElEditor.bind(this), 500);
+
+      const editor = document.querySelector("#editor");
+      editor.style.opacity = "1";
     });
 
     recibirMensaje(this, "señal-manual-cargado", (data) => {
@@ -47,24 +76,6 @@ class Editor extends HTMLElement {
       // del manual se cargó por completo.
       this.activarAutocompletado(data.contenido);
     });
-
-    /*
-    this.querySelector("#control").addEventListener("input", (e) => {
-      const valor = e.target.value; 
-      const seleccion = {
-        start: {
-          row: 0,
-          column: this.editor.session.doc.$lines[0].indexOf("(") + 1,
-        }, 
-        end: {
-          row: 0,
-          column: this.editor.session.doc.$lines[0].indexOf(")")
-        }
-      };
-
-      this.editor.session.doc.replace(seleccion, valor);
-    });
-    */
 
   }
 
@@ -83,8 +94,9 @@ class Editor extends HTMLElement {
       fontSize: "12pt"
     });
 
-    //editor.setKeyboardHandler("ace/keyboard/vim");
+    editor.setKeyboardHandler("ace/keyboard/vim");
     editor.setHighlightActiveLine(false);
+    editor.setShowPrintMargin(false);
 
     recibirMensaje(this, "señal-activar-modo-oscuro", (data) => {
       if (data.activado) {
@@ -98,16 +110,6 @@ class Editor extends HTMLElement {
 
       const codigo = this.editor.getValue();
       proyecto.actualizarCodigo(codigo);
-
-
-      // Intenta ejecutar el código
-      /*
-      debounce("live", () => {
-        if (this.runOnChange) {
-          enviarMensaje(this, "señal-comenzar-a-ejecutar");
-        }
-      }, 500);
-      */
 
     });
       
@@ -146,9 +148,8 @@ class Editor extends HTMLElement {
         type: "snippet",
         doc: div.innerHTML,
       }
-    })
+    });
 
-    //this.editor.commands.off('afterExec', autocompletar);
     this.editor.commands.on('afterExec', window.doLiveAutocomplete);
 
     this.editor.completers = [{

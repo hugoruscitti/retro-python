@@ -6,6 +6,10 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
   connectedCallback() {
     this.crearHTML();
     this.conectarEventos();
+  }
+
+  /* se ejecuta cuando llega la señal señal-cargar-editor-pixelart */
+  recargar() {
     this.cuadro = 0;
 
     /* 
@@ -21,6 +25,7 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
     var imagenTemporal = new Image();
 
     imagenTemporal.onload = () => {
+      ctx.clearRect(0, 0, 128, 128);
       ctx.drawImage(imagenTemporal, 0, 0);
 
       const datos = this.obtenerColoresDeLaGrilla(0, 0);
@@ -51,7 +56,7 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
   guardarCambiosEnLaTextura() {
     const canvas = this.querySelector("#textura")
     const textura = canvas.toDataURL();
-    enviarMensaje(this, "señal-actualizar-textura-del-proyecto", {textura});
+    enviarMensaje(this, "señal-actualizar-textura-del-proyecto", {textura, ancho: 128, alto: 40});
   }
 
   conectarEventos() {
@@ -62,6 +67,10 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
     const canvas = this.querySelector("#textura")
     const cuadro = this.querySelector("#cuadro")
     const cuadroEjemplo = this.querySelector("#cuadroEjemplo")
+
+    recibirMensaje(this, "señal-cargar-editor-pixelart", () => {
+      this.recargar();
+    });
 
     canvas.addEventListener("mousemove", (evento) => {
       let columna = parseInt(evento.offsetX / 32, 10);
@@ -109,6 +118,7 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
     boton.addEventListener("click", function() {
       enviarMensaje(this, "señal-alternar-fondo-transparente", {});
     });
+
 
   }
 

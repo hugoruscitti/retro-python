@@ -1,15 +1,8 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
-import { HOST } from "./configuracion.js";
 import { proyecto } from "./proyecto.js";
-import { python } from "./servicios/python.js";
+import { cargarProyecto, cargarEjemplo, esperar } from "./utils.js";
+import { CONFIRMAR_CIERRE } from "./configuracion.js";
 
-
-function esperar(mensaje) {
-  return new Promise((success) => {
-    console.log("***", mensaje);
-    setTimeout(success, 50);
-  });
-}
 
 class RetroPythonApp extends HTMLElement {
 
@@ -21,48 +14,42 @@ class RetroPythonApp extends HTMLElement {
   }
 
   async iniciar() {
-    await esperar("iniciando el proyecto");
 
     if (window.location.search.includes("proyecto=")) {
       const proyecto = /proyecto=(.*)/.exec(window.location.search)[1];
-      await this.cargarProyecto(proyecto);
+      const data = await cargarProyecto(proyecto);
+      enviarMensaje(this, "señal-cargar-proyecto", data);
     } else {
       const data = proyecto.obtenerProyectoCompleto();
-      console.log(data);
       enviarMensaje(this, "señal-cargar-proyecto", data);
     }
 
-    await esperar("listo, comenzando a cargar pyodide");
-    await python.iniciar();
-
     this.ocultarOverlay();
-
   }
 
-  cargarProyecto(hashDeProyecto) {
-    return new Promise((success, error) => {
-      const url = `${HOST}/obtener/${hashDeProyecto}`;
-      fetch(url)
-        .then(resolve => resolve.json())
-        .then(data => {
-          enviarMensaje(this, "señal-cargar-proyecto", data);
-          success(data);
-        })
-        .catch((err) => {
-          error(err);
-        });
-    });
-  }
 
   crearHTML() {
     this.innerHTML = `
 
     <div class="overlay" id="overlay">
-      <svg width="64" height="64" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <style>.spinner_ajPY{transform-origin:center;animation:spinner_AtaB .75s infinite linear}@keyframes spinner_AtaB{100%{transform:rotate(360deg)}}</style>
-        <path fill="white" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/>
-        <path fill="white" d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_ajPY"/>
-      </svg>
+
+      <div class="overlay-texto">
+        <svg width="26" height="26" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <style>.spinner_ajPY{transform-origin:center;animation:spinner_AtaB .75s infinite linear}@keyframes spinner_AtaB{100%{transform:rotate(360deg)}}</style>
+          <path fill="white" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/>
+          <path fill="white" d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z" class="spinner_ajPY"/>
+        </svg>
+
+        <div class="texto">
+          Iniciando Python 3.12.1
+        </div>
+      </div>
+
+      <div>
+
+
+      </div>
+
     </div>
 
     <retro-interprete></retro-interprete>
@@ -71,9 +58,8 @@ class RetroPythonApp extends HTMLElement {
 
       <div class="center-layout">
 
-        <div class="result-panel" id="result-panel">
-          <retro-run-indicator></retro-run-indicator>
-
+        <div class="panel-de-la-pantalla" id="result-panel">
+          <retro-barra-de-botones-de-pantalla></retro-barra-de-botones-de-pantalla>
           <retro-pantalla></retro-pantalla>
           <retro-manual></retro-manual>
         </div>
@@ -90,18 +76,12 @@ class RetroPythonApp extends HTMLElement {
       </div>
 
       <div class="footer">
-        <retro-acerca-de></retro-acerca-de>
       </div>
 
     </div>
 
-
-
-
-
-
-      <div id="retro-python-app">
-      </div>
+    <div id="retro-python-app">
+    </div>
     `;
   }
 
@@ -109,6 +89,27 @@ class RetroPythonApp extends HTMLElement {
     document.addEventListener("DOMContentLoaded", () => {
       this.crearSplitView();
     });
+
+    recibirMensaje(this, "señal-abrir-ejemplo-local", async (datos) => {
+      enviarMensaje(this, "señal-detener-la-ejecución");
+      await esperar(0.1);
+      const ejemplo = await cargarEjemplo(datos.nombre);
+      enviarMensaje(this, "señal-cargar-proyecto", ejemplo);
+      enviarMensaje(this, "señal-comenzar-a-ejecutar");
+    });
+
+    if (CONFIRMAR_CIERRE) {
+      window.onbeforeunload = function (e) {
+        e = e || window.event;
+
+        if (e) {
+          e.returnValue = 'Quieres cerrar la ventana?';
+        }
+
+        return 'Quieres cerrar la ventana?';
+      };
+    }
+
   }
 
   mostrarOverlay() {
@@ -150,6 +151,8 @@ class RetroPythonApp extends HTMLElement {
     window.splitVertical = Split(['#result-panel', '#panel-de-codigo'], {
       gutterAlign: 'start',
       sizes: sizesSplitCentral,
+      minSize: [130],
+      snapOffset: 0,
       gutter: function() {
         const gutter = document.querySelector('#gutter')
         return gutter
@@ -157,14 +160,30 @@ class RetroPythonApp extends HTMLElement {
       onDragEnd: function(sizes) {
         localStorage.setItem('split-sizes-central', JSON.stringify(sizes))
       },
+      onDrag: function() {
+        // todo: enviar una señal acá.
+        ajustarTamaño();
+      }
     });
 
     window.splitHorizontal = Split(['retro-pantalla', 'retro-manual'], {
       direction: 'vertical',
       sizes: sizesSplitIzquierdo,
+      minSize: [128, 90],
+      snapOffset: 0,
       onDragEnd: function(sizes) {
         localStorage.setItem('split-sizes-izquierdo', JSON.stringify(sizes))
       },
+      onDrag: function() {
+        // todo: enviar una señal acá.
+        ajustarTamaño();
+      }
+    });
+
+    ajustarTamaño();
+
+    window.addEventListener("resize", function() {
+      ajustarTamaño();
     });
 
   }

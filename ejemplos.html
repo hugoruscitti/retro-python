@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <link href="css/tachyons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="./css/manual.css" />
+  </head>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const contenedor = document.getElementById("contenedor-de-ejemplos");
+
+      contenedor.addEventListener("click", function(evento) {
+        if (evento.target.tagName == "IMG") {
+          window.parent.postMessage({
+            id: "mensaje-abrir-ejemplo",
+            nombre: evento.target.dataset.nombre,
+          });
+        }
+        evento.preventDefault();
+        return false;
+      });
+
+      const listaDeEjemplos = document.querySelector("#lista-de-ejemplos");
+
+      const ejemplos = [
+        "cubo",
+        "caminata",
+        "hola-mundo",
+        "obtener-pixels",
+        "corazon",
+        "tunel",
+        "onda",
+        "ventana",
+        "numeros-al-azar",
+        "plasma",
+        "arcoiris",
+        "circulo-respira",
+        "circulos-animados",
+        "circulos-de-colores",
+        "corazones",
+        "cruces",
+        "dibujo-pasto",
+        "espiral",
+        "estrellas-de-colores",
+        "estrellas-desde-el-centro",
+        "flor",
+        "hacer-click",
+        "linea-al-mouse",
+        "linea-al-mouse-2",
+        "lineas",
+        "lineas-animadas",
+        "mueve-punto",
+        "rayos-con-circulos",
+        "ruido",
+        "ruido-de-colores",
+        "sonidos-lasers",
+      ];
+
+      const items = ejemplos.map(e => {
+        return `
+          <a class="dib mr1 mb1" href="">
+            <img data-nombre="${e}" class="bg-light-gray" src="ejemplos/${e}/captura.png">
+          </a>
+        `;
+      });
+
+      listaDeEjemplos.innerHTML = items.join("\n");
+
+
+    });
+
+      function subirScroll() {
+        window.scrollTo(0, 0);
+      }
+  </script>
+
+  <body>
+
+    <div class="fixed pa2 bg-light-gray bb w-100">
+      <a href="manual.html">Manual</a>
+      <a href="ejemplos.html">Ejemplos</a>
+
+    </div>
+
+    <div class="fixed pa2 bg-light-gray bb w-100 z-999">
+      <a class="pa2 black" href="manual.html">Manual</a>
+      <a class="pa2 black bg-white br2 dib" href="ejemplos.html">Ejemplos</a>
+    </div>
+
+    <div class="pt5 pa2" id="contenedor-de-ejemplos">
+
+        <div id="lista-de-ejemplos">
+          <!-- NOTA: este elemento se completa con la lista de ejemplos
+               que se carga en la sección SCRIPT que está más arriba. -->
+        </div>      
+
+    </div>
+    
+      <button id="subir" onclick="subirScroll()">🞁</button>
+  </body>
+</html>
