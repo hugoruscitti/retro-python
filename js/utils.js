@@ -16,6 +16,8 @@ async function cargarProyecto(hashDeProyecto) {
     fetch(url)
       .then(resolve => resolve.json())
       .then(data => {
+        data.anchoDeTextura = data.anchoDeTextura || 128;
+        data.altoDeTextura = data.altoDeTextura || 40;
         success(data);
       })
       .catch((err) => {

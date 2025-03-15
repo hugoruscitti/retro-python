@@ -16,7 +16,6 @@ const EVENTOS = [
   "señal-pixelart-borra-pixel",
   "señal-actualizar-textura-del-proyecto",
   "señal-cambia-el-cuadro-en-la-grilla",
-  "señal-carga",
   "señal-cargar-editor-pixelart",
   "señal-abrir-ejemplo-local",
 ]
@@ -48,6 +47,7 @@ function recibirMensaje(receiver, name, callback) {
   window.addEventListener(name, (e) => {
     if (window.DEBUG_BUS) {
       console.log("Receptor →", receiver);
+      console.log(callback);
     }
 
     callback.call(this, e.detail, e);

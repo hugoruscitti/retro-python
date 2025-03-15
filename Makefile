@@ -17,7 +17,10 @@ iniciar:
 	npm install
 
 ejecutar:
-	npm run dev
+	@echo " "
+	@echo "${G}Iniciando http://localhost:8000${N}"
+	@echo " "
+	python -m http.server
 
 binarios:
 	@echo "Para generar binarios primero se tiene que crear un nuevo tag"

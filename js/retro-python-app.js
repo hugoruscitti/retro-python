@@ -1,6 +1,7 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
 import { proyecto } from "./proyecto.js";
 import { cargarProyecto, cargarEjemplo, esperar } from "./utils.js";
+import { CONFIRMAR_CIERRE } from "./configuracion.js";
 
 
 class RetroPythonApp extends HTMLElement {
@@ -13,6 +14,7 @@ class RetroPythonApp extends HTMLElement {
   }
 
   async iniciar() {
+
     if (window.location.search.includes("proyecto=")) {
       const proyecto = /proyecto=(.*)/.exec(window.location.search)[1];
       const data = await cargarProyecto(proyecto);
@@ -23,7 +25,6 @@ class RetroPythonApp extends HTMLElement {
     }
 
     this.ocultarOverlay();
-
   }
 
 
@@ -46,28 +47,6 @@ class RetroPythonApp extends HTMLElement {
 
       <div>
 
-        <div class="barras-de-progreso">
-
-          <div>
-            <div>biblioteca stdlib</div>
-            <progress id='stdlib' value="0" step="0.01" max="1"></progress>
-          </div>
-
-          <div>
-            <div>entorno pyodide</div>
-            <progress id='pyodide' value="0" step="0.01" max="1"></progress>
-          </div>
-
-          <div>
-            <div>biblioteca parso</div>
-            <progress id='parso' value="0" step="0.01" max="1"></progress>
-          </div>
-
-          <div>
-            <div>biblioteca jedi</div>
-            <progress id='jedi' value="0" step="0.01" max="1"></progress>
-          </div>
-        </div>
 
       </div>
 
@@ -101,13 +80,8 @@ class RetroPythonApp extends HTMLElement {
 
     </div>
 
-
-
-
-
-
-      <div id="retro-python-app">
-      </div>
+    <div id="retro-python-app">
+    </div>
     `;
   }
 
@@ -124,34 +98,17 @@ class RetroPythonApp extends HTMLElement {
       enviarMensaje(this, "señal-comenzar-a-ejecutar");
     });
 
-    recibirMensaje(this, "señal-carga", (datos) => {
+    if (CONFIRMAR_CIERRE) {
+      window.onbeforeunload = function (e) {
+        e = e || window.event;
 
-      if (isFinite(datos.progreso)) {
-
-        if (datos.url.includes("python_stdlib")) {
-          const progreso = this.querySelector("#stdlib");
-          progreso.value = datos.progreso;
+        if (e) {
+          e.returnValue = 'Quieres cerrar la ventana?';
         }
 
-        if (datos.url.includes("jedi")) {
-          const progreso = this.querySelector("#jedi");
-          progreso.value = datos.progreso;
-        }
-
-        if (datos.url.includes("parso")) {
-          const progreso = this.querySelector("#parso");
-          progreso.value = datos.progreso;
-        }
-        
-        if (datos.url.includes("pyodide.asm.wasm")) {
-          const progreso = this.querySelector("#pyodide");
-          progreso.value = datos.progreso;
-        }
-
-      }
-
-    });
-
+        return 'Quieres cerrar la ventana?';
+      };
+    }
 
   }
 

@@ -36,7 +36,7 @@ class Interprete extends HTMLElement {
 
     recibirMensaje(this, "señal-comenzar-a-ejecutar", () => {
       const data = proyecto.obtenerProyectoCompleto();
-      this.ejecutar(data.codigo, data.textura);
+      this.ejecutar(data.codigo, data.textura, data.anchoDeTextura, data.altoDeTextura);
     });
 
     botonOcultarError.addEventListener("click", () => {
@@ -56,11 +56,11 @@ class Interprete extends HTMLElement {
     });
   }
 
-  async ejecutar(codigo, textura) {
+  async ejecutar(codigo, textura, ancho, alto) {
     this.ejecutando = true;
     this.limpiarErrores();
 
-    const contexto = { textura };
+    const contexto = { textura, anchoDeTextura: ancho, altoDeTextura: alto };
     const { resultado, error } = await asyncRun(codigo, contexto);
 
     if (error) {

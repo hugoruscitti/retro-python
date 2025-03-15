@@ -1,3 +1,5 @@
+const DEBUG_WORKER = true;
+
 // webworker.mjs
 import { loadPyodide } from "./pyodide/pyodide.mjs";
 import letras from "./js/letras.js";
@@ -6,6 +8,15 @@ let pyodideReadyPromise = loadPyodide();
 
 let ctx = null;
 
+function hex(numero) {
+  let tmp = numero.toString(16);
+
+  if (tmp.length === 1) {
+    return "0" + tmp;
+  } else {
+    return tmp;
+  }
+}
 
 class Motor {
 
@@ -13,17 +24,10 @@ class Motor {
     this.posicionUltimoPrint = 0
     this.mantenerEjecucion = true;
 
-    this.mouse_x = 64;
-    this.mouse_y = 64;
-    this.click = false;
+    this.reiniciar_variables()
 
-    this.izquierda = false;
-    this.derecha = false;
-    this.arriba = false;
-    this.abajo = false;
-
-    this.boton = false;
-    this.boton_secundario = false;
+    //const canvasParaObtenerPixel = new OffscreenCanvas(1, 1);
+    //this.contextoParaObtenerPixel = canvasParaObtenerPixel.getContext('2d');
 
     this.colores = {
       0: "#000000",
@@ -47,6 +51,23 @@ class Motor {
 
   reiniciar() {
     this.borrar();
+    this.reiniciar_variables();
+  }
+
+  reiniciar_variables() {
+    this.mouse_x = 64;
+    this.mouse_y = 64;
+    this.click = false;
+
+    this.izquierda = false;
+    this.derecha = false;
+    this.arriba = false;
+    this.abajo = false;
+
+    this.boton = false;
+    this.boton_secundario = false;
+
+    this.shift = false;
   }
 
   obtenerIndiceDeColor(numero) {
@@ -63,18 +84,60 @@ class Motor {
     const columna = indice % 16;
     x = parseInt(x, 10);
     y = parseInt(y, 10);
-    // TODO: la imagen tiene que venir de otra forma
-    ctx.drawImage(this.imagen, columna * 8, 0, 8, 8, x, y, 8, 8);
+
+    ctx.drawImage(this.imagen, 
+      columna * 8, 0,  // sx, sy
+      8, 8,            // s width, s height
+      x, y,            // dx, dy
+      8, 8             // d width, s height
+    );
   }
 
-  async actualizarTextura(textura) {
+  obtenerPixel(indice, x, y) {
+    const pixel = this.pixels;
+    const pos = (y * 128 + x) * 4;
+
+    const r = hex(pixel.data[pos + 0]);
+    const g = hex(pixel.data[pos + 1]);
+    const b = hex(pixel.data[pos + 2]);
+    const color = `#${r}${g}${b}`.toUpperCase();
+
+    // si es un pixel transparente retorna null.
+    if (color == "#FF00FF") {
+      return -1
+    }
+
+    // si es otro color, lo retorna de la paleta de colores
+    return Object.keys(this.colores).find(indice => this.colores[indice] === color);
+  }
+
+  async actualizarTextura(textura, ancho, alto) {
     // Este método se llama al ejecutar el proyecto, y se utiliza
     // para que la textura con sprites esté siempre actualizada.
     this.imagen = await createImageBitmap(b64toBlob(textura));
+    const W = 128;
+    const H = 128;
+
+    const canvas = new OffscreenCanvas(W, H);
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = "#FF00FF";
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.drawImage(this.imagen, 
+      0, 0,  // sx, sy
+      W, H,  // s width, s height
+      0, 0,  // dx, dy
+      W, H   // d width, s height
+    );
+
+    const pixels = ctx.getImageData(0, 0, W, H);
+    this.pixels = pixels;
   }
 
   borrar() {
-    ctx.clearRect(0, 0, 128, 128);
+    ctx.fillStyle = "#898787";
+    ctx.fillRect(0, 0, 128, 128);
     this.posicionUltimoPrint = 0;
   }
 
@@ -178,16 +241,29 @@ class Motor {
     this.posicionUltimoPrint = 0;
   }
 
+  pintar(color) {
+    this.rectangulo(0, 0, 128, 128, color, true);
+    this.posicionUltimoPrint = 0;
+  }
+
   sonido(indice) {
     self.postMessage({ callback: "sonido", argumento: indice });
   }
 
   print(texto, color, x, y) {
+    const paso = 8;
     let avanzarLineas = false;
+    let hacerScroll = false;
     texto = `${texto}`.toLowerCase()
 
     if (x === undefined || y === undefined) {
       x = 0;
+
+      if (this.posicionUltimoPrint >= 128) {
+        this.posicionUltimoPrint = 120;
+        hacerScroll = true;
+      }
+
       y = this.posicionUltimoPrint;
       avanzarLineas = true;
     }
@@ -195,12 +271,11 @@ class Motor {
     // si el print va a pasar la parte inferior de la pantalla, produce
     // un salto de linea, desplazando toda la pantalla hacia arriba y luego
     // continua.
-    if (avanzarLineas) {
-      if (this.posicionUltimoPrint + 10 >= 128) {
+    if (hacerScroll) {
         const data = ctx.getImageData(0, 0, 128, 128);
-        ctx.clearRect(0, 0, 128, 128);
-        ctx.putImageData(data, 0, -10);
-      }
+        ctx.putImageData(data, 0, -8);
+        ctx.fillStyle = "#898787";
+        ctx.fillRect(0, 120, 128, 8);
     }
 
     for (let i = 0; i < texto.length; i++) {
@@ -219,9 +294,10 @@ class Motor {
     }
 
     if (avanzarLineas) {
-      if (this.posicionUltimoPrint <= 110) {
-        this.posicionUltimoPrint += 10;
-      }
+      this.posicionUltimoPrint += paso;
+      //if (this.posicionUltimoPrint <= 128 -8 - paso) {
+        //this.posicionUltimoPrint += paso;
+      //}
     }
   }
 
@@ -302,13 +378,17 @@ self.onmessage = async (event) => {
       motor.boton_secundario = evento.boton_secundario;
     }
 
+    if ('shift' in evento) {
+      motor.shift = evento.shift;
+    }
+
     return;
   }
 
   if (event.data.id === "conectar-el-canvas") {
     const canvas = event.data.canvas;
 
-    ctx = canvas.getContext("2d");
+    ctx = canvas.getContext("2d", {willReadFrequently: true, alpha: false });
 
     return;
   }
@@ -319,7 +399,7 @@ self.onmessage = async (event) => {
     motor.mantenerEjecucion = true;
 
     context.motor = motor;
-    await context.motor.actualizarTextura(context.textura)
+    await context.motor.actualizarTextura(context.textura, context.anchoDeTextura, context.altoDeTextura)
     context.__codigo = python;
 
 
@@ -344,12 +424,18 @@ derecha = False
 arriba = False
 abajo = False
 boton = False
+camara_x = 0
+camara_y = 0
 boton_secundario = False
 cuadro = 1
 
-
+motor.reiniciar()
 
 def linea(x, y, x1, y1, color):
+  x -= camara_x
+  y -= camara_y
+  x1 -= camara_x
+  y1 -= camara_y
   motor.linea(x, y, x1, y1, color)
 
 def azar(a=0, b=128):
@@ -396,6 +482,16 @@ async def esperar(segundos=1):
 
     if motor.mantenerEjecucion:
       __actualizar_globales()
+
+      # Impone una pausa extra por si el usuario mantiene pulsada
+      # la tecla shift.
+      if motor.shift:
+        print("CAMARA LENTA ...", 0, 1, 2)
+        print("CAMARA LENTA ...", 7, 1, 1)
+        for x in range(10):
+          if motor.shift and motor.mantenerEjecucion:
+            await asyncio.sleep(1/10)
+
       await asyncio.sleep(espera)
       segundos -= espera
     else:
@@ -406,18 +502,29 @@ def pintar(color):
   motor.pintar(color)
 
 def circulo(x, y, radio, color, relleno):
+  x -= camara_x
+  y -= camara_y
+
   motor.circulo(x, y, radio, color, relleno)
 
 def borrar():
-  pintar(5)
+  motor.borrar()
 
 def distancia(x1, y1, x2, y2):
+  x1 -= camara_x
+  y1 -= camara_y
+  x2 -= camara_x
+  y2 -= camara_y
   return motor.distancia(x1, y1, x2, y2)
 
-def rectangulo(x, y, width, height, color, relleno):
-  motor.rectangulo(x, y, width, height, color, relleno)
+def rectangulo(x, y, ancho, alto, color, relleno):
+  x -= camara_x
+  y -= camara_y
+  motor.rectangulo(x, y, ancho, alto, color, relleno)
 
 def pixel(x, y, color):
+  x -= camara_x
+  y -= camara_y
   motor.pixel(x, y, color)
 
 print_original = print
@@ -425,19 +532,28 @@ print_original = print
 def print(mensaje, color=0, x=None, y=None):
   motor.print(mensaje, color, x, y)
 
-## TODO: ojo, faltan funciones para sonidos y dibujar
 def dibujar(indice, x=64, y=64):
   global cuadro
+
   # si en lugar de un número se envía una lista, intenta hacer
   # una animación tomando cuadros de animación de esa lista.
+
   if type(indice).__name__ == "list":
     i = cuadro % len(indice)
     indice = indice[i]
 
-  motor.dibujar(indice, x, y)
+  motor.dibujar(indice, x - camara_x, y - camara_y)
 
 def sonido(indice=None):
   motor.sonido(indice)
+
+def obtener_pixel(indice, x, y):
+  i = motor.obtenerPixel(indice, x, y)
+
+  if i == -1:
+    return None
+  else:
+    return i
 
 # Esta segunda parte del script se encarga de tomar
 # el código que escribió la persona que programó en
@@ -472,9 +588,11 @@ async def __main():
   global mouse_x, mouse_y, click
   global izquierda, derecha, arriba, abajo
   global boton, boton_secundario
-  pass
+  global camara_x, camara_y
 await __main()""")
-    ast_funcion_main.body[0].body = nodo.body
+  
+    for x in nodo.body:
+      ast_funcion_main.body[0].body.append(x)
 
     return ast_funcion_main
 
@@ -512,6 +630,7 @@ if __terminar:
   return
 
 """)
+
     incrementar_cuadro = ast.parse("global cuadro")
     nodo.body.insert(0, incrementar_cuadro)
 

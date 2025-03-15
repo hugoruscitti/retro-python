@@ -56,7 +56,7 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
   guardarCambiosEnLaTextura() {
     const canvas = this.querySelector("#textura")
     const textura = canvas.toDataURL();
-    enviarMensaje(this, "señal-actualizar-textura-del-proyecto", {textura});
+    enviarMensaje(this, "señal-actualizar-textura-del-proyecto", {textura, ancho: 128, alto: 40});
   }
 
   conectarEventos() {

@@ -61,6 +61,13 @@
       manual, este pasará a ser parte del sistema de auto-completado
       (snippet en realidad) de código.
 
+      El editor es capaz de obtener todos los ejemplos para autocompletar
+      usando dos señales. Primero, el componente `js/manual.js` carga este
+      archivo como un iframe, y cuando termina de cargarlo dispara el mensaje
+      "señal-manual-cargado". Esta señal es capturada por el componente
+      'js/editor.js' y ahí se hace la extracción e interpretación de las
+      opciones de autocompletado. Podes buscar la función `activarAutocompletado`
+      para más detalles.
 
     -->
     
@@ -86,8 +93,6 @@
       function subirScroll() {
         window.scrollTo(0, 0);
       }
-
-
     </script>
 
 
@@ -333,7 +338,19 @@ print("este es mi primer programa", azar())</code></pre>
           grafico en el centro de la pantalla:
 
           <pre id="ejemplo"><code class="language-python">dibujar(0, 64, 64)</code></pre>
-        </div>
+      </div>
+
+      <div>
+        <h3 id="manual-obtener_pixel">obtener_pixel</h3>
+          Obtiene el color de un pixel dentro de la grilla de gráficos.
+
+          <pre><code class="language-python">obtener_pixel(indice, x, y)</code></pre>
+
+          Por ejemplo, para obtener el color del pixel del centro del dibujo 0
+          se puede escribir este código:
+
+          <pre id="ejemplo"><code class="language-python">obtener_pixel(0, 4, 4)</code></pre>
+      </div>
 
       <div>
         <h3 id="manual-sonido">sonido</h3>
@@ -551,7 +568,7 @@ print("este es mi primer programa", azar())</code></pre>
 
 
       <div>
-        <h3 id="manual-izquieda">derecha</h3>
+        <h3 id="manual-derecha">derecha</h3>
           Indica si el jugador pulsó la tecla derecha
           del teclado o movió el gamepad en esa dirección.
 
@@ -563,7 +580,7 @@ print("este es mi primer programa", azar())</code></pre>
       </div>
 
       <div>
-        <h3 id="manual-izquieda">arriba</h3>
+        <h3 id="manual-arriba">arriba</h3>
           Indica si el jugador pulsó la tecla arriba
           del teclado o movió el gamepad en esa dirección.
 
@@ -575,7 +592,7 @@ print("este es mi primer programa", azar())</code></pre>
       </div>
 
       <div>
-        <h3 id="manual-izquieda">abajo</h3>
+        <h3 id="manual-abajo">abajo</h3>
           Indica si el jugador pulsó la tecla abajo
           del teclado o movió el gamepad en esa dirección.
 
@@ -587,8 +604,9 @@ print("este es mi primer programa", azar())</code></pre>
       </div>
 
       <div>
-        <h3 id="manual-izquieda">boton</h3>
-          Indica si el jugador pulsó el botón principal.
+        <h3 id="manual-boton">boton</h3>
+          Indica si el jugador pulsó el botón principal, que se activa con
+          la tecla Space, Z o C.
 
           <pre><code class="language-python">if boton:
     print("debo disparar!")</code></pre>
@@ -598,7 +616,18 @@ print("este es mi primer programa", azar())</code></pre>
       </div>
 
       <div>
-        <h3 id="manual-izquieda">mouse_x</h3>
+        <h3 id="manual-boton">boton_secundario</h3>
+          Indica si el jugador pulsó el botón secundario que se activa con la tecla X.
+
+          <pre><code class="language-python">if boton_secundario:
+    print("debo abrir una puerta!")</code></pre>
+
+          <pre class="dn" id="ejemplo"><code class="language-python">boton_secundario</code></pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-mouse_x">mouse_x</h3>
           Indica la posición horizontal del mouse.
 
           <pre><code class="language-python">print("mouse_x es " + mouse_x)</code></pre>
@@ -609,7 +638,7 @@ print("este es mi primer programa", azar())</code></pre>
 
 
       <div>
-        <h3 id="manual-izquieda">mouse_y</h3>
+        <h3 id="manual-mouse_y">mouse_y</h3>
           Indica si el jugador pulsó la tecla mouse_y
           del teclado o movió el gamepad en esa dirección.
 
@@ -627,6 +656,29 @@ print("este es mi primer programa", azar())</code></pre>
     print("han hecho click !!!")</code></pre>
 
           <pre id="ejemplo" class="dn"><code class="language-python">click</code></pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-camara_x">camara_x</h3>
+          Indica la posición horizontal de la cámara en la pantalla.
+
+          <pre><code class="language-python">if derecha:
+    camara_x += 1</code></pre>
+
+          <pre id="ejemplo" class="dn"><code class="language-python">camara_x</code></pre>
+
+      </div>
+
+      <div>
+        <h3 id="manual-camara_y">camara_y</h3>
+          Indica la posición vertical de la cámara en la
+          pantalla.
+
+          <pre><code class="language-python">if arriba:
+    camara_y += 1</code></pre>
+
+          <pre id="ejemplo" class="dn"><code class="language-python">camara_y</code></pre>
 
       </div>
 

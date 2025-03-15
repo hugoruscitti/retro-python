@@ -5,3 +5,4 @@ pyvenv.cfg
 Include
 node_modules
 dist
+tmp

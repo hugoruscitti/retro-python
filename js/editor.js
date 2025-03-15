@@ -38,7 +38,6 @@ class Editor extends HTMLElement {
     });
 
     recibirMensaje(this, "señal-comenzar-a-ejecutar", () => {
-      console.log(this.editor);
       this.editor.setReadOnly(true);
 
       const editor = document.querySelector("#editor");
@@ -95,7 +94,7 @@ class Editor extends HTMLElement {
       fontSize: "12pt"
     });
 
-    //editor.setKeyboardHandler("ace/keyboard/vim");
+    editor.setKeyboardHandler("ace/keyboard/vim");
     editor.setHighlightActiveLine(false);
     editor.setShowPrintMargin(false);
 

@@ -21,6 +21,10 @@ class Pantalla extends HTMLElement {
     canvas.addEventListener("keydown", (evento) => {
       const tecla = evento.code;
 
+      if (tecla === "ShiftRight" || tecla === "ShiftLeft") {
+        actualizarEstadoDelTeclado({shift: true});
+      }
+
       if (tecla === "Escape") {
         detenerEjecucionDePython();
       }
@@ -53,6 +57,10 @@ class Pantalla extends HTMLElement {
 
     canvas.addEventListener("keyup", (evento) => {
       const tecla = evento.code;
+
+      if (tecla === "ShiftRight" || tecla === "ShiftLeft") {
+        actualizarEstadoDelTeclado({shift: false});
+      }
 
       if (tecla === "ArrowLeft" || tecla === "KeyH") {
         actualizarEstadoDelTeclado({izquierda: false});

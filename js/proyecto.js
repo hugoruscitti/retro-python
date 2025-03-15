@@ -24,6 +24,8 @@ class Proyecto {
       "version": "1",
       "screenshot": "una captura de pantalla",
       "textura": TEXTURA_FIXTURE,
+      "anchoDeTextura": 128,
+      "altoDeTextura": 40,
       "codigo": '',
     }
 
@@ -40,6 +42,8 @@ class Proyecto {
 
     recibirMensaje(this, "señal-actualizar-textura-del-proyecto", (data) => {
       this.datos.textura = data.textura;
+      this.datos.anchoDeTextura = data.ancho;
+      this.datos.altoDeTextura = data.alto;
     });
   }
 
