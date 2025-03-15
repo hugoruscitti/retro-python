@@ -3,6 +3,7 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 //const HOST = "http://127.0.0.1:8000";
 const HOST = "https://retro-python-backend.pilas-engine.com.ar";
 const CONFIRMAR_CIERRE = false;
+const INICIAR_EN_MODO_VIM = false;
 
 class Configuracion extends HTMLElement {
 
@@ -85,4 +86,4 @@ class Configuracion extends HTMLElement {
 
 }
 
-export { Configuracion, HOST, CONFIRMAR_CIERRE };
+export { Configuracion, HOST, CONFIRMAR_CIERRE, INICIAR_EN_MODO_VIM };

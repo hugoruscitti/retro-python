@@ -8,8 +8,8 @@ app.commandLine.appendSwitch( "disable-site-isolation-trials" );
 
 app.once('ready', () => {
   window = new BrowserWindow({
-    width: 920,
-    height: 700,
+    width: 1280,
+    height: 720,
     show: false
   })
 

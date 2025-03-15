@@ -1,6 +1,6 @@
 {
   "name": "retro-python",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Una plataforma para crear dibujos, animaciones y juegos retro",
   "author": "Hugo Ruscitti <hugoruscitti@gmail.com>",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "main": "electron.js",
   "devDependencies": {
-    "electron": "^33.2.1",
+    "electron": "35.0.1",
     "electron-builder": "^25.1.8"
   }
 }

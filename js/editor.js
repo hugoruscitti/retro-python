@@ -1,6 +1,7 @@
 import { recibirMensaje, enviarMensaje } from "./bus.js";
 import { debounce } from "./utils.js";
 import { proyecto } from "./proyecto.js";
+import { INICIAR_EN_MODO_VIM } from "./configuracion.js";
 
 class Editor extends HTMLElement {
 
@@ -8,7 +9,7 @@ class Editor extends HTMLElement {
     this.runOnChange = false;
 
     this.innerHTML = `<div id="editor"></div>`;
-    this.editor = this.createAceEditor();
+    this.editor = this.crearEditorAce();
     this.conectarEventos();
 
     this.manual = document.createElement("div");
@@ -23,15 +24,7 @@ class Editor extends HTMLElement {
 
     recibirMensaje(this, "señal-activar-el-modo-vim", (data) => {
       if (data.enabled) {
-        this.editor.setKeyboardHandler("ace/keyboard/vim");
-
-        ace.config.loadModule("ace/keybinding/vim", function() {
-          const Vim = require("ace/keyboard/vim").Vim
-          // space en modo normal no avanza, esto es útil
-          // para el atajo de dos space para guardar.
-          Vim.map("<Space>", "lh", "normal")
-        });
-
+        this.iniciarModoVIM();
       } else {
         this.editor.setKeyboardHandler();
       }
@@ -79,11 +72,22 @@ class Editor extends HTMLElement {
 
   }
 
+  iniciarModoVIM() {
+    this.editor.setKeyboardHandler("ace/keyboard/vim");
+
+    ace.config.loadModule("ace/keybinding/vim", function() {
+      const Vim = require("ace/keyboard/vim").Vim
+      // space en modo normal no avanza, esto es útil
+      // para el atajo de dos space para guardar.
+      Vim.map("<Space>", "lh", "normal")
+    });
+  }
+
 
   disconnectedCallback() {
   }
 
-  createAceEditor(initialCode) {
+  crearEditorAce(initialCode) {
     const editor = ace.edit("editor", {
       mode: "ace/mode/python",
       value: initialCode,
@@ -94,7 +98,10 @@ class Editor extends HTMLElement {
       fontSize: "12pt"
     });
 
-    editor.setKeyboardHandler("ace/keyboard/vim");
+    if (INICIAR_EN_MODO_VIM) {
+      this.iniciarModoVIM();
+    }
+
     editor.setHighlightActiveLine(false);
     editor.setShowPrintMargin(false);
 
