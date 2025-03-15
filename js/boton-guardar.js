@@ -28,7 +28,11 @@ class BotonGuardar extends HTMLElement {
 
 
     guardar.addEventListener("click", async () => {
-      const nombre = prompt("¿Cómo se llama este programa?", "mi-programa");
+      let nombre =  "mi-programa";
+
+      if (navigator.userAgent.indexOf('Electron') == -1) {
+        nombre = prompt("¿Cómo se llama este programa?", "mi-programa");
+      }
 
       if (nombre === null || nombre.length === 0) {
         return;
