@@ -1,6 +1,6 @@
 {
   "name": "retro-python",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Una plataforma para crear dibujos, animaciones y juegos retro",
   "author": "Hugo Ruscitti <hugoruscitti@gmail.com>",
   "scripts": {
