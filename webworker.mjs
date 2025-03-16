@@ -26,9 +26,6 @@ class Motor {
 
     this.reiniciar_variables()
 
-    //const canvasParaObtenerPixel = new OffscreenCanvas(1, 1);
-    //this.contextoParaObtenerPixel = canvasParaObtenerPixel.getContext('2d');
-
     this.colores = {
       0: "#000000",
       1: "#1D2B53",
@@ -82,11 +79,12 @@ class Motor {
 
   dibujar(indice, x, y) {
     const columna = indice % 16;
+    const fila = parseInt(indice / 16, 10);
     x = parseInt(x, 10);
     y = parseInt(y, 10);
 
     ctx.drawImage(this.imagen, 
-      columna * 8, 0,  // sx, sy
+      columna * 8, fila * 8,  // sx, sy
       8, 8,            // s width, s height
       x, y,            // dx, dy
       8, 8             // d width, s height
@@ -191,25 +189,21 @@ class Motor {
     x = Math.round(x);
     y = Math.round(y);
     r = Math.round(r);
-    // Loop over a bounding box around the circle
+
     for (let i = x - r; i <= x + r; i++) {
       for (let j = y - r; j <= y + r; j++) {
-        // Check if the point (i, j) is inside the circle using the equation (i - x)^2 + (j - y)^2 <= r^2
         const distanceSquared = (i - x) ** 2 + (j - y) ** 2;
 
         if (relleno) {
-          // For a filled circle, include all points inside the circle
           if (distanceSquared <= r ** 2) {
             this.pixel(i, j, color);
           }
         } else {
-          // For a hollow circle, only include points that are on the circumference
-          const tolerance = 1; // This tolerance helps us ensure the edge is visible
-          const lowerBound = (r - tolerance) ** 2;  // A little smaller than r^2
-          const upperBound = (r + tolerance) ** 2;  // A little larger than r^2
+          const tolerance = 0.5; 
+          const lowerBound = (r - tolerance) ** 2;
+          const upperBound = (r + tolerance) ** 2;
 
-          // Check if the point is close enough to the circumference
-          if (distanceSquared >= lowerBound && distanceSquared <= upperBound) {
+          if (distanceSquared > lowerBound && distanceSquared < upperBound) {
             this.pixel(i, j, color);
           }
         }
@@ -671,8 +665,9 @@ ast.unparse(nodo)`;
 
     try {
       const codigoModificado = await pyodide.runPythonAsync(codigoInicial, { globals });
-      console.log("El código a ejecutar será este");
+      console.groupCollapsed("El código a ejecutar será este");
       console.log(codigoInicial + codigoModificado);
+      console.groupEnd();
       const resultado = await pyodide.runPythonAsync(codigoModificado, { globals });
 
       self.postMessage({ resultado, id });
