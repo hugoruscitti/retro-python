@@ -1,3 +1,5 @@
+import { enviarMensaje } from "../bus.js";
+
 function getPromiseAndResolve() {
   let resolve;
   let promise = new Promise((res) => {
@@ -15,6 +17,7 @@ function getId() {
 function requestResponse(worker, msg) {
   const { promise, resolve } = getPromiseAndResolve();
   const idWorker = getId();
+
   worker.addEventListener("message", function listener(event) {
     if (event.data?.id !== idWorker) {
       return;
@@ -31,6 +34,11 @@ const pyodideWorker = new Worker("./webworker.mjs", { type: "module" });
 
 
 pyodideWorker.addEventListener("message", function listener(event) {
+  if (event.data && event.data.callback === "notificar-ejecucion-de-linea") {
+    enviarMensaje(this, "señal-marcar-linea-como-ejecutada", {linea: event.data.numero});
+  }
+
+  
   if (event.data && event.data.callback === "sonido") {
     let indice = event.data.argumento;
 

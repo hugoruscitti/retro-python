@@ -2,21 +2,14 @@ const DEBUG_WORKER = true;
 
 // webworker.mjs
 import { loadPyodide } from "./pyodide/pyodide.mjs";
+import { hex } from "./js/pixels.js";
 import letras from "./js/letras.js";
 
 let pyodideReadyPromise = loadPyodide();
 
 let ctx = null;
 
-function hex(numero) {
-  let tmp = numero.toString(16);
 
-  if (tmp.length === 1) {
-    return "0" + tmp;
-  } else {
-    return tmp;
-  }
-}
 
 class Motor {
 
@@ -92,6 +85,8 @@ class Motor {
   }
 
   obtenerPixel(indice, x, y) {
+    x = parseInt(x, 10);
+    y = parseInt(y, 10);
     const pixel = this.pixels;
     const pos = (y * 128 + x) * 4;
 
@@ -242,6 +237,13 @@ class Motor {
 
   sonido(indice) {
     self.postMessage({ callback: "sonido", argumento: indice });
+  }
+
+  notificar_ejecucion_de_linea(numero) {
+    self.postMessage({
+      callback: "notificar-ejecucion-de-linea",
+      numero: numero
+    });
   }
 
   print(texto, color, x, y) {
@@ -396,7 +398,6 @@ self.onmessage = async (event) => {
     await context.motor.actualizarTextura(context.textura, context.anchoDeTextura, context.altoDeTextura)
     context.__codigo = python;
 
-
     const codigoInicial = `
 
 # La primer parte de este código son una serie de funciones que
@@ -545,7 +546,7 @@ def obtener_pixel(indice, x, y):
   i = motor.obtenerPixel(indice, x, y)
 
   if i == -1:
-    return None
+    return 0
   else:
     return i
 

@@ -29,19 +29,19 @@ class Pantalla extends HTMLElement {
         detenerEjecucionDePython();
       }
 
-      if (tecla === "ArrowLeft" || tecla === "KeyH") {
+      if (tecla === "ArrowLeft" || tecla === "KeyH" || tecla === "KeyA") {
         actualizarEstadoDelTeclado({izquierda: true});
       }
 
-      if (tecla === "ArrowUp" || tecla === "KeyK") {
+      if (tecla === "ArrowUp" || tecla === "KeyK" || tecla === "KeyW") {
         actualizarEstadoDelTeclado({arriba: true});
       }
 
-      if (tecla === "ArrowRight" || tecla === "KeyL") {
+      if (tecla === "ArrowRight" || tecla === "KeyL" || tecla === "KeyD") {
         actualizarEstadoDelTeclado({derecha: true});
       }
 
-      if (tecla === "ArrowDown" || tecla === "KeyJ") {
+      if (tecla === "ArrowDown" || tecla === "KeyJ" || tecla === "KeyS") {
         actualizarEstadoDelTeclado({abajo: true});
       }
 
@@ -62,19 +62,19 @@ class Pantalla extends HTMLElement {
         actualizarEstadoDelTeclado({shift: false});
       }
 
-      if (tecla === "ArrowLeft" || tecla === "KeyH") {
+      if (tecla === "ArrowLeft" || tecla === "KeyH" || tecla === "KeyA") {
         actualizarEstadoDelTeclado({izquierda: false});
       }
 
-      if (tecla === "ArrowUp" || tecla === "KeyK") {
+      if (tecla === "ArrowUp" || tecla === "KeyK" || tecla === "KeyW") {
         actualizarEstadoDelTeclado({arriba: false});
       }
 
-      if (tecla === "ArrowRight" || tecla === "KeyL") {
+      if (tecla === "ArrowRight" || tecla === "KeyL" || tecla === "KeyD") {
         actualizarEstadoDelTeclado({derecha: false});
       }
 
-      if (tecla === "ArrowDown" || tecla === "KeyJ") {
+      if (tecla === "ArrowDown" || tecla === "KeyJ" || tecla === "KeyS") {
         actualizarEstadoDelTeclado({abajo: false});
       }
     }, false);

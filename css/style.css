@@ -665,3 +665,14 @@ canvas:focus {
 button#retro-acerca-de {
   margin-left: 5px;
 }
+
+span.widget.stack-message {
+  background-color: gray;
+  border-radius: 3px;
+  display: inline-block;
+  margin-left: 2em;
+  opacity: 0.5;
+  padding-left: 6px;
+  padding-right: 6px;
+  pointer-events: auto;
+}

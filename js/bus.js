@@ -18,6 +18,7 @@ const EVENTOS = [
   "señal-cambia-el-cuadro-en-la-grilla",
   "señal-cargar-editor-pixelart",
   "señal-abrir-ejemplo-local",
+  "señal-marcar-linea-como-ejecutada",
 ]
 
 function enviarMensaje(sender, name, datos) {

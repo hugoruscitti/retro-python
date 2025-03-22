@@ -1,11 +1,34 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
 import { proyecto } from "./proyecto.js";
+import { hex } from "./pixels.js";
 
 class CuadrosDeTexturaPixelart extends HTMLElement {
 
   connectedCallback() {
+    this.cargarColores();
     this.crearHTML();
     this.conectarEventos();
+  }
+
+  cargarColores() {
+    this.colores = {
+      0: "#000000",
+      1: "#1D2B53",
+      2: "#7E2553",
+      3: "#008751",
+      4: "#AB5236",
+      5: "#5F574F",
+      6: "#C2C3C7",
+      7: "#FFF1E8",
+      8: "#FF004D",
+      9: "#FFA300",
+      10: "#FFEC27",
+      11: "#00E436",
+      12: "#29ADFF",
+      13: "#83769C",
+      14: "#FF77A8",
+      15: "#FFCCAA"
+    }
   }
 
   /* se ejecuta cuando llega la señal señal-cargar-editor-pixelart */
@@ -72,6 +95,43 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
       this.recargar();
     });
 
+    // Permite pegar sobre la grilla de sprites una imagen
+    // externa.
+    window.addEventListener("paste", async (evento) => {
+
+      if (evento.target.id === "cursor-de-cuadro") {
+        evento.preventDefault();
+        evento.stopPropagation();
+        const item = evento.clipboardData.items[0];
+
+        if (!item.type.startsWith('image/')) {
+          alert("Solo puedes pegar una imagen");
+          return;
+        }
+
+        let file = item.getAsFile();
+        let { pixels, ancho, alto } = await this.obtenerPixelsDesdeArchivo(file);
+
+        for (let x=0; x<ancho; x++) {
+          for (let y=0; y<alto; y++) {
+            const pos = (y * ancho + x) * 4;
+            const r = hex(pixels.data[pos + 0]);
+            const g = hex(pixels.data[pos + 1]);
+            const b = hex(pixels.data[pos + 2]);
+            const color = `#${r}${g}${b}`.toUpperCase();
+
+            //this.cuadro = columna + fila * 16;
+            const colorIndexado = this.obtenerIndiceDeColorMasParecido(color);
+            this.pintarPixel(x, y, colorIndexado);
+          }
+        }
+
+      this.guardarCambiosEnLaTextura();
+
+      }
+
+    });
+      
     canvas.addEventListener("mousemove", (evento) => {
       let columna = parseInt(evento.offsetX / 32, 10);
       let fila = parseInt(evento.offsetY / 32, 10);
@@ -118,8 +178,28 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
     boton.addEventListener("click", function() {
       enviarMensaje(this, "señal-alternar-fondo-transparente", {});
     });
+  }
 
+  obtenerPixelsDesdeArchivo(file) {
+    return new Promise((success) => {
+      var reader = new FileReader;
 
+      reader.onload = function() {
+        var image = new Image();
+
+        image.src = reader.result;
+
+        image.onload = function() {
+          const canvas = new OffscreenCanvas(image.width, image.height);
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(image, 0, 0);
+          const pixels = ctx.getImageData(0, 0, image.width, image.height);
+          success({pixels, ancho: image.width, alto: image.height});
+        };
+      };
+
+      reader.readAsDataURL(file);
+    });
   }
 
   obtenerColoresDeLaGrilla(columna, fila) {
@@ -146,28 +226,62 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
     return datos;
   }
 
+  /*
+   * Toma un color en formato #RRGGBB y retorna el índice de color (de 0 a 15)
+   * del color más parecido que encuentre. De esta forma, cuando un usuario
+   * "pega" una imagen, nos aseguramos que no introduzca colores por fuera de
+   * la paleta de colores.
+   */
+  obtenerIndiceDeColorMasParecido(color) {
+    let nuevoColor = this.obtenerColorMasCercano(color);
+
+    for (let i=0; i<16; i++) {
+      if (this.colores[i] == nuevoColor) {
+        return i;
+      }
+    }
+  }
+
+  obtenerColorMasCercano(colorRGB) {
+    let {r, g, b} = this.separarComponentesDeColor(colorRGB);
+
+    let closestDistance = 1000000000000;
+    let closestColor = null;
+
+    for (let i=0; i<16; i++) {
+      let color = this.colores[i];
+      const color2 = this.separarComponentesDeColor(color);
+
+      const distance = Math.sqrt(
+        (r - color2.r) ** 2 +
+        (g - color2.g) ** 2 +
+        (b - color2.b) ** 2
+      );
+
+      // Update closest color and distance if the current distance is smaller than the closest distance
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestColor = color;
+      }
+    }
+
+    return closestColor;
+  }
+
+  separarComponentesDeColor(colorRGB) {
+    let color = colorRGB.replace("#", "");
+    const r = parseInt(color.slice(0, 2), 16);
+    const g = parseInt(color.slice(2, 4), 16);
+    const b = parseInt(color.slice(4, 6), 16);
+
+    return {r, g, b};
+  }
+
+
   pintarPixel(x, y, color) {
     const canvas = this.querySelector("#textura");
     const ctx = canvas.getContext("2d");
-    const colores = {
-      0: "#000000",
-      1: "#1D2B53",
-      2: "#7E2553",
-      3: "#008751",
-      4: "#AB5236",
-      5: "#5F574F",
-      6: "#C2C3C7",
-      7: "#FFF1E8",
-      8: "#FF004D",
-      9: "#FFA300",
-      10: "#FFEC27",
-      11: "#00E436",
-      12: "#29ADFF",
-      13: "#83769C",
-      14: "#FF77A8",
-      15: "#FFCCAA"
-    }
-    ctx.fillStyle = colores[color];
+    ctx.fillStyle = this.colores[color];
 
     const fila = parseInt(this.cuadro / 16, 10);
     const columna = parseInt(this.cuadro % 16, 10);
@@ -190,4 +304,3 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
 }
 
 export default CuadrosDeTexturaPixelart;
-

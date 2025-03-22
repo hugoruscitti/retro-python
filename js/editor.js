@@ -22,6 +22,22 @@ class Editor extends HTMLElement {
       this.editor.clearSelection();
     });
 
+    recibirMensaje(this, "señal-marcar-linea-como-ejecutada", (data) => {
+      this.editor.renderer.setScrollMargin(1, 1, 0, 0);
+      const linea = data.linea;
+
+      if (!this.editor.session.lineAnnotations) {
+        this.editor.session.lineAnnotations = {};
+      }
+
+      if (this.editor.session.lineAnnotations[linea-1]) {
+        let veces = this.editor.session.lineAnnotations[linea-1].display;
+        this.editor.session.lineAnnotations[linea-1] = { display: veces + 1};
+      } else {
+        this.editor.session.lineAnnotations[linea-1] = { display: 1};
+      }
+    });
+
     recibirMensaje(this, "señal-activar-el-modo-vim", (data) => {
       if (data.enabled) {
         this.iniciarModoVIM();
@@ -60,6 +76,11 @@ class Editor extends HTMLElement {
 
       const editor = document.querySelector("#editor");
       editor.style.opacity = "1";
+
+      // elimina las anotaciones y produce un evento para
+      // re-dibujar el editor.
+      this.editor.session.lineAnnotations = {};
+      this.editor.renderer.setScrollMargin(1, 1, 0, 0);
     });
 
     recibirMensaje(this, "señal-manual-cargado", (data) => {
@@ -127,6 +148,55 @@ class Editor extends HTMLElement {
       },
       bindKey: {mac: "cmd-s", win: "ctrl-s"}
     });
+
+    function updateLines(e, renderer) {
+      var textLayer = renderer.$textLayer;
+      var config = textLayer.config;
+      var session = textLayer.session;
+
+      if (!session.lineAnnotations) return;
+
+      var first = config.firstRow;
+      var last = config.lastRow;
+
+      var lineElements = textLayer.element.childNodes;
+      var lineElementsIdx = 0;
+
+      var row = first;
+      var foldLine = session.getNextFoldLine(row);
+      var foldStart = foldLine ? foldLine.start.row : Infinity;
+
+      var useGroups = textLayer.$useLineGroups();
+
+      while (true) {
+        if (row > foldStart) {
+          row = foldLine.end.row + 1;
+          foldLine = textLayer.session.getNextFoldLine(row, foldLine);
+          foldStart = foldLine ? foldLine.start.row : Infinity;
+        }
+        if (row > last)
+          break;
+
+        var lineElement = lineElements[lineElementsIdx++];
+        if (lineElement && session.lineAnnotations[row]) {
+          if (useGroups) lineElement = lineElement.lastChild;
+          var widget, a = session.lineAnnotations[row];
+          if (!a.element) {
+            widget = document.createElement("span");
+            widget.textContent = a.display;
+            widget.className = "widget stack-message" + (a.more ? " more" : "");
+            widget.annotation = a;
+            session.lineAnnotations[row].element = widget;
+          }
+          else widget = a.element;
+
+          lineElement.appendChild(widget);
+        }
+        row++;
+      }
+    }
+
+    editor.renderer.on("afterRender", updateLines);
 
     return editor;
   }

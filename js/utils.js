@@ -47,5 +47,4 @@ async function esperar(segundos) {
   })
 }
 
-
-export { esperar, debounce, cargarProyecto, cargarEjemplo }
+export { esperar, debounce, cargarProyecto, cargarEjemplo };

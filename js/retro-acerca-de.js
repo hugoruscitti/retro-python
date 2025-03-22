@@ -1,5 +1,5 @@
 
-import { enviarMensaje, recibirMensaje } from "./bus.js";
+import { recibirMensaje } from "./bus.js";
 
 class AcercaDe extends HTMLElement {
 
