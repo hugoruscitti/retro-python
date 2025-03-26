@@ -79,6 +79,8 @@ class RetroEjemplos extends HTMLElement {
         enviarMensaje(this, "señal-cargar-proyecto", data);
         dialogo.close();
         enviarMensaje(this, "señal-comenzar-a-ejecutar");
+        const url = `${window.location.origin}${window.location.pathname}?proyecto=${data.hash}`;
+        window.history.replaceState({}, "retro-python", url);
       }
     });
   }

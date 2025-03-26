@@ -3,9 +3,6 @@
   "version": "0.0.4",
   "description": "Una plataforma para crear dibujos, animaciones y juegos retro",
   "author": "Hugo Ruscitti <hugoruscitti@gmail.com>",
-  "scripts": {
-    "dev": "vite --host=0.0.0.0"
-  },
   "main": "electron.js",
   "devDependencies": {
     "electron": "35.0.1",
