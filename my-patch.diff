@@ -1,0 +1,3555 @@
+diff --git a/.gitignore b/.gitignore
+index 44ad691..22772da 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -5,3 +5,4 @@ pyvenv.cfg
+ Include
+ node_modules
+ dist
++tmp
+diff --git a/.nvmrc b/.nvmrc
+index 209e3ef..e8aa644 100644
+--- a/.nvmrc
++++ b/.nvmrc
+@@ -1 +1 @@
+-20
++v20.18.1
+diff --git a/Makefile b/Makefile
+index 7b77c2c..10715d1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -17,7 +17,10 @@ iniciar:
+ 	npm install
+ 
+ ejecutar:
+-	npm run dev
++	@echo " "
++	@echo "${G}Iniciando http://localhost:8000${N}"
++	@echo " "
++	python -m http.server
+ 
+ binarios:
+ 	@echo "Para generar binarios primero se tiene que crear un nuevo tag"
+diff --git a/css/index.css b/css/index.css
+new file mode 100644
+index 0000000..6c0d14e
+--- /dev/null
++++ b/css/index.css
+@@ -0,0 +1,80 @@
++body {
++  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
++  padding: 1em;
++  line-height: 1.5;
++  background-image: url('/static/pagina/fondo.png');
++  background-repeat: repeat-y;
++  background-position: center;
++  background-color: #D8E5E4;
++}
++
++.texto-justificado {
++  text-align: justify;
++}
++
++.caracteristica {
++  display: block;
++  margin: auto;
++  border:2px solid silver;
++  padding: 4px;
++}
++
++.hero {
++  margin: auto;
++  text-align: center;
++  background-color: #bbb;
++}
++
++.botones {
++  text-align: center;
++}
++
++.tc {
++  text-align: center;
++}
++
++.tl {
++  text-align: left;
++}
++
++.measure {
++  max-width: 720px;
++  margin: auto;
++}
++
++.grid {
++  display: grid;
++  grid-template-columns: repeat(3, 1fr);
++  gap: 30px;
++}
++
++.boton {
++  display: inline-block;
++  background-color: #839dcf;
++  text-decoration: none;
++  padding: 10px;
++  border-radius: 8px;
++  color: white;
++  width: 200px;
++}
++
++.boton:hover {
++  outline: 2px solid #6174ff;
++}
++
++.captura {
++  width: 256px;
++  height: 256px;
++  display: block;
++  background-color: silver;
++  image-rendering: pixelated;
++  margin: auto;
++}
++
++pre {
++  border: 1px solid #bbb;
++  padding: 1em;
++  background-color: #eee;
++  border-radius: 5px;
++}
++
+diff --git a/css/prism.css b/css/prism.css
+index 9ecce06..c8b3d53 100644
+--- a/css/prism.css
++++ b/css/prism.css
+@@ -1,4 +1,27 @@
+ /* PrismJS 1.29.0
+ https://prismjs.com/download.html#themes=prism&languages=python&plugins=toolbar+copy-to-clipboard */
+ code[class*=language-],pre[class*=language-]{color:#000;background:0 0;text-shadow:0 1px #fff;font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}code[class*=language-] ::-moz-selection,code[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection,pre[class*=language-]::-moz-selection{text-shadow:none;background:#b3d4fc}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{text-shadow:none;background:#b3d4fc}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#f5f2f0}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#708090}.token.punctuation{color:#999}.token.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#905}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#690}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{color:#9a6e3a;background:hsla(0,0%,100%,.5)}.token.atrule,.token.attr-value,.token.keyword{color:#07a}.token.class-name,.token.function{color:#dd4a68}.token.important,.token.regex,.token.variable{color:#e90}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}
+-div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;z-index:10;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar:focus-within>.toolbar{opacity:1}div.code-toolbar>.toolbar>.toolbar-item{display:inline-block}div.code-toolbar>.toolbar>.toolbar-item>a{cursor:pointer}div.code-toolbar>.toolbar>.toolbar-item>button{background:0 0;border:0;color:inherit;font:inherit;line-height:normal;overflow:visible;padding:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}div.code-toolbar>.toolbar>.toolbar-item>a,div.code-toolbar>.toolbar>.toolbar-item>button,div.code-toolbar>.toolbar>.toolbar-item>span{color:#bbb;font-size:.8em;padding:0 .5em;background:#f5f2f0;background:rgba(224,224,224,.2);box-shadow:0 2px 0 0 rgba(0,0,0,.2);border-radius:.5em}div.code-toolbar>.toolbar>.toolbar-item>a:focus,div.code-toolbar>.toolbar>.toolbar-item>a:hover,div.code-toolbar>.toolbar>.toolbar-item>button:focus,div.code-toolbar>.toolbar>.toolbar-item>button:hover,div.code-toolbar>.toolbar>.toolbar-item>span:focus,div.code-toolbar>.toolbar>.toolbar-item>span:hover{color:inherit;text-decoration:none}
++div.code-toolbar{position:relative}div.code-toolbar>.toolbar{position:absolute;z-index:10;top:.3em;right:.2em;transition:opacity .3s ease-in-out;opacity:0}div.code-toolbar:hover>.toolbar{opacity:1}div.code-toolbar:focus-within>.toolbar{opacity:1}div.code-toolbar>.toolbar>.toolbar-item{display:inline-block}div.code-toolbar>.toolbar>.toolbar-item>a{cursor:pointer}
++
++div.code-toolbar>.toolbar>.toolbar-item>button{
++
++  color: #bbb;
++  font-size: .8em;
++  padding: 0 .5em;
++  background: white;
++  border: 1px solid #6a6a6a;
++  cursor: pointer;
++  line-height: 1.5;
++}
++
++
++
++div.code-toolbar>.toolbar>.toolbar-item>a,div.code-toolbar>.toolbar>.toolbar-item>button,div.code-toolbar>.toolbar>.toolbar-item>span{
++  color:#bbb;
++  font-size:.8em;
++  padding:0 .5em;
++  background:#f5f2f0;
++  background:rgba(224,224,224,.2);
++}
++
++div.code-toolbar>.toolbar>.toolbar-item>a:focus,div.code-toolbar>.toolbar>.toolbar-item>a:hover,div.code-toolbar>.toolbar>.toolbar-item>button:focus,div.code-toolbar>.toolbar>.toolbar-item>button:hover,div.code-toolbar>.toolbar>.toolbar-item>span:focus,div.code-toolbar>.toolbar>.toolbar-item>span:hover{color:inherit;text-decoration:none}
+diff --git a/css/style.css b/css/style.css
+index cec7961..a1f29a3 100644
+--- a/css/style.css
++++ b/css/style.css
+@@ -198,12 +198,12 @@ a {
+ }
+ 
+ .gutter.gutter-horizontal {
+-  background-image: url('./static/img/horizontal-gutter.png');
++  background-image: url('../static/img/horizontal-gutter.png');
+   cursor: col-resize;
+ }
+ 
+ .gutter.gutter-vertical {
+-  background-image: url('./static/img/vertical-gutter.png');
++  background-image: url('../static/img/vertical-gutter.png');
+   cursor: row-resize;
+   min-height: 10px;
+ }
+@@ -389,7 +389,7 @@ dialog {
+ div#canvas-pixelart {
+   width: 256px;
+   height: 256px;
+-  background-image: url("/static/img/transparente.png");
++  background-image: url("../static/img/transparente.png");
+   background-repeat: repeat;
+   background-color: #bbbbbb;
+ }
+@@ -634,7 +634,7 @@ button#abrir-comentarios {
+ 
+ 
+ #gameCanvas {
+-  background-color: #5F574F;
++  background-color: #898787;
+   max-width: 100%;
+   max-height: 100%;
+   image-rendering: pixelated;
+@@ -659,7 +659,7 @@ canvas:focus {
+ }
+ 
+ #imagen-del-juego-publicado {
+-  background-color: #5F574F;
++  background-color: #898787;
+ }
+ 
+ button#retro-acerca-de {
+diff --git a/ejemplos.html b/ejemplos.html
+index 661504e..8bdccba 100644
+--- a/ejemplos.html
++++ b/ejemplos.html
+@@ -23,6 +23,11 @@
+ 
+       const ejemplos = [
+         "cubo",
++        "caminata",
++        "hola-mundo",
++        "obtener-pixels",
++        "corazon",
++        "tunel",
+         "onda",
+         "ventana",
+         "numeros-al-azar",
+diff --git a/ejemplos/caminata/captura.png b/ejemplos/caminata/captura.png
+new file mode 100644
+index 0000000..74bed04
+Binary files /dev/null and b/ejemplos/caminata/captura.png differ
+diff --git a/ejemplos/caminata/proyecto.json b/ejemplos/caminata/proyecto.json
+new file mode 100644
+index 0000000..32f54c6
+--- /dev/null
++++ b/ejemplos/caminata/proyecto.json
+@@ -0,0 +1 @@
++{"hash":"ec2ef3fa-98f7-4ad1-9be2-10bcd5e3dc33","fecha":"2024-11-13T15:16:58.726Z","version":"1","screenshot":"data:image/png;base64,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","textura":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAoCAYAAAA2cfJIAAAAAXNSR0IArs4c6QAAAqNJREFUeF7tnLFOw0AMhi9P0BFegT4AUodWDOwMDGXjMSrxAAh2VoZu7cDAzoBgQGJkgJEVRp7gkNM4ctxLfEhd8P1ZmpzvLrH/73zOkFYhhBB/viL9tsflY31aXZ9VnfaBCz1HNdrvjGX7+GEvvB9/hz4732LX9lw/SuvHIsW4WJHgBMNGfCGgBQjZq9F+oDkacOp5eA49XkPQjK/kr3yGVDu3McB0L74Pn2uIShM3x98sAChJWID8BQC9yrcAazpogPquD+5i/Dit2oxD1zSFbMsJRol96qBZ6VsDkFpZ1hxD9rhYxfHhvBP/99d1uwUN2Uls6kvjpeA8htroXG9nqbZyAVisYrg4av2vU7QUQNUIqf2ZxsiD9vnQ1BI0d8rO8/CK1QKQeHI180qX/Xe5yp+eXzq10Gw6ya6B/is8mwyQWIGp1URQ0NG32mQQtDC8Unm8BCwXADn/rtM8iX97c9XeYrm+r8uQ/yps7nO3ANAqlYUUrd6ttNlkguQWICDqq/I5C0jx+UE1BEN7uhZ/RzVA901o82BlAKBpoYxQey9eA7lNt6dI++ueq++Xus6tEXjb0DUEaoB0TnBPeG4qLLUfAChV+cbvLQC4GFqu7wFHAXB0RJaVMAAoQH1Z5Z7PTzpVcCmvQWXI3O9lmwEYgEZ4HoFtwDkhENi5wJZ7AMCKkHM7AHAusOUeALAi5NwOAJwLbLkHAKwIObcDAOcCW+4BACtCzu0AwLnAlnsAwIqQczsAcC6w5R4AsCLk3A4AnAtsuQcArAg5twMA5wJb7gEAK0LO7QDAucCWewDAipBzOwBwLnDfl9fkNn3RDQAKAOD57TPp5Ww6AQDO9a8//QcA3lUe8A8AFCw+uQ4AAAC2gJIZQAYoWf2N76k/vmij8guMHsYwXyLs4gAAAABJRU5ErkJggg==","codigo":"class Personaje:\n    \n    def __init__(self):\n        self.x = azar()\n        self.y = azar()\n        \n    def avanzar(self):\n        self.x -= 0.5\n        \n        if self.x < -8:\n            self.x = 128\n\n    def dibujar(self):\n        cuadros = [0, 0, 0, 1, 1, 1]\n        dibujar(cuadros, self.x, self.y)\n\n\n# Crear a todos los personajes\npersonajes = [Personaje() for x in range(110)]\n\n# Ordena a los personajes por profundidad\npersonajes = sorted(personajes, key=lambda p: p.y)\n\nwhile True:\n    pintar(4)\n    \n    for p in personajes:\n        p.avanzar()\n        p.dibujar()\n","anchoDeTextura":128,"altoDeTextura":40}
+\ No newline at end of file
+diff --git a/ejemplos/corazon/captura.png b/ejemplos/corazon/captura.png
+new file mode 100644
+index 0000000..1248989
+Binary files /dev/null and b/ejemplos/corazon/captura.png differ
+diff --git a/ejemplos/corazon/proyecto.json b/ejemplos/corazon/proyecto.json
+new file mode 100644
+index 0000000..9a00fb8
+--- /dev/null
++++ b/ejemplos/corazon/proyecto.json
+@@ -0,0 +1 @@
++{"hash":"44aa8fd3-811f-4228-b8ff-55be8bff0de0","fecha":"2025-03-04T19:48:53.919Z","version":"1","screenshot":"data:image/png;base64,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","textura":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAoCAYAAAA2cfJIAAAAAXNSR0IArs4c6QAAAPFJREFUeF7tl8ENgCAQBI8KrMwyrNCm/FoBBkGjJFoAM3yI/mZvskCKunLb08d3++02WgJl4DnvW8S0RIq12TCfe/u+pBiNXZ5zxkWAqAPvlwKM74gCjD/jX0IFUIB67PfHgPXPMON5wbslcPiM4deL/nv1z0FOElBSn3jQwV/YCqAA8ATg+DaAAsATgOPbAAoATwCObwMoADwBOL4NoADwBOD4NoACwBOA49sACgBPAI5vAygAPAE4vg2gAPAE4Pg2gALAE4Dj2wAKAE8Ajm8DKAA8ATi+DaAA8ATg+DaAAsATgOPbAAoATwCObwPABTgAiBcZKVgQTs0AAAAASUVORK5CYII=","codigo":"tamaño = 8\nseparación = 8\npintar(13)\n\nfor x in range(16):\n    for y in range(16):\n        c = obtener_pixel(0, x, y)\n        if c:\n            dx = x*(tamaño + separación)\n            dy = y*(tamaño + separación)\n            circulo(8+dx, 8+dy, tamaño, c, True)"}
+\ No newline at end of file
+diff --git a/ejemplos/hola-mundo/captura.png b/ejemplos/hola-mundo/captura.png
+new file mode 100644
+index 0000000..963e1b0
+Binary files /dev/null and b/ejemplos/hola-mundo/captura.png differ
+diff --git a/ejemplos/hola-mundo/proyecto.json b/ejemplos/hola-mundo/proyecto.json
+new file mode 100644
+index 0000000..d193a28
+--- /dev/null
++++ b/ejemplos/hola-mundo/proyecto.json
+@@ -0,0 +1 @@
++{"fecha":"2024-10-22T20:32:33Z","version":"1","screenshot":"una captura de pantalla","textura":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAoCAYAAAA2cfJIAAAAAXNSR0IArs4c6QAAAL5JREFUeF7t1bENgDAUxNCf/YcG0aAIiQXilwpKO9ZljZM2sNL04GcP4Jp5//dvmg428F2A5+KfYxkOvvQdTQCRi/7D9AQIIG4gju+tF0DcQBzfAgggbiCObwEEEDcQx7cAAogbiONbAAHEDcTxLYAA4gbi+BZAAHEDcXwLIIC4gTi+BRBA3EAc3wIIIG4gjm8BBBA3EMe3AAKIG4jjWwABxA3E8S2AAOIG4vgWQABxA3F8CyCAuIE4vgWIB3ADSE8GKcVCdx4AAAAASUVORK5CYII=","codigo":"mensaje = \"Hola mundo!!!\"\n\nwhile True:\n    borrar()\n    for indice, letra in enumerate(mensaje):\n        print(letra, 11, indice * 6 - cuadro + 150, coseno((cuadro-indice*4)/10) * 10 + 64)\n        \n    if cuadro > 250:\n        cuadro = 0"}
+\ No newline at end of file
+diff --git a/ejemplos/obtener-pixels/captura.png b/ejemplos/obtener-pixels/captura.png
+new file mode 100644
+index 0000000..9b4cba6
+Binary files /dev/null and b/ejemplos/obtener-pixels/captura.png differ
+diff --git a/ejemplos/obtener-pixels/proyecto.json b/ejemplos/obtener-pixels/proyecto.json
+new file mode 100644
+index 0000000..5d09756
+--- /dev/null
++++ b/ejemplos/obtener-pixels/proyecto.json
+@@ -0,0 +1 @@
++{"hash":"caa5ca2d-7fa7-4287-90a1-e6b4414e618e","fecha":"2025-03-05T20:12:24.128Z","version":"1","screenshot":"data:image/png;base64,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","textura":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAoCAYAAAA2cfJIAAAAAXNSR0IArs4c6QAAAjNJREFUeF7tmbFKA0EURd+AfRoRQRsrMYVlsPETFGK0TBnET/AL8geCWKbUGNAvEBtJaWG0slEIYpNeGJnZzGYSRzGvm5ubZrMhD/bee/btm1kj44+VPSuji3AqprJqyhN+gXXAh+zDT3yM3E4gaNcn/zntEQ4QJHyQlwc1e1jve0mmKWI7/jgbspV2vZBNAEDilyJk25F0BwgQxHc/AYAJ39/w5QwwhuCqV/M/HV330+3fAXP6VXSL9hK7QeY4lDNAtXsjT419Ccep538YFEdDa85OCEDmoceXXwAwGtr7x1c5/tiR85UH2d3eSK4C3P+mirlSyB6Fss27QdC1/XD8U5mbCTgIZh/+1AwAoYYi5nbAd4Ctri1b+6BhuMaf28Z8C0oABg3jQJDfAHDP/3h3cPY8XwsW+8qN/dz0d3/17jnpRAAibBU7CPwwWGlJaqWw2Hbmp75s9/FjIMiIu0G5XezeF1RaxT5AvFWcn3ZecbwR9J9ZIH5nwPAx+EkOfO6xYJZf0sPgW83KerRLiOHDwqr4EXKYCZIAuPV/812ks8YtYBBkuOQDCVIrgwBonQOpIwAgQWplEACtcyB1BAAkSK0MAqB1DqSOAIAEqZVBALTOgdQRAJAgtTIIgNY5kDoCABKkVgYB0DoHUkcAQILUyiAAWudA6ggASJBaGQRA6xxIHQEACVIrgwBonQOpIwAgQWplEACtcyB1BAAkSK0MAqB1DqSOAIAEqZVBALTOgdR9AxWikinidD7aAAAAAElFTkSuQmCC","codigo":"tamaño = 3\nseparación = 4\npintar(2)\n\n\nfor x in range(32):\n    for y in range(32):\n        c = obtener_pixel(0, x, y)\n        if c:\n            dx = x*(tamaño + separación)\n            dy = y*(tamaño + separación)\n            circulo(8+dx, 8+dy, tamaño, c, True)"}
+\ No newline at end of file
+diff --git a/ejemplos/tunel/captura.png b/ejemplos/tunel/captura.png
+new file mode 100644
+index 0000000..0055372
+Binary files /dev/null and b/ejemplos/tunel/captura.png differ
+diff --git a/ejemplos/tunel/proyecto.json b/ejemplos/tunel/proyecto.json
+new file mode 100644
+index 0000000..a1dc530
+--- /dev/null
++++ b/ejemplos/tunel/proyecto.json
+@@ -0,0 +1 @@
++{"fecha":"2024-10-22T20:32:33Z","version":"1","screenshot":"una captura de pantalla","textura":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAoCAYAAAA2cfJIAAAAAXNSR0IArs4c6QAAAL5JREFUeF7t1bENgDAUxNCf/YcG0aAIiQXilwpKO9ZljZM2sNL04GcP4Jp5//dvmg428F2A5+KfYxkOvvQdTQCRi/7D9AQIIG4gju+tF0DcQBzfAgggbiCObwEEEDcQx7cAAogbiONbAAHEDcTxLYAA4gbi+BZAAHEDcXwLIIC4gTi+BRBA3EAc3wIIIG4gjm8BBBA3EMe3AAKIG4jjWwABxA3E8S2AAOIG4vgWQABxA3F8CyCAuIE4vgWIB3ADSE8GKcVCdx4AAAAASUVORK5CYII=","codigo":"import math\nanimar = True\n\nwhile True:\n    for x in range(-64, 64):\n        for y in range(-64, 64):\n            a = math.atan2(x, y) * 4\n            if animar:\n                distancia = seno(cuadro/10) * 100 / (math.sqrt(x*x + y*y) + 1)\n            else:\n                distancia = 100 / (math.sqrt(x*x + y*y) + 1)\n                \n            color = a + distancia\n            pixel(x+64, y+64, color)"}
+\ No newline at end of file
+diff --git a/electron.js b/electron.js
+index 9bb662d..b892849 100644
+--- a/electron.js
++++ b/electron.js
+@@ -8,8 +8,8 @@ app.commandLine.appendSwitch( "disable-site-isolation-trials" );
+ 
+ app.once('ready', () => {
+   window = new BrowserWindow({
+-    width: 720,
+-    height: 600,
++    width: 920,
++    height: 700,
+     show: false
+   })
+ 
+diff --git a/index.html b/index.html
+index 301db0d..44279ad 100644
+--- a/index.html
++++ b/index.html
+@@ -5,87 +5,7 @@
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <meta charset="UTF-8">
+     <link rel="stylesheet" href="./css/tachyons.min.css" />
+-    <style>
+-      body {
+-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+-        padding: 1em;
+-        line-height: 1.5;
+-        background-image: url('/static/pagina/fondo.png');
+-        background-repeat: repeat-y;
+-        background-position: center;
+-        background-color: #D8E5E4;
+-      }
+-
+-      .texto-justificado {
+-        text-align: justify;
+-      }
+-
+-      .caracteristica {
+-        display: block;
+-        margin: auto;
+-        border:2px solid silver;
+-        padding: 4px;
+-      }
+-
+-      .hero {
+-        margin: auto;
+-        text-align: center;
+-        background-color: #bbb;
+-      }
+-
+-      .botones {
+-        text-align: center;
+-      }
+-
+-      .tc {
+-        text-align: center;
+-      }
+-
+-      .tl {
+-        text-align: left;
+-      }
+-
+-      .measure {
+-        max-width: 720px;
+-        margin: auto;
+-      }
+-
+-      .grid {
+-        display: grid;
+-        grid-template-columns: repeat(3, 1fr);
+-        gap: 30px;
+-      }
+-
+-      .boton {
+-        display: inline-block;
+-        background-color: #839dcf;
+-        text-decoration: none;
+-        padding: 10px;
+-        border-radius: 8px;
+-        color: white;
+-        width: 200px;
+-      }
+-
+-      .boton:hover {
+-        outline: 2px solid #6174ff;
+-      }
+-
+-      .captura {
+-        width: 256px;
+-        height: 256px;
+-        display: block;
+-        background-color: silver;
+-        image-rendering: pixelated;
+-        margin: auto;
+-      }
+-
+-      pre {
+-        border: 1px solid #bbb;
+-        padding: 1em;
+-        background-color: #eee;
+-        border-radius: 5px;
+-      }
+-    </style>
++    <link rel="stylesheet" href="./css/index.css" />
+   </head>
+   <body class="tc measure">
+ 
+diff --git a/js/bus.js b/js/bus.js
+index 17c2a8d..db9fb7b 100644
+--- a/js/bus.js
++++ b/js/bus.js
+@@ -16,7 +16,6 @@ const EVENTOS = [
+   "señal-pixelart-borra-pixel",
+   "señal-actualizar-textura-del-proyecto",
+   "señal-cambia-el-cuadro-en-la-grilla",
+-  "señal-carga",
+   "señal-cargar-editor-pixelart",
+   "señal-abrir-ejemplo-local",
+ ]
+@@ -48,6 +47,7 @@ function recibirMensaje(receiver, name, callback) {
+   window.addEventListener(name, (e) => {
+     if (window.DEBUG_BUS) {
+       console.log("Receptor →", receiver);
++      console.log(callback);
+     }
+ 
+     callback.call(this, e.detail, e);
+diff --git a/js/configuracion.js b/js/configuracion.js
+index 7bfe9c2..aa3aa8e 100644
+--- a/js/configuracion.js
++++ b/js/configuracion.js
+@@ -2,6 +2,7 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
+ 
+ //const HOST = "http://127.0.0.1:8000";
+ const HOST = "https://retro-python-backend.pilas-engine.com.ar";
++const CONFIRMAR_CIERRE = false;
+ 
+ class Configuracion extends HTMLElement {
+ 
+@@ -84,4 +85,4 @@ class Configuracion extends HTMLElement {
+ 
+ }
+ 
+-export { Configuracion, HOST };
++export { Configuracion, HOST, CONFIRMAR_CIERRE };
+diff --git a/js/editor.js b/js/editor.js
+index f24d2e7..039c6db 100644
+--- a/js/editor.js
++++ b/js/editor.js
+@@ -38,7 +38,6 @@ class Editor extends HTMLElement {
+     });
+ 
+     recibirMensaje(this, "señal-comenzar-a-ejecutar", () => {
+-      console.log(this.editor);
+       this.editor.setReadOnly(true);
+ 
+       const editor = document.querySelector("#editor");
+@@ -95,7 +94,7 @@ class Editor extends HTMLElement {
+       fontSize: "12pt"
+     });
+ 
+-    //editor.setKeyboardHandler("ace/keyboard/vim");
++    editor.setKeyboardHandler("ace/keyboard/vim");
+     editor.setHighlightActiveLine(false);
+     editor.setShowPrintMargin(false);
+ 
+diff --git a/js/interprete.js b/js/interprete.js
+index b411a9e..486ff43 100644
+--- a/js/interprete.js
++++ b/js/interprete.js
+@@ -36,7 +36,7 @@ class Interprete extends HTMLElement {
+ 
+     recibirMensaje(this, "señal-comenzar-a-ejecutar", () => {
+       const data = proyecto.obtenerProyectoCompleto();
+-      this.ejecutar(data.codigo, data.textura);
++      this.ejecutar(data.codigo, data.textura, data.anchoDeTextura, data.altoDeTextura);
+     });
+ 
+     botonOcultarError.addEventListener("click", () => {
+@@ -56,11 +56,11 @@ class Interprete extends HTMLElement {
+     });
+   }
+ 
+-  async ejecutar(codigo, textura) {
++  async ejecutar(codigo, textura, ancho, alto) {
+     this.ejecutando = true;
+     this.limpiarErrores();
+ 
+-    const contexto = { textura };
++    const contexto = { textura, anchoDeTextura: ancho, altoDeTextura: alto };
+     const { resultado, error } = await asyncRun(codigo, contexto);
+ 
+     if (error) {
+diff --git a/js/manual.js b/js/manual.js
+index a0b01b7..0afe96f 100644
+--- a/js/manual.js
++++ b/js/manual.js
+@@ -39,34 +39,8 @@ class Manual extends HTMLElement {
+       }
+     });
+ 
+-
+-  }
+-
+-  initShareButtonAnimationFeedback() {
+-    const shareButton = document.querySelector("#share");
+-    tooltip.classList.add("show-tooltip");
+-    shareButton.setAttribute("disabled", "disabled");
+-
+-    setTimeout(() => {
+-      tooltip.classList.remove("show-tooltip");
+-      shareButton.removeAttribute("disabled");
+-    }, 1000);
+   }
+ 
+-  saveProjectInURL(code) {
+-    const project = {
+-      code: code
+-    }
+-
+-    const base64Encoded = btoa(JSON.stringify(project));
+-    var url = new URL(window.location.origin);
+-    url.searchParams.append('code', base64Encoded);
+-
+-    const newURL = url.toString();
+-
+-    navigator.clipboard.writeText(newURL);
+-    window.history.replaceState({}, window.title, newURL)
+-  }
+ }
+ 
+ export default Manual;
+diff --git a/js/pantalla.js b/js/pantalla.js
+index 75dbe0d..c6f7897 100644
+--- a/js/pantalla.js
++++ b/js/pantalla.js
+@@ -21,6 +21,10 @@ class Pantalla extends HTMLElement {
+     canvas.addEventListener("keydown", (evento) => {
+       const tecla = evento.code;
+ 
++      if (tecla === "ShiftRight" || tecla === "ShiftLeft") {
++        actualizarEstadoDelTeclado({shift: true});
++      }
++
+       if (tecla === "Escape") {
+         detenerEjecucionDePython();
+       }
+@@ -54,6 +58,10 @@ class Pantalla extends HTMLElement {
+     canvas.addEventListener("keyup", (evento) => {
+       const tecla = evento.code;
+ 
++      if (tecla === "ShiftRight" || tecla === "ShiftLeft") {
++        actualizarEstadoDelTeclado({shift: false});
++      }
++
+       if (tecla === "ArrowLeft" || tecla === "KeyH") {
+         actualizarEstadoDelTeclado({izquierda: false});
+       }
+diff --git a/js/proyecto.js b/js/proyecto.js
+index 00714d7..d457c52 100644
+--- a/js/proyecto.js
++++ b/js/proyecto.js
+@@ -24,6 +24,8 @@ class Proyecto {
+       "version": "1",
+       "screenshot": "una captura de pantalla",
+       "textura": TEXTURA_FIXTURE,
++      "anchoDeTextura": 128,
++      "altoDeTextura": 40,
+       "codigo": '',
+     }
+ 
+@@ -40,6 +42,8 @@ class Proyecto {
+ 
+     recibirMensaje(this, "señal-actualizar-textura-del-proyecto", (data) => {
+       this.datos.textura = data.textura;
++      this.datos.anchoDeTextura = data.ancho;
++      this.datos.altoDeTextura = data.alto;
+     });
+   }
+ 
+diff --git a/js/retro-cuadros-de-textura-pixelart.js b/js/retro-cuadros-de-textura-pixelart.js
+index 1867c75..a5343cc 100644
+--- a/js/retro-cuadros-de-textura-pixelart.js
++++ b/js/retro-cuadros-de-textura-pixelart.js
+@@ -56,7 +56,7 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
+   guardarCambiosEnLaTextura() {
+     const canvas = this.querySelector("#textura")
+     const textura = canvas.toDataURL();
+-    enviarMensaje(this, "señal-actualizar-textura-del-proyecto", {textura});
++    enviarMensaje(this, "señal-actualizar-textura-del-proyecto", {textura, ancho: 128, alto: 40});
+   }
+ 
+   conectarEventos() {
+diff --git a/js/retro-python-app.js b/js/retro-python-app.js
+index 7a30baa..53944df 100644
+--- a/js/retro-python-app.js
++++ b/js/retro-python-app.js
+@@ -1,6 +1,7 @@
+ import { enviarMensaje, recibirMensaje } from "./bus.js";
+ import { proyecto } from "./proyecto.js";
+ import { cargarProyecto, cargarEjemplo, esperar } from "./utils.js";
++import { CONFIRMAR_CIERRE } from "./configuracion.js";
+ 
+ 
+ class RetroPythonApp extends HTMLElement {
+@@ -13,6 +14,7 @@ class RetroPythonApp extends HTMLElement {
+   }
+ 
+   async iniciar() {
++
+     if (window.location.search.includes("proyecto=")) {
+       const proyecto = /proyecto=(.*)/.exec(window.location.search)[1];
+       const data = await cargarProyecto(proyecto);
+@@ -23,7 +25,6 @@ class RetroPythonApp extends HTMLElement {
+     }
+ 
+     this.ocultarOverlay();
+-
+   }
+ 
+ 
+@@ -46,28 +47,6 @@ class RetroPythonApp extends HTMLElement {
+ 
+       <div>
+ 
+-        <div class="barras-de-progreso">
+-
+-          <div>
+-            <div>biblioteca stdlib</div>
+-            <progress id='stdlib' value="0" step="0.01" max="1"></progress>
+-          </div>
+-
+-          <div>
+-            <div>entorno pyodide</div>
+-            <progress id='pyodide' value="0" step="0.01" max="1"></progress>
+-          </div>
+-
+-          <div>
+-            <div>biblioteca parso</div>
+-            <progress id='parso' value="0" step="0.01" max="1"></progress>
+-          </div>
+-
+-          <div>
+-            <div>biblioteca jedi</div>
+-            <progress id='jedi' value="0" step="0.01" max="1"></progress>
+-          </div>
+-        </div>
+ 
+       </div>
+ 
+@@ -101,13 +80,8 @@ class RetroPythonApp extends HTMLElement {
+ 
+     </div>
+ 
+-
+-
+-
+-
+-
+-      <div id="retro-python-app">
+-      </div>
++    <div id="retro-python-app">
++    </div>
+     `;
+   }
+ 
+@@ -124,34 +98,17 @@ class RetroPythonApp extends HTMLElement {
+       enviarMensaje(this, "señal-comenzar-a-ejecutar");
+     });
+ 
+-    recibirMensaje(this, "señal-carga", (datos) => {
+-
+-      if (isFinite(datos.progreso)) {
+-
+-        if (datos.url.includes("python_stdlib")) {
+-          const progreso = this.querySelector("#stdlib");
+-          progreso.value = datos.progreso;
+-        }
+-
+-        if (datos.url.includes("jedi")) {
+-          const progreso = this.querySelector("#jedi");
+-          progreso.value = datos.progreso;
+-        }
++    if (CONFIRMAR_CIERRE) {
++      window.onbeforeunload = function (e) {
++        e = e || window.event;
+ 
+-        if (datos.url.includes("parso")) {
+-          const progreso = this.querySelector("#parso");
+-          progreso.value = datos.progreso;
+-        }
+-        
+-        if (datos.url.includes("pyodide.asm.wasm")) {
+-          const progreso = this.querySelector("#pyodide");
+-          progreso.value = datos.progreso;
++        if (e) {
++          e.returnValue = 'Quieres cerrar la ventana?';
+         }
+ 
+-      }
+-
+-    });
+-
++        return 'Quieres cerrar la ventana?';
++      };
++    }
+ 
+   }
+ 
+diff --git a/js/servicios/python.js b/js/servicios/python.js
+deleted file mode 100644
+index 3008275..0000000
+--- a/js/servicios/python.js
++++ /dev/null
+@@ -1,265 +0,0 @@
+-import { enviarMensaje } from "../bus.js";
+-
+-class ServicioPython {
+-
+-  constructor() {
+-    this.pyodide = null;
+-  }
+-
+-  async iniciar() {
+-    console.log("Iniciando!!!");
+-
+-    let fetchOriginal = fetch;
+-    let fetchWithProgress = async (url) => {
+-      
+-      const urlComoTexto = "" + url;
+-
+-      if (!urlComoTexto.includes("pyodide") && !urlComoTexto.includes("ace")) {
+-        return fetchOriginal(url);
+-      }
+-
+-      const response = await fetchOriginal(url);
+-      // May be incorrect if compressed
+-      const contentLength = response.headers.get("Content-Length");
+-      const total = parseInt(contentLength, 10);
+-
+-      let bytesLoaded = 0;
+-      const ts = new TransformStream({
+-        transform (chunk, ctrl) {
+-          // Put some custom progress function here.
+-          bytesLoaded += chunk.byteLength;
+-
+-          enviarMensaje(this, "señal-carga", {
+-            url: urlComoTexto,
+-            progreso: bytesLoaded / total,
+-          });
+-
+-          ctrl.enqueue(chunk)
+-        }
+-      });
+-
+-      return new Response(response.body.pipeThrough(ts), response);
+-    }
+-    globalThis.fetch = fetchWithProgress;
+-
+-    this.pyodide = await loadPyodide();
+-    await this.pyodide.loadPackage("jedi");
+-
+-    globalThis.fetch = fetchOriginal; // put back original fetch
+-
+-  }
+-
+-  async ejecutar(codigoOriginal, textura, contexto) {
+-    this.pyodide.registerJsModule("contexto", contexto);
+-
+-    await contexto.canvas.actualizarTextura(textura);
+-    //contexto.canvas.textures.remove('sprites');
+-    //contexto.canvas.load.spritesheet("sprites", textura, { frameWidth: 8, frameHeight: 8 } );
+-    //contexto.canvas.load.start();
+-
+-    try {
+-      console.log("🔥 Detectando código para ejecutar, este es el código original")
+-      console.log(codigoOriginal);
+-
+-      this.pyodide.globals.set("__codigo", codigoOriginal);
+-
+-      let codigo = this.pyodide.runPython(`
+-import ast
+-import contexto
+-import asyncio
+-
+-mouse_x = 64
+-mouse_y = 64
+-cuadro = 0
+-click = False
+-
+-
+-def __actualizar_globales():
+-  global cuadro
+-  global mouse_x, mouse_y, click
+-  global espacio, izquierda, derecha, arriba, abajo
+-
+-  cuadro += 1
+-
+-  datos = contexto.canvas.actualizar()
+-  mouse_x = datos.mouse_x
+-  mouse_y = contexto.canvas.variables.mouse_y
+-  click = contexto.canvas.variables.click
+-
+-  espacio = contexto.canvas.variables.espacio
+-  izquierda = contexto.canvas.variables.izquierda
+-  derecha = contexto.canvas.variables.derecha
+-  arriba = contexto.canvas.variables.arriba
+-  abajo = contexto.canvas.variables.abajo
+-
+-def linea(x, y, x1, y1, color):
+-  contexto.canvas.linea(x, y, x1, y1, color)
+-
+-def azar(a=0, b=128):
+-  return contexto.canvas.azar(a, b)
+-
+-def seno(r):
+-  return contexto.canvas.seno(r)
+-
+-def coseno(r):
+-  return contexto.canvas.coseno(r)
+-
+-def arcotangente(r):
+-  return contexto.canvas.arcotangente(r)
+-
+-def arcotangente2(r):
+-  return contexto.canvas.arcotangente2(r)
+-
+-async def __inicio():
+-  borrar()
+-  __actualizar_globales()
+-  await asyncio.sleep(0.1)
+-
+-async def esperar(segundos=1):
+-  espera = min(segundos, 1/30)
+-
+-  while segundos > 0:
+-    # se hacen pausas muy cortitas, y en cada una
+-    # de ellas se intenta ver si el programa se
+-    # interrumpe o no.
+-    if contexto.continuar_ejecucion():
+-      __actualizar_globales()
+-      await asyncio.sleep(espera)
+-      segundos -= espera
+-    else:
+-      terminar()
+-
+-def terminar():
+-    exit(0)
+-
+-def __fin():
+-  contexto.__fin()
+-
+-def pintar(color):
+-  contexto.canvas.pintar(color)
+-
+-def circulo(x, y, radio, color, relleno):
+-  contexto.canvas.circulo(x, y, radio, color, relleno)
+-
+-def dibujar(indice, x, y):
+-  # si en lugar de un número se envía una lista, intenta hacer
+-  # una animación tomando cuadros de animación de esa lista.
+-  if type(indice).__name__ == "list":
+-    i = cuadro % len(indice)
+-    indice = indice[i]
+-
+-  contexto.canvas.dibujar(indice, x, y)
+-
+-def borrar():
+-  contexto.canvas.borrar()
+-
+-def distancia(x1, y1, x2, y2):
+-  return contexto.canvas.distancia(x1, y1, x2, y2)
+-
+-def rectangulo(x, y, width, height, color, relleno):
+-  contexto.canvas.rectangulo(x, y, width, height, color, relleno)
+-
+-def pixel(x, y, color):
+-  contexto.canvas.pixel(x, y, color)
+-
+-def print(mensaje, color=0, x=None, y=None):
+-  contexto.canvas.print(mensaje, color, x, y)
+-
+-def sonido(indice=None):
+-  contexto.canvas.sonido(indice)
+-
+-# __codigo viene de JavaScript
+-nodo = ast.parse(__codigo)
+-
+-class Transformador(ast.NodeTransformer):
+-
+-  # Agrega __inicio() y __fin() al principio y
+-  # final del programa.
+-  def visit_Module(self, nodo):
+-    super().generic_visit(nodo)
+-    nodo.body.insert(0, ast.parse("await __inicio()"))
+-    nodo.body.append(ast.parse("__fin()"))
+-    return nodo
+-
+-  # al final de cada while, agrega una pausa para poder
+-  # crear main-loops.
+-  def visit_While(self, nodo):
+-    super().generic_visit(nodo)
+-    pausa = ast.parse("await esperar(1/30)")
+-    nodo.body.append(pausa)
+-    return nodo
+-
+-  def visit_Call(self, nodo):
+-    if isinstance(nodo.func, ast.Name):
+-      # solo si encuentra una llamada a la función 'esperar'
+-      # reemplazará la sentencia por 'await esperar...'
+-      if nodo.func.id == "esperar":
+-        nodo_await = ast.parse("await esperar(0)")
+-        nodo_await.body[0].value.value = nodo
+-        return nodo_await.body[0].value
+-    return nodo
+-
+-nodo = Transformador().visit(nodo)
+-
+-
+-# Requiere pyton 3.9
+-# la siguiente linea debería retornar el string
+-# del código modificado a JavaScript
+-ast.unparse(nodo)`);
+-
+-      /*
+-       * TODO exponer estas funciones
+-       *
+-      dibujar: c.dibujar.bind(c),
+-      print: c.print.bind(c),
+-
+-      seno: c.seno.bind(c),
+-      coseno: c.coseno.bind(c),
+-      tangente: c.tangente.bind(c),
+-      arcotangente: c.arcotangente.bind(c),
+-      arcotangente2: c.arcotangente2.bind(c),
+-
+-      pixel: c.pixel.bind(c),
+-      flip: c.flip.bind(c),
+-
+-      sonido: c.sonido.bind(c),
+-
+-
+-    */
+-
+-      console.log("🤖 Aplicando conversión de código a través de un AST")
+-
+-      console.log("🔥 Luego de la conversión, este es el código que se ejecutará");
+-      console.log(codigo)
+-
+-      await this.pyodide.runPythonAsync(codigo);
+-
+-    } catch (error) {
+-
+-      // se considera que si el programa llamó a terminar/exit(0)
+-      // entonces no es un error, y se asumirá como una finalización
+-      // del programa.
+-      if (error.message.includes("SystemExit: 0")) {
+-        return;
+-      }
+-
+-      const detalleCompleto = error.message.split("\n");
+-      const cantidad = detalleCompleto.length;
+-
+-      // solo envía la última parte del error, para evitar todo
+-      // lo relacionado con las partes internas la de la herramienta.
+-      const ultimaLlamada = error.message.lastIndexOf("File ");
+-      const detalle = error.message.slice(ultimaLlamada, error.message.length)
+-
+-      enviarMensaje(this, "señal-mostrar-error", {
+-        detalle: detalle.split("\n")
+-      });
+-
+-    }
+-  }
+-}
+-
+-
+-const python = new ServicioPython();
+-
+-export { python };
+diff --git a/js/utils.js b/js/utils.js
+index d551995..9e932cc 100644
+--- a/js/utils.js
++++ b/js/utils.js
+@@ -16,6 +16,8 @@ async function cargarProyecto(hashDeProyecto) {
+     fetch(url)
+       .then(resolve => resolve.json())
+       .then(data => {
++        data.anchoDeTextura = data.anchoDeTextura || 128;
++        data.altoDeTextura = data.altoDeTextura || 40;
+         success(data);
+       })
+       .catch((err) => {
+diff --git a/js/vendor/file-saver.min.js b/js/vendor/file-saver.min.js
+index 6d493b2..0ec6dd2 100644
+--- a/js/vendor/file-saver.min.js
++++ b/js/vendor/file-saver.min.js
+@@ -1,3 +1 @@
+ (function(a,b){if("function"==typeof define&&define.amd)define([],b);else if("undefined"!=typeof exports)b();else{b(),a.FileSaver={exports:{}}.exports}})(this,function(){"use strict";function b(a,b){return"undefined"==typeof b?b={autoBom:!1}:"object"!=typeof b&&(console.warn("Deprecated: Expected third argument to be a object"),b={autoBom:!b}),b.autoBom&&/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a.type)?new Blob(["\uFEFF",a],{type:a.type}):a}function c(a,b,c){var d=new XMLHttpRequest;d.open("GET",a),d.responseType="blob",d.onload=function(){g(d.response,b,c)},d.onerror=function(){console.error("could not download file")},d.send()}function d(a){var b=new XMLHttpRequest;b.open("HEAD",a,!1);try{b.send()}catch(a){}return 200<=b.status&&299>=b.status}function e(a){try{a.dispatchEvent(new MouseEvent("click"))}catch(c){var b=document.createEvent("MouseEvents");b.initMouseEvent("click",!0,!0,window,0,0,0,80,20,!1,!1,!1,!1,0,null),a.dispatchEvent(b)}}var f="object"==typeof window&&window.window===window?window:"object"==typeof self&&self.self===self?self:"object"==typeof global&&global.global===global?global:void 0,a=/Macintosh/.test(navigator.userAgent)&&/AppleWebKit/.test(navigator.userAgent)&&!/Safari/.test(navigator.userAgent),g=f.saveAs||("object"!=typeof window||window!==f?function(){}:"download"in HTMLAnchorElement.prototype&&!a?function(b,g,h){var i=f.URL||f.webkitURL,j=document.createElement("a");g=g||b.name||"download",j.download=g,j.rel="noopener","string"==typeof b?(j.href=b,j.origin===location.origin?e(j):d(j.href)?c(b,g,h):e(j,j.target="_blank")):(j.href=i.createObjectURL(b),setTimeout(function(){i.revokeObjectURL(j.href)},4E4),setTimeout(function(){e(j)},0))}:"msSaveOrOpenBlob"in navigator?function(f,g,h){if(g=g||f.name||"download","string"!=typeof f)navigator.msSaveOrOpenBlob(b(f,h),g);else if(d(f))c(f,g,h);else{var i=document.createElement("a");i.href=f,i.target="_blank",setTimeout(function(){e(i)})}}:function(b,d,e,g){if(g=g||open("","_blank"),g&&(g.document.title=g.document.body.innerText="downloading..."),"string"==typeof b)return c(b,d,e);var h="application/octet-stream"===b.type,i=/constructor/i.test(f.HTMLElement)||f.safari,j=/CriOS\/[\d]+/.test(navigator.userAgent);if((j||h&&i||a)&&"undefined"!=typeof FileReader){var k=new FileReader;k.onloadend=function(){var a=k.result;a=j?a:a.replace(/^data:[^;]*;/,"data:attachment/file;"),g?g.location.href=a:location=a,g=null},k.readAsDataURL(b)}else{var l=f.URL||f.webkitURL,m=l.createObjectURL(b);g?g.location=m:location.href=m,g=null,setTimeout(function(){l.revokeObjectURL(m)},4E4)}});f.saveAs=g.saveAs=g,"undefined"!=typeof module&&(module.exports=g)});
+-
+-//# sourceMappingURL=FileSaver.min.js.map
+\ No newline at end of file
+diff --git a/js/vendor/keybinding-vim.js b/js/vendor/keybinding-vim.js
+index 78a98bb..51afef1 100644
+--- a/js/vendor/keybinding-vim.js
++++ b/js/vendor/keybinding-vim.js
+@@ -480,9 +480,6 @@ CodeMirror.isWordChar = function (ch) {
+             var pos = this.ace.session.screenToDocumentPosition(screenPos.row, screenPos.column);
+             return toCmPos(pos);
+         }
+-        else {
+-            debugger;
+-        }
+     };
+     this.charCoords = function (pos, mode) {
+         if (mode == 'div' || !mode) {
+diff --git a/manual.html b/manual.html
+index 6380533..201fa2a 100644
+--- a/manual.html
++++ b/manual.html
+@@ -61,6 +61,13 @@
+       manual, este pasará a ser parte del sistema de auto-completado
+       (snippet en realidad) de código.
+ 
++      El editor es capaz de obtener todos los ejemplos para autocompletar
++      usando dos señales. Primero, el componente `js/manual.js` carga este
++      archivo como un iframe, y cuando termina de cargarlo dispara el mensaje
++      "señal-manual-cargado". Esta señal es capturada por el componente
++      'js/editor.js' y ahí se hace la extracción e interpretación de las
++      opciones de autocompletado. Podes buscar la función `activarAutocompletado`
++      para más detalles.
+ 
+     -->
+     
+@@ -86,8 +93,6 @@
+       function subirScroll() {
+         window.scrollTo(0, 0);
+       }
+-
+-
+     </script>
+ 
+ 
+@@ -333,7 +338,19 @@ print("este es mi primer programa", azar())</code></pre>
+           grafico en el centro de la pantalla:
+ 
+           <pre id="ejemplo"><code class="language-python">dibujar(0, 64, 64)</code></pre>
+-        </div>
++      </div>
++
++      <div>
++        <h3 id="manual-obtener_pixel">obtener_pixel</h3>
++          Obtiene el color de un pixel dentro de la grilla de gráficos.
++
++          <pre><code class="language-python">obtener_pixel(indice, x, y)</code></pre>
++
++          Por ejemplo, para obtener el color del pixel del centro del dibujo 0
++          se puede escribir este código:
++
++          <pre id="ejemplo"><code class="language-python">obtener_pixel(0, 4, 4)</code></pre>
++      </div>
+ 
+       <div>
+         <h3 id="manual-sonido">sonido</h3>
+@@ -551,7 +568,7 @@ print("este es mi primer programa", azar())</code></pre>
+ 
+ 
+       <div>
+-        <h3 id="manual-izquieda">derecha</h3>
++        <h3 id="manual-derecha">derecha</h3>
+           Indica si el jugador pulsó la tecla derecha
+           del teclado o movió el gamepad en esa dirección.
+ 
+@@ -563,7 +580,7 @@ print("este es mi primer programa", azar())</code></pre>
+       </div>
+ 
+       <div>
+-        <h3 id="manual-izquieda">arriba</h3>
++        <h3 id="manual-arriba">arriba</h3>
+           Indica si el jugador pulsó la tecla arriba
+           del teclado o movió el gamepad en esa dirección.
+ 
+@@ -575,7 +592,7 @@ print("este es mi primer programa", azar())</code></pre>
+       </div>
+ 
+       <div>
+-        <h3 id="manual-izquieda">abajo</h3>
++        <h3 id="manual-abajo">abajo</h3>
+           Indica si el jugador pulsó la tecla abajo
+           del teclado o movió el gamepad en esa dirección.
+ 
+@@ -587,8 +604,9 @@ print("este es mi primer programa", azar())</code></pre>
+       </div>
+ 
+       <div>
+-        <h3 id="manual-izquieda">boton</h3>
+-          Indica si el jugador pulsó el botón principal.
++        <h3 id="manual-boton">boton</h3>
++          Indica si el jugador pulsó el botón principal, que se activa con
++          la tecla Space, Z o C.
+ 
+           <pre><code class="language-python">if boton:
+     print("debo disparar!")</code></pre>
+@@ -598,7 +616,18 @@ print("este es mi primer programa", azar())</code></pre>
+       </div>
+ 
+       <div>
+-        <h3 id="manual-izquieda">mouse_x</h3>
++        <h3 id="manual-boton">boton_secundario</h3>
++          Indica si el jugador pulsó el botón secundario que se activa con la tecla X.
++
++          <pre><code class="language-python">if boton_secundario:
++    print("debo abrir una puerta!")</code></pre>
++
++          <pre class="dn" id="ejemplo"><code class="language-python">boton_secundario</code></pre>
++
++      </div>
++
++      <div>
++        <h3 id="manual-mouse_x">mouse_x</h3>
+           Indica la posición horizontal del mouse.
+ 
+           <pre><code class="language-python">print("mouse_x es " + mouse_x)</code></pre>
+@@ -609,7 +638,7 @@ print("este es mi primer programa", azar())</code></pre>
+ 
+ 
+       <div>
+-        <h3 id="manual-izquieda">mouse_y</h3>
++        <h3 id="manual-mouse_y">mouse_y</h3>
+           Indica si el jugador pulsó la tecla mouse_y
+           del teclado o movió el gamepad en esa dirección.
+ 
+@@ -630,6 +659,29 @@ print("este es mi primer programa", azar())</code></pre>
+ 
+       </div>
+ 
++      <div>
++        <h3 id="manual-camara_x">camara_x</h3>
++          Indica la posición horizontal de la cámara en la pantalla.
++
++          <pre><code class="language-python">if derecha:
++    camara_x += 1</code></pre>
++
++          <pre id="ejemplo" class="dn"><code class="language-python">camara_x</code></pre>
++
++      </div>
++
++      <div>
++        <h3 id="manual-camara_y">camara_y</h3>
++          Indica la posición vertical de la cámara en la
++          pantalla.
++
++          <pre><code class="language-python">if arriba:
++    camara_y += 1</code></pre>
++
++          <pre id="ejemplo" class="dn"><code class="language-python">camara_y</code></pre>
++
++      </div>
++
+ 
+       <button id="subir" onclick="subirScroll()">🞁</button>
+ 
+diff --git a/package-lock.json b/package-lock.json
+index 380767b..33b67e3 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -7,9 +7,6 @@
+     "": {
+       "name": "retro-python",
+       "version": "0.0.1",
+-      "dependencies": {
+-        "vite": "^5.4.10"
+-      },
+       "devDependencies": {
+         "electron": "^33.2.1",
+         "electron-builder": "^25.1.8"
+@@ -34,9 +31,9 @@
+       }
+     },
+     "node_modules/@electron/asar": {
+-      "version": "3.2.17",
+-      "resolved": "https://registry.npmjs.org/@electron/asar/-/asar-3.2.17.tgz",
+-      "integrity": "sha512-OcWImUI686w8LkghQj9R2ynZ2ME693Ek6L1SiaAgqGKzBaTIZw3fHDqN82Rcl+EU1Gm9EgkJ5KLIY/q5DCRbbA==",
++      "version": "3.3.1",
++      "resolved": "https://registry.npmjs.org/@electron/asar/-/asar-3.3.1.tgz",
++      "integrity": "sha512-WtpC/+34p0skWZiarRjLAyqaAX78DofhDxnREy/V5XHfu1XEXbFCSSMcDQ6hNCPJFaPy8/NnUgYuf9uiCkvKPg==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+@@ -97,51 +94,6 @@
+         "global-agent": "^3.0.0"
+       }
+     },
+-    "node_modules/@electron/get/node_modules/fs-extra": {
+-      "version": "8.1.0",
+-      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-8.1.0.tgz",
+-      "integrity": "sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==",
+-      "dev": true,
+-      "license": "MIT",
+-      "dependencies": {
+-        "graceful-fs": "^4.2.0",
+-        "jsonfile": "^4.0.0",
+-        "universalify": "^0.1.0"
+-      },
+-      "engines": {
+-        "node": ">=6 <7 || >=8"
+-      }
+-    },
+-    "node_modules/@electron/get/node_modules/jsonfile": {
+-      "version": "4.0.0",
+-      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-4.0.0.tgz",
+-      "integrity": "sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==",
+-      "dev": true,
+-      "license": "MIT",
+-      "optionalDependencies": {
+-        "graceful-fs": "^4.1.6"
+-      }
+-    },
+-    "node_modules/@electron/get/node_modules/semver": {
+-      "version": "6.3.1",
+-      "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
+-      "integrity": "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==",
+-      "dev": true,
+-      "license": "ISC",
+-      "bin": {
+-        "semver": "bin/semver.js"
+-      }
+-    },
+-    "node_modules/@electron/get/node_modules/universalify": {
+-      "version": "0.1.2",
+-      "resolved": "https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz",
+-      "integrity": "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==",
+-      "dev": true,
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">= 4.0.0"
+-      }
+-    },
+     "node_modules/@electron/notarize": {
+       "version": "2.5.0",
+       "resolved": "https://registry.npmjs.org/@electron/notarize/-/notarize-2.5.0.tgz",
+@@ -173,6 +125,29 @@
+         "node": ">=10"
+       }
+     },
++    "node_modules/@electron/notarize/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/@electron/notarize/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
+     "node_modules/@electron/osx-sign": {
+       "version": "1.3.1",
+       "resolved": "https://registry.npmjs.org/@electron/osx-sign/-/osx-sign-1.3.1.tgz",
+@@ -195,6 +170,21 @@
+         "node": ">=12.0.0"
+       }
+     },
++    "node_modules/@electron/osx-sign/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
+     "node_modules/@electron/osx-sign/node_modules/isbinaryfile": {
+       "version": "4.0.10",
+       "resolved": "https://registry.npmjs.org/isbinaryfile/-/isbinaryfile-4.0.10.tgz",
+@@ -208,6 +198,29 @@
+         "url": "https://github.com/sponsors/gjtorikian/"
+       }
+     },
++    "node_modules/@electron/osx-sign/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/@electron/osx-sign/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
+     "node_modules/@electron/rebuild": {
+       "version": "3.6.1",
+       "resolved": "https://registry.npmjs.org/@electron/rebuild/-/rebuild-3.6.1.tgz",
+@@ -237,6 +250,57 @@
+         "node": ">=12.13.0"
+       }
+     },
++    "node_modules/@electron/rebuild/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/@electron/rebuild/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/@electron/rebuild/node_modules/semver": {
++      "version": "7.7.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz",
++      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==",
++      "dev": true,
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      },
++      "engines": {
++        "node": ">=10"
++      }
++    },
++    "node_modules/@electron/rebuild/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
+     "node_modules/@electron/universal": {
+       "version": "2.0.1",
+       "resolved": "https://registry.npmjs.org/@electron/universal/-/universal-2.0.1.tgz",
+@@ -257,9 +321,9 @@
+       }
+     },
+     "node_modules/@electron/universal/node_modules/fs-extra": {
+-      "version": "11.2.0",
+-      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-11.2.0.tgz",
+-      "integrity": "sha512-PmDi3uwK5nFuXh7XDTlVnS17xJS7vW36is2+w3xcv8SVxiB4NyATf4ctkVY5bkSjX0Y4nbvZCq1/EjtEyr9ktw==",
++      "version": "11.3.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-11.3.0.tgz",
++      "integrity": "sha512-Z4XaCL6dUDHfP/jT25jJKMmtxvuwbkrD1vNSMFlo9lNLY2c5FHYSQgHPRZUjAB26TpDEoW9HCOgplrdbaPV/ew==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+@@ -271,6 +335,19 @@
+         "node": ">=14.14"
+       }
+     },
++    "node_modules/@electron/universal/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
+     "node_modules/@electron/universal/node_modules/minimatch": {
+       "version": "9.0.5",
+       "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-9.0.5.tgz",
+@@ -287,349 +364,14 @@
+         "url": "https://github.com/sponsors/isaacs"
+       }
+     },
+-    "node_modules/@esbuild/aix-ppc64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/aix-ppc64/-/aix-ppc64-0.21.5.tgz",
+-      "integrity": "sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==",
+-      "cpu": [
+-        "ppc64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "aix"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/android-arm": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/android-arm/-/android-arm-0.21.5.tgz",
+-      "integrity": "sha512-vCPvzSjpPHEi1siZdlvAlsPxXl7WbOVUBBAowWug4rJHb68Ox8KualB+1ocNvT5fjv6wpkX6o/iEpbDrf68zcg==",
+-      "cpu": [
+-        "arm"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "android"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/android-arm64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/android-arm64/-/android-arm64-0.21.5.tgz",
+-      "integrity": "sha512-c0uX9VAUBQ7dTDCjq+wdyGLowMdtR/GoC2U5IYk/7D1H1JYC0qseD7+11iMP2mRLN9RcCMRcjC4YMclCzGwS/A==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "android"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/android-x64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/android-x64/-/android-x64-0.21.5.tgz",
+-      "integrity": "sha512-D7aPRUUNHRBwHxzxRvp856rjUHRFW1SdQATKXH2hqA0kAZb1hKmi02OpYRacl0TxIGz/ZmXWlbZgjwWYaCakTA==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "android"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/darwin-arm64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.21.5.tgz",
+-      "integrity": "sha512-DwqXqZyuk5AiWWf3UfLiRDJ5EDd49zg6O9wclZ7kUMv2WRFr4HKjXp/5t8JZ11QbQfUS6/cRCKGwYhtNAY88kQ==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "darwin"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/darwin-x64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.21.5.tgz",
+-      "integrity": "sha512-se/JjF8NlmKVG4kNIuyWMV/22ZaerB+qaSi5MdrXtd6R08kvs2qCN4C09miupktDitvh8jRFflwGFBQcxZRjbw==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "darwin"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/freebsd-arm64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/freebsd-arm64/-/freebsd-arm64-0.21.5.tgz",
+-      "integrity": "sha512-5JcRxxRDUJLX8JXp/wcBCy3pENnCgBR9bN6JsY4OmhfUtIHe3ZW0mawA7+RDAcMLrMIZaf03NlQiX9DGyB8h4g==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "freebsd"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/freebsd-x64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/freebsd-x64/-/freebsd-x64-0.21.5.tgz",
+-      "integrity": "sha512-J95kNBj1zkbMXtHVH29bBriQygMXqoVQOQYA+ISs0/2l3T9/kj42ow2mpqerRBxDJnmkUDCaQT/dfNXWX/ZZCQ==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "freebsd"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-arm": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-arm/-/linux-arm-0.21.5.tgz",
+-      "integrity": "sha512-bPb5AHZtbeNGjCKVZ9UGqGwo8EUu4cLq68E95A53KlxAPRmUyYv2D6F0uUI65XisGOL1hBP5mTronbgo+0bFcA==",
+-      "cpu": [
+-        "arm"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-arm64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-arm64/-/linux-arm64-0.21.5.tgz",
+-      "integrity": "sha512-ibKvmyYzKsBeX8d8I7MH/TMfWDXBF3db4qM6sy+7re0YXya+K1cem3on9XgdT2EQGMu4hQyZhan7TeQ8XkGp4Q==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-ia32": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-ia32/-/linux-ia32-0.21.5.tgz",
+-      "integrity": "sha512-YvjXDqLRqPDl2dvRODYmmhz4rPeVKYvppfGYKSNGdyZkA01046pLWyRKKI3ax8fbJoK5QbxblURkwK/MWY18Tg==",
+-      "cpu": [
+-        "ia32"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-loong64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-loong64/-/linux-loong64-0.21.5.tgz",
+-      "integrity": "sha512-uHf1BmMG8qEvzdrzAqg2SIG/02+4/DHB6a9Kbya0XDvwDEKCoC8ZRWI5JJvNdUjtciBGFQ5PuBlpEOXQj+JQSg==",
+-      "cpu": [
+-        "loong64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-mips64el": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-mips64el/-/linux-mips64el-0.21.5.tgz",
+-      "integrity": "sha512-IajOmO+KJK23bj52dFSNCMsz1QP1DqM6cwLUv3W1QwyxkyIWecfafnI555fvSGqEKwjMXVLokcV5ygHW5b3Jbg==",
+-      "cpu": [
+-        "mips64el"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-ppc64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-ppc64/-/linux-ppc64-0.21.5.tgz",
+-      "integrity": "sha512-1hHV/Z4OEfMwpLO8rp7CvlhBDnjsC3CttJXIhBi+5Aj5r+MBvy4egg7wCbe//hSsT+RvDAG7s81tAvpL2XAE4w==",
+-      "cpu": [
+-        "ppc64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-riscv64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-riscv64/-/linux-riscv64-0.21.5.tgz",
+-      "integrity": "sha512-2HdXDMd9GMgTGrPWnJzP2ALSokE/0O5HhTUvWIbD3YdjME8JwvSCnNGBnTThKGEB91OZhzrJ4qIIxk/SBmyDDA==",
+-      "cpu": [
+-        "riscv64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-s390x": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-s390x/-/linux-s390x-0.21.5.tgz",
+-      "integrity": "sha512-zus5sxzqBJD3eXxwvjN1yQkRepANgxE9lgOW2qLnmr8ikMTphkjgXu1HR01K4FJg8h1kEEDAqDcZQtbrRnB41A==",
+-      "cpu": [
+-        "s390x"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/linux-x64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.21.5.tgz",
+-      "integrity": "sha512-1rYdTpyv03iycF1+BhzrzQJCdOuAOtaqHTWJZCWvijKD2N5Xu0TtVC8/+1faWqcP9iBCWOmjmhoH94dH82BxPQ==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/netbsd-x64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/netbsd-x64/-/netbsd-x64-0.21.5.tgz",
+-      "integrity": "sha512-Woi2MXzXjMULccIwMnLciyZH4nCIMpWQAs049KEeMvOcNADVxo0UBIQPfSmxB3CWKedngg7sWZdLvLczpe0tLg==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "netbsd"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/openbsd-x64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/openbsd-x64/-/openbsd-x64-0.21.5.tgz",
+-      "integrity": "sha512-HLNNw99xsvx12lFBUwoT8EVCsSvRNDVxNpjZ7bPn947b8gJPzeHWyNVhFsaerc0n3TsbOINvRP2byTZ5LKezow==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "openbsd"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/sunos-x64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/sunos-x64/-/sunos-x64-0.21.5.tgz",
+-      "integrity": "sha512-6+gjmFpfy0BHU5Tpptkuh8+uw3mnrvgs+dSPQXQOv3ekbordwnzTVEb4qnIvQcYXq6gzkyTnoZ9dZG+D4garKg==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "sunos"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/win32-arm64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/win32-arm64/-/win32-arm64-0.21.5.tgz",
+-      "integrity": "sha512-Z0gOTd75VvXqyq7nsl93zwahcTROgqvuAcYDUr+vOv8uHhNSKROyU961kgtCD1e95IqPKSQKH7tBTslnS3tA8A==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "win32"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/win32-ia32": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/win32-ia32/-/win32-ia32-0.21.5.tgz",
+-      "integrity": "sha512-SWXFF1CL2RVNMaVs+BBClwtfZSvDgtL//G/smwAc5oVK/UPu2Gu9tIaRgFmYFFKrmg3SyAjSrElf0TiJ1v8fYA==",
+-      "cpu": [
+-        "ia32"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "win32"
+-      ],
+-      "engines": {
+-        "node": ">=12"
+-      }
+-    },
+-    "node_modules/@esbuild/win32-x64": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz",
+-      "integrity": "sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "win32"
+-      ],
++    "node_modules/@electron/universal/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
+       "engines": {
+-        "node": ">=12"
++        "node": ">= 10.0.0"
+       }
+     },
+     "node_modules/@gar/promisify": {
+@@ -797,6 +539,29 @@
+         "node": ">=10"
+       }
+     },
++    "node_modules/@malept/flatpak-bundler/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/@malept/flatpak-bundler/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
+     "node_modules/@npmcli/fs": {
+       "version": "2.1.2",
+       "resolved": "https://registry.npmjs.org/@npmcli/fs/-/fs-2.1.2.tgz",
+@@ -811,6 +576,19 @@
+         "node": "^12.13.0 || ^14.15.0 || >=16.0.0"
+       }
+     },
++    "node_modules/@npmcli/fs/node_modules/semver": {
++      "version": "7.7.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz",
++      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==",
++      "dev": true,
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      },
++      "engines": {
++        "node": ">=10"
++      }
++    },
+     "node_modules/@npmcli/move-file": {
+       "version": "2.0.1",
+       "resolved": "https://registry.npmjs.org/@npmcli/move-file/-/move-file-2.0.1.tgz",
+@@ -837,222 +615,6 @@
+         "node": ">=14"
+       }
+     },
+-    "node_modules/@rollup/rollup-android-arm-eabi": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.24.3.tgz",
+-      "integrity": "sha512-ufb2CH2KfBWPJok95frEZZ82LtDl0A6QKTa8MoM+cWwDZvVGl5/jNb79pIhRvAalUu+7LD91VYR0nwRD799HkQ==",
+-      "cpu": [
+-        "arm"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "android"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-android-arm64": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.24.3.tgz",
+-      "integrity": "sha512-iAHpft/eQk9vkWIV5t22V77d90CRofgR2006UiCjHcHJFVI1E0oBkQIAbz+pLtthFw3hWEmVB4ilxGyBf48i2Q==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "android"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-darwin-arm64": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.24.3.tgz",
+-      "integrity": "sha512-QPW2YmkWLlvqmOa2OwrfqLJqkHm7kJCIMq9kOz40Zo9Ipi40kf9ONG5Sz76zszrmIZZ4hgRIkez69YnTHgEz1w==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "darwin"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-darwin-x64": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.24.3.tgz",
+-      "integrity": "sha512-KO0pN5x3+uZm1ZXeIfDqwcvnQ9UEGN8JX5ufhmgH5Lz4ujjZMAnxQygZAVGemFWn+ZZC0FQopruV4lqmGMshow==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "darwin"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-freebsd-arm64": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-freebsd-arm64/-/rollup-freebsd-arm64-4.24.3.tgz",
+-      "integrity": "sha512-CsC+ZdIiZCZbBI+aRlWpYJMSWvVssPuWqrDy/zi9YfnatKKSLFCe6fjna1grHuo/nVaHG+kiglpRhyBQYRTK4A==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "freebsd"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-freebsd-x64": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-freebsd-x64/-/rollup-freebsd-x64-4.24.3.tgz",
+-      "integrity": "sha512-F0nqiLThcfKvRQhZEzMIXOQG4EeX61im61VYL1jo4eBxv4aZRmpin6crnBJQ/nWnCsjH5F6J3W6Stdm0mBNqBg==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "freebsd"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-arm-gnueabihf": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-arm-gnueabihf/-/rollup-linux-arm-gnueabihf-4.24.3.tgz",
+-      "integrity": "sha512-KRSFHyE/RdxQ1CSeOIBVIAxStFC/hnBgVcaiCkQaVC+EYDtTe4X7z5tBkFyRoBgUGtB6Xg6t9t2kulnX6wJc6A==",
+-      "cpu": [
+-        "arm"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-arm-musleabihf": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-arm-musleabihf/-/rollup-linux-arm-musleabihf-4.24.3.tgz",
+-      "integrity": "sha512-h6Q8MT+e05zP5BxEKz0vi0DhthLdrNEnspdLzkoFqGwnmOzakEHSlXfVyA4HJ322QtFy7biUAVFPvIDEDQa6rw==",
+-      "cpu": [
+-        "arm"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-arm64-gnu": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-arm64-gnu/-/rollup-linux-arm64-gnu-4.24.3.tgz",
+-      "integrity": "sha512-fKElSyXhXIJ9pqiYRqisfirIo2Z5pTTve5K438URf08fsypXrEkVmShkSfM8GJ1aUyvjakT+fn2W7Czlpd/0FQ==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-arm64-musl": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-arm64-musl/-/rollup-linux-arm64-musl-4.24.3.tgz",
+-      "integrity": "sha512-YlddZSUk8G0px9/+V9PVilVDC6ydMz7WquxozToozSnfFK6wa6ne1ATUjUvjin09jp34p84milxlY5ikueoenw==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-powerpc64le-gnu": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-powerpc64le-gnu/-/rollup-linux-powerpc64le-gnu-4.24.3.tgz",
+-      "integrity": "sha512-yNaWw+GAO8JjVx3s3cMeG5Esz1cKVzz8PkTJSfYzE5u7A+NvGmbVFEHP+BikTIyYWuz0+DX9kaA3pH9Sqxp69g==",
+-      "cpu": [
+-        "ppc64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-riscv64-gnu": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-riscv64-gnu/-/rollup-linux-riscv64-gnu-4.24.3.tgz",
+-      "integrity": "sha512-lWKNQfsbpv14ZCtM/HkjCTm4oWTKTfxPmr7iPfp3AHSqyoTz5AgLemYkWLwOBWc+XxBbrU9SCokZP0WlBZM9lA==",
+-      "cpu": [
+-        "riscv64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-s390x-gnu": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-s390x-gnu/-/rollup-linux-s390x-gnu-4.24.3.tgz",
+-      "integrity": "sha512-HoojGXTC2CgCcq0Woc/dn12wQUlkNyfH0I1ABK4Ni9YXyFQa86Fkt2Q0nqgLfbhkyfQ6003i3qQk9pLh/SpAYw==",
+-      "cpu": [
+-        "s390x"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-x64-gnu": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.24.3.tgz",
+-      "integrity": "sha512-mnEOh4iE4USSccBOtcrjF5nj+5/zm6NcNhbSEfR3Ot0pxBwvEn5QVUXcuOwwPkapDtGZ6pT02xLoPaNv06w7KQ==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-linux-x64-musl": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.24.3.tgz",
+-      "integrity": "sha512-rMTzawBPimBQkG9NKpNHvquIUTQPzrnPxPbCY1Xt+mFkW7pshvyIS5kYgcf74goxXOQk0CP3EoOC1zcEezKXhw==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "linux"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-win32-arm64-msvc": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-win32-arm64-msvc/-/rollup-win32-arm64-msvc-4.24.3.tgz",
+-      "integrity": "sha512-2lg1CE305xNvnH3SyiKwPVsTVLCg4TmNCF1z7PSHX2uZY2VbUpdkgAllVoISD7JO7zu+YynpWNSKAtOrX3AiuA==",
+-      "cpu": [
+-        "arm64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "win32"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-win32-ia32-msvc": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-win32-ia32-msvc/-/rollup-win32-ia32-msvc-4.24.3.tgz",
+-      "integrity": "sha512-9SjYp1sPyxJsPWuhOCX6F4jUMXGbVVd5obVpoVEi8ClZqo52ViZewA6eFz85y8ezuOA+uJMP5A5zo6Oz4S5rVQ==",
+-      "cpu": [
+-        "ia32"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "win32"
+-      ]
+-    },
+-    "node_modules/@rollup/rollup-win32-x64-msvc": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.24.3.tgz",
+-      "integrity": "sha512-HGZgRFFYrMrP3TJlq58nR1xy8zHKId25vhmm5S9jETEfDf6xybPxsavFTJaufe2zgOGYJBskGlj49CwtEuFhWQ==",
+-      "cpu": [
+-        "x64"
+-      ],
+-      "optional": true,
+-      "os": [
+-        "win32"
+-      ]
+-    },
+     "node_modules/@sindresorhus/is": {
+       "version": "4.6.0",
+       "resolved": "https://registry.npmjs.org/@sindresorhus/is/-/is-4.6.0.tgz",
+@@ -1112,11 +674,6 @@
+         "@types/ms": "*"
+       }
+     },
+-    "node_modules/@types/estree": {
+-      "version": "1.0.6",
+-      "resolved": "https://registry.npmjs.org/@types/estree/-/estree-1.0.6.tgz",
+-      "integrity": "sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw=="
+-    },
+     "node_modules/@types/fs-extra": {
+       "version": "9.0.13",
+       "resolved": "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-9.0.13.tgz",
+@@ -1145,20 +702,20 @@
+       }
+     },
+     "node_modules/@types/ms": {
+-      "version": "0.7.34",
+-      "resolved": "https://registry.npmjs.org/@types/ms/-/ms-0.7.34.tgz",
+-      "integrity": "sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==",
++      "version": "2.1.0",
++      "resolved": "https://registry.npmjs.org/@types/ms/-/ms-2.1.0.tgz",
++      "integrity": "sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==",
+       "dev": true,
+       "license": "MIT"
+     },
+     "node_modules/@types/node": {
+-      "version": "22.10.3",
+-      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.10.3.tgz",
+-      "integrity": "sha512-DifAyw4BkrufCILvD3ucnuN8eydUfc/C1GlyrnI+LK6543w5/L3VeVgf05o3B4fqSXP1dKYLOZsKfutpxPzZrw==",
+-      "devOptional": true,
++      "version": "20.17.19",
++      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.17.19.tgz",
++      "integrity": "sha512-LEwC7o1ifqg/6r2gn9Dns0f1rhK+fPFDoMiceTJ6kWmVk6bgXBI/9IOWfVan4WiAavK9pIVWdX0/e3J+eEUh5A==",
++      "dev": true,
+       "license": "MIT",
+       "dependencies": {
+-        "undici-types": "~6.20.0"
++        "undici-types": "~6.19.2"
+       }
+     },
+     "node_modules/@types/plist": {
+@@ -1184,9 +741,9 @@
+       }
+     },
+     "node_modules/@types/verror": {
+-      "version": "1.10.10",
+-      "resolved": "https://registry.npmjs.org/@types/verror/-/verror-1.10.10.tgz",
+-      "integrity": "sha512-l4MM0Jppn18hb9xmM6wwD1uTdShpf9Pn80aXTStnK1C94gtPvJcV2FrDmbOQUAQfJ1cKZHktkQUDwEqaAKXMMg==",
++      "version": "1.10.11",
++      "resolved": "https://registry.npmjs.org/@types/verror/-/verror-1.10.11.tgz",
++      "integrity": "sha512-RlDm9K7+o5stv0Co8i8ZRGxDbrTxhJtgjqjFyVh/tXQyl/rYtTKlnTvZ88oSTeYREWurwx20Js4kTuKCsFkUtg==",
+       "dev": true,
+       "license": "MIT",
+       "optional": true
+@@ -1364,11 +921,62 @@
+         "temp-file": "^3.4.0"
+       },
+       "engines": {
+-        "node": ">=14.0.0"
+-      },
+-      "peerDependencies": {
+-        "dmg-builder": "25.1.8",
+-        "electron-builder-squirrel-windows": "25.1.8"
++        "node": ">=14.0.0"
++      },
++      "peerDependencies": {
++        "dmg-builder": "25.1.8",
++        "electron-builder-squirrel-windows": "25.1.8"
++      }
++    },
++    "node_modules/app-builder-lib/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/app-builder-lib/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/app-builder-lib/node_modules/semver": {
++      "version": "7.7.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz",
++      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==",
++      "dev": true,
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      },
++      "engines": {
++        "node": ">=10"
++      }
++    },
++    "node_modules/app-builder-lib/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
+       }
+     },
+     "node_modules/aproba": {
+@@ -1692,6 +1300,44 @@
+         "node": ">=12.0.0"
+       }
+     },
++    "node_modules/builder-util/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/builder-util/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/builder-util/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
+     "node_modules/cacache": {
+       "version": "16.1.3",
+       "resolved": "https://registry.npmjs.org/cacache/-/cacache-16.1.3.tgz",
+@@ -1795,6 +1441,20 @@
+         "node": ">=8"
+       }
+     },
++    "node_modules/call-bind-apply-helpers": {
++      "version": "1.0.2",
++      "resolved": "https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz",
++      "integrity": "sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "es-errors": "^1.3.0",
++        "function-bind": "^1.1.2"
++      },
++      "engines": {
++        "node": ">= 0.4"
++      }
++    },
+     "node_modules/chalk": {
+       "version": "4.1.2",
+       "resolved": "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz",
+@@ -2347,6 +2007,44 @@
+         "dmg-license": "^1.0.11"
+       }
+     },
++    "node_modules/dmg-builder/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/dmg-builder/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/dmg-builder/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
+     "node_modules/dmg-license": {
+       "version": "1.0.11",
+       "resolved": "https://registry.npmjs.org/dmg-license/-/dmg-license-1.0.11.tgz",
+@@ -2403,6 +2101,21 @@
+         "url": "https://dotenvx.com"
+       }
+     },
++    "node_modules/dunder-proto": {
++      "version": "1.0.1",
++      "resolved": "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz",
++      "integrity": "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "call-bind-apply-helpers": "^1.0.1",
++        "es-errors": "^1.3.0",
++        "gopd": "^1.2.0"
++      },
++      "engines": {
++        "node": ">= 0.4"
++      }
++    },
+     "node_modules/eastasianwidth": {
+       "version": "0.2.0",
+       "resolved": "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz",
+@@ -2427,9 +2140,9 @@
+       }
+     },
+     "node_modules/electron": {
+-      "version": "33.2.1",
+-      "resolved": "https://registry.npmjs.org/electron/-/electron-33.2.1.tgz",
+-      "integrity": "sha512-SG/nmSsK9Qg1p6wAW+ZfqU+AV8cmXMTIklUL18NnOKfZLlum4ZsDoVdmmmlL39ZmeCaq27dr7CgslRPahfoVJg==",
++      "version": "33.4.2",
++      "resolved": "https://registry.npmjs.org/electron/-/electron-33.4.2.tgz",
++      "integrity": "sha512-kBoY1jlOCgQQJsVhaO4rYjKXL4FAsh6v42IzV5devYFFeMnciAPl02klrK5gD0VT8A2MeE4nulH32uYafca/VQ==",
+       "dev": true,
+       "hasInstallScript": true,
+       "license": "MIT",
+@@ -2485,6 +2198,85 @@
+         "fs-extra": "^10.1.0"
+       }
+     },
++    "node_modules/electron-builder-squirrel-windows/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "dev": true,
++      "license": "MIT",
++      "peer": true,
++      "dependencies": {
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/electron-builder-squirrel-windows/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "peer": true,
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/electron-builder-squirrel-windows/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "peer": true,
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
++    "node_modules/electron-builder/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/electron-builder/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/electron-builder/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
+     "node_modules/electron-publish": {
+       "version": "25.1.7",
+       "resolved": "https://registry.npmjs.org/electron-publish/-/electron-publish-25.1.7.tgz",
+@@ -2501,22 +2293,43 @@
+         "mime": "^2.5.2"
+       }
+     },
+-    "node_modules/electron/node_modules/@types/node": {
+-      "version": "20.17.11",
+-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.17.11.tgz",
+-      "integrity": "sha512-Ept5glCK35R8yeyIeYlRIZtX6SLRyqMhOFTgj5SOkMpLTdw3SEHI9fHx60xaUZ+V1aJxQJODE+7/j5ocZydYTg==",
++    "node_modules/electron-publish/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+-        "undici-types": "~6.19.2"
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
+       }
+     },
+-    "node_modules/electron/node_modules/undici-types": {
+-      "version": "6.19.8",
+-      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-6.19.8.tgz",
+-      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==",
++    "node_modules/electron-publish/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
+       "dev": true,
+-      "license": "MIT"
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/electron-publish/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
+     },
+     "node_modules/emoji-regex": {
+       "version": "8.0.0",
+@@ -2569,7 +2382,6 @@
+       "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==",
+       "dev": true,
+       "license": "MIT",
+-      "optional": true,
+       "engines": {
+         "node": ">= 0.4"
+       }
+@@ -2580,7 +2392,35 @@
+       "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==",
+       "dev": true,
+       "license": "MIT",
+-      "optional": true,
++      "engines": {
++        "node": ">= 0.4"
++      }
++    },
++    "node_modules/es-object-atoms": {
++      "version": "1.1.1",
++      "resolved": "https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.1.tgz",
++      "integrity": "sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "es-errors": "^1.3.0"
++      },
++      "engines": {
++        "node": ">= 0.4"
++      }
++    },
++    "node_modules/es-set-tostringtag": {
++      "version": "2.1.0",
++      "resolved": "https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz",
++      "integrity": "sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "es-errors": "^1.3.0",
++        "get-intrinsic": "^1.2.6",
++        "has-tostringtag": "^1.0.2",
++        "hasown": "^2.0.2"
++      },
+       "engines": {
+         "node": ">= 0.4"
+       }
+@@ -2593,43 +2433,6 @@
+       "license": "MIT",
+       "optional": true
+     },
+-    "node_modules/esbuild": {
+-      "version": "0.21.5",
+-      "resolved": "https://registry.npmjs.org/esbuild/-/esbuild-0.21.5.tgz",
+-      "integrity": "sha512-mg3OPMV4hXywwpoDxu3Qda5xCKQi+vCTZq8S9J/EpkhB2HzKXq4SNFZE3+NK93JYxc8VMSep+lOUSC/RVKaBqw==",
+-      "hasInstallScript": true,
+-      "bin": {
+-        "esbuild": "bin/esbuild"
+-      },
+-      "engines": {
+-        "node": ">=12"
+-      },
+-      "optionalDependencies": {
+-        "@esbuild/aix-ppc64": "0.21.5",
+-        "@esbuild/android-arm": "0.21.5",
+-        "@esbuild/android-arm64": "0.21.5",
+-        "@esbuild/android-x64": "0.21.5",
+-        "@esbuild/darwin-arm64": "0.21.5",
+-        "@esbuild/darwin-x64": "0.21.5",
+-        "@esbuild/freebsd-arm64": "0.21.5",
+-        "@esbuild/freebsd-x64": "0.21.5",
+-        "@esbuild/linux-arm": "0.21.5",
+-        "@esbuild/linux-arm64": "0.21.5",
+-        "@esbuild/linux-ia32": "0.21.5",
+-        "@esbuild/linux-loong64": "0.21.5",
+-        "@esbuild/linux-mips64el": "0.21.5",
+-        "@esbuild/linux-ppc64": "0.21.5",
+-        "@esbuild/linux-riscv64": "0.21.5",
+-        "@esbuild/linux-s390x": "0.21.5",
+-        "@esbuild/linux-x64": "0.21.5",
+-        "@esbuild/netbsd-x64": "0.21.5",
+-        "@esbuild/openbsd-x64": "0.21.5",
+-        "@esbuild/sunos-x64": "0.21.5",
+-        "@esbuild/win32-arm64": "0.21.5",
+-        "@esbuild/win32-ia32": "0.21.5",
+-        "@esbuild/win32-x64": "0.21.5"
+-      }
+-    },
+     "node_modules/escalade": {
+       "version": "3.2.0",
+       "resolved": "https://registry.npmjs.org/escalade/-/escalade-3.2.0.tgz",
+@@ -2655,9 +2458,9 @@
+       }
+     },
+     "node_modules/exponential-backoff": {
+-      "version": "3.1.1",
+-      "resolved": "https://registry.npmjs.org/exponential-backoff/-/exponential-backoff-3.1.1.tgz",
+-      "integrity": "sha512-dX7e/LHVJ6W3DE1MHWi9S1EYzDESENfLrYohG2G++ovZrYOkm4Knwa0mc1cn84xJOR4KEU0WSchhLbd0UklbHw==",
++      "version": "3.1.2",
++      "resolved": "https://registry.npmjs.org/exponential-backoff/-/exponential-backoff-3.1.2.tgz",
++      "integrity": "sha512-8QxYTVXUkuy7fIIoitQkPwGonB8F3Zj8eEO8Sqg9Zv/bkI7RJAzowee4gr81Hak/dUTpA2Z7VfQgoijjPNlUZA==",
+       "dev": true,
+       "license": "Apache-2.0"
+     },
+@@ -2741,13 +2544,13 @@
+       }
+     },
+     "node_modules/foreground-child": {
+-      "version": "3.3.0",
+-      "resolved": "https://registry.npmjs.org/foreground-child/-/foreground-child-3.3.0.tgz",
+-      "integrity": "sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==",
++      "version": "3.3.1",
++      "resolved": "https://registry.npmjs.org/foreground-child/-/foreground-child-3.3.1.tgz",
++      "integrity": "sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==",
+       "dev": true,
+       "license": "ISC",
+       "dependencies": {
+-        "cross-spawn": "^7.0.0",
++        "cross-spawn": "^7.0.6",
+         "signal-exit": "^4.0.1"
+       },
+       "engines": {
+@@ -2771,14 +2574,15 @@
+       }
+     },
+     "node_modules/form-data": {
+-      "version": "4.0.1",
+-      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.1.tgz",
+-      "integrity": "sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==",
++      "version": "4.0.2",
++      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.2.tgz",
++      "integrity": "sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "asynckit": "^0.4.0",
+         "combined-stream": "^1.0.8",
++        "es-set-tostringtag": "^2.1.0",
+         "mime-types": "^2.1.12"
+       },
+       "engines": {
+@@ -2794,18 +2598,18 @@
+       "peer": true
+     },
+     "node_modules/fs-extra": {
+-      "version": "10.1.0",
+-      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
+-      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "version": "8.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-8.1.0.tgz",
++      "integrity": "sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+         "graceful-fs": "^4.2.0",
+-        "jsonfile": "^6.0.1",
+-        "universalify": "^2.0.0"
++        "jsonfile": "^4.0.0",
++        "universalify": "^0.1.0"
+       },
+       "engines": {
+-        "node": ">=12"
++        "node": ">=6 <7 || >=8"
+       }
+     },
+     "node_modules/fs-minipass": {
+@@ -2828,17 +2632,14 @@
+       "dev": true,
+       "license": "ISC"
+     },
+-    "node_modules/fsevents": {
+-      "version": "2.3.3",
+-      "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+-      "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
+-      "hasInstallScript": true,
+-      "optional": true,
+-      "os": [
+-        "darwin"
+-      ],
+-      "engines": {
+-        "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
++    "node_modules/function-bind": {
++      "version": "1.1.2",
++      "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
++      "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
++      "dev": true,
++      "license": "MIT",
++      "funding": {
++        "url": "https://github.com/sponsors/ljharb"
+       }
+     },
+     "node_modules/gauge": {
+@@ -2872,6 +2673,45 @@
+         "node": "6.* || 8.* || >= 10.*"
+       }
+     },
++    "node_modules/get-intrinsic": {
++      "version": "1.3.0",
++      "resolved": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz",
++      "integrity": "sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "call-bind-apply-helpers": "^1.0.2",
++        "es-define-property": "^1.0.1",
++        "es-errors": "^1.3.0",
++        "es-object-atoms": "^1.1.1",
++        "function-bind": "^1.1.2",
++        "get-proto": "^1.0.1",
++        "gopd": "^1.2.0",
++        "has-symbols": "^1.1.0",
++        "hasown": "^2.0.2",
++        "math-intrinsics": "^1.1.0"
++      },
++      "engines": {
++        "node": ">= 0.4"
++      },
++      "funding": {
++        "url": "https://github.com/sponsors/ljharb"
++      }
++    },
++    "node_modules/get-proto": {
++      "version": "1.0.1",
++      "resolved": "https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz",
++      "integrity": "sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "dunder-proto": "^1.0.1",
++        "es-object-atoms": "^1.0.0"
++      },
++      "engines": {
++        "node": ">= 0.4"
++      }
++    },
+     "node_modules/get-stream": {
+       "version": "5.2.0",
+       "resolved": "https://registry.npmjs.org/get-stream/-/get-stream-5.2.0.tgz",
+@@ -2953,6 +2793,20 @@
+         "node": ">=10.0"
+       }
+     },
++    "node_modules/global-agent/node_modules/semver": {
++      "version": "7.7.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz",
++      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==",
++      "dev": true,
++      "license": "ISC",
++      "optional": true,
++      "bin": {
++        "semver": "bin/semver.js"
++      },
++      "engines": {
++        "node": ">=10"
++      }
++    },
+     "node_modules/globalthis": {
+       "version": "1.0.4",
+       "resolved": "https://registry.npmjs.org/globalthis/-/globalthis-1.0.4.tgz",
+@@ -2977,7 +2831,6 @@
+       "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==",
+       "dev": true,
+       "license": "MIT",
+-      "optional": true,
+       "engines": {
+         "node": ">= 0.4"
+       },
+@@ -3042,6 +2895,35 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/has-symbols": {
++      "version": "1.1.0",
++      "resolved": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz",
++      "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 0.4"
++      },
++      "funding": {
++        "url": "https://github.com/sponsors/ljharb"
++      }
++    },
++    "node_modules/has-tostringtag": {
++      "version": "1.0.2",
++      "resolved": "https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz",
++      "integrity": "sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "has-symbols": "^1.0.3"
++      },
++      "engines": {
++        "node": ">= 0.4"
++      },
++      "funding": {
++        "url": "https://github.com/sponsors/ljharb"
++      }
++    },
+     "node_modules/has-unicode": {
+       "version": "2.0.1",
+       "resolved": "https://registry.npmjs.org/has-unicode/-/has-unicode-2.0.1.tgz",
+@@ -3049,6 +2931,19 @@
+       "dev": true,
+       "license": "ISC"
+     },
++    "node_modules/hasown": {
++      "version": "2.0.2",
++      "resolved": "https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz",
++      "integrity": "sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "function-bind": "^1.1.2"
++      },
++      "engines": {
++        "node": ">= 0.4"
++      }
++    },
+     "node_modules/hosted-git-info": {
+       "version": "4.1.0",
+       "resolved": "https://registry.npmjs.org/hosted-git-info/-/hosted-git-info-4.1.0.tgz",
+@@ -3429,14 +3324,11 @@
+       }
+     },
+     "node_modules/jsonfile": {
+-      "version": "6.1.0",
+-      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
+-      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "version": "4.0.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-4.0.0.tgz",
++      "integrity": "sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==",
+       "dev": true,
+       "license": "MIT",
+-      "dependencies": {
+-        "universalify": "^2.0.0"
+-      },
+       "optionalDependencies": {
+         "graceful-fs": "^4.1.6"
+       }
+@@ -3689,6 +3581,16 @@
+         "node": ">=10"
+       }
+     },
++    "node_modules/math-intrinsics": {
++      "version": "1.1.0",
++      "resolved": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
++      "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 0.4"
++      }
++    },
+     "node_modules/mime": {
+       "version": "2.6.0",
+       "resolved": "https://registry.npmjs.org/mime/-/mime-2.6.0.tgz",
+@@ -3888,23 +3790,6 @@
+       "dev": true,
+       "license": "MIT"
+     },
+-    "node_modules/nanoid": {
+-      "version": "3.3.7",
+-      "resolved": "https://registry.npmjs.org/nanoid/-/nanoid-3.3.7.tgz",
+-      "integrity": "sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==",
+-      "funding": [
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/ai"
+-        }
+-      ],
+-      "bin": {
+-        "nanoid": "bin/nanoid.cjs"
+-      },
+-      "engines": {
+-        "node": "^10 || ^12 || ^13.7 || ^14 || >=15.0.1"
+-      }
+-    },
+     "node_modules/negotiator": {
+       "version": "0.6.4",
+       "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-0.6.4.tgz",
+@@ -3916,9 +3801,9 @@
+       }
+     },
+     "node_modules/node-abi": {
+-      "version": "3.71.0",
+-      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.71.0.tgz",
+-      "integrity": "sha512-SZ40vRiy/+wRTf21hxkkEjPJZpARzUMVcJoQse2EF8qkUWbbO2z7vd5oA/H6bVH6SZQ5STGcu0KRDS7biNRfxw==",
++      "version": "3.74.0",
++      "resolved": "https://registry.npmjs.org/node-abi/-/node-abi-3.74.0.tgz",
++      "integrity": "sha512-c5XK0MjkGBrQPGYG24GBADZud0NCbznxNx0ZkS+ebUTrmV1qTDxPxSL8zEAPURXSbLRWVexxmP4986BziahL5w==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+@@ -3928,6 +3813,19 @@
+         "node": ">=10"
+       }
+     },
++    "node_modules/node-abi/node_modules/semver": {
++      "version": "7.7.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz",
++      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==",
++      "dev": true,
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      },
++      "engines": {
++        "node": ">=10"
++      }
++    },
+     "node_modules/node-addon-api": {
+       "version": "1.7.2",
+       "resolved": "https://registry.npmjs.org/node-addon-api/-/node-addon-api-1.7.2.tgz",
+@@ -3946,6 +3844,19 @@
+         "semver": "^7.3.5"
+       }
+     },
++    "node_modules/node-api-version/node_modules/semver": {
++      "version": "7.7.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz",
++      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==",
++      "dev": true,
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      },
++      "engines": {
++        "node": ">=10"
++      }
++    },
+     "node_modules/node-gyp": {
+       "version": "9.4.1",
+       "resolved": "https://registry.npmjs.org/node-gyp/-/node-gyp-9.4.1.tgz",
+@@ -3972,6 +3883,19 @@
+         "node": "^12.13 || ^14.13 || >=16"
+       }
+     },
++    "node_modules/node-gyp/node_modules/semver": {
++      "version": "7.7.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz",
++      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==",
++      "dev": true,
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      },
++      "engines": {
++        "node": ">=10"
++      }
++    },
+     "node_modules/nopt": {
+       "version": "6.0.0",
+       "resolved": "https://registry.npmjs.org/nopt/-/nopt-6.0.0.tgz",
+@@ -4215,11 +4139,6 @@
+       "dev": true,
+       "license": "MIT"
+     },
+-    "node_modules/picocolors": {
+-      "version": "1.1.1",
+-      "resolved": "https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz",
+-      "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="
+-    },
+     "node_modules/plist": {
+       "version": "3.1.0",
+       "resolved": "https://registry.npmjs.org/plist/-/plist-3.1.0.tgz",
+@@ -4235,33 +4154,6 @@
+         "node": ">=10.4.0"
+       }
+     },
+-    "node_modules/postcss": {
+-      "version": "8.4.47",
+-      "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.4.47.tgz",
+-      "integrity": "sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==",
+-      "funding": [
+-        {
+-          "type": "opencollective",
+-          "url": "https://opencollective.com/postcss/"
+-        },
+-        {
+-          "type": "tidelift",
+-          "url": "https://tidelift.com/funding/github/npm/postcss"
+-        },
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/ai"
+-        }
+-      ],
+-      "dependencies": {
+-        "nanoid": "^3.3.7",
+-        "picocolors": "^1.1.0",
+-        "source-map-js": "^1.2.1"
+-      },
+-      "engines": {
+-        "node": "^10 || ^12 || >=14"
+-      }
+-    },
+     "node_modules/process-nextick-args": {
+       "version": "2.0.1",
+       "resolved": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz",
+@@ -4496,42 +4388,6 @@
+         "node": ">=8.0"
+       }
+     },
+-    "node_modules/rollup": {
+-      "version": "4.24.3",
+-      "resolved": "https://registry.npmjs.org/rollup/-/rollup-4.24.3.tgz",
+-      "integrity": "sha512-HBW896xR5HGmoksbi3JBDtmVzWiPAYqp7wip50hjQ67JbDz61nyoMPdqu1DvVW9asYb2M65Z20ZHsyJCMqMyDg==",
+-      "dependencies": {
+-        "@types/estree": "1.0.6"
+-      },
+-      "bin": {
+-        "rollup": "dist/bin/rollup"
+-      },
+-      "engines": {
+-        "node": ">=18.0.0",
+-        "npm": ">=8.0.0"
+-      },
+-      "optionalDependencies": {
+-        "@rollup/rollup-android-arm-eabi": "4.24.3",
+-        "@rollup/rollup-android-arm64": "4.24.3",
+-        "@rollup/rollup-darwin-arm64": "4.24.3",
+-        "@rollup/rollup-darwin-x64": "4.24.3",
+-        "@rollup/rollup-freebsd-arm64": "4.24.3",
+-        "@rollup/rollup-freebsd-x64": "4.24.3",
+-        "@rollup/rollup-linux-arm-gnueabihf": "4.24.3",
+-        "@rollup/rollup-linux-arm-musleabihf": "4.24.3",
+-        "@rollup/rollup-linux-arm64-gnu": "4.24.3",
+-        "@rollup/rollup-linux-arm64-musl": "4.24.3",
+-        "@rollup/rollup-linux-powerpc64le-gnu": "4.24.3",
+-        "@rollup/rollup-linux-riscv64-gnu": "4.24.3",
+-        "@rollup/rollup-linux-s390x-gnu": "4.24.3",
+-        "@rollup/rollup-linux-x64-gnu": "4.24.3",
+-        "@rollup/rollup-linux-x64-musl": "4.24.3",
+-        "@rollup/rollup-win32-arm64-msvc": "4.24.3",
+-        "@rollup/rollup-win32-ia32-msvc": "4.24.3",
+-        "@rollup/rollup-win32-x64-msvc": "4.24.3",
+-        "fsevents": "~2.3.2"
+-      }
+-    },
+     "node_modules/safe-buffer": {
+       "version": "5.2.1",
+       "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+@@ -4578,16 +4434,13 @@
+       "license": "ISC"
+     },
+     "node_modules/semver": {
+-      "version": "7.6.3",
+-      "resolved": "https://registry.npmjs.org/semver/-/semver-7.6.3.tgz",
+-      "integrity": "sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==",
++      "version": "6.3.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
++      "integrity": "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==",
+       "dev": true,
+       "license": "ISC",
+       "bin": {
+         "semver": "bin/semver.js"
+-      },
+-      "engines": {
+-        "node": ">=10"
+       }
+     },
+     "node_modules/semver-compare": {
+@@ -4665,6 +4518,19 @@
+         "node": ">=10"
+       }
+     },
++    "node_modules/simple-update-notifier/node_modules/semver": {
++      "version": "7.7.1",
++      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.1.tgz",
++      "integrity": "sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==",
++      "dev": true,
++      "license": "ISC",
++      "bin": {
++        "semver": "bin/semver.js"
++      },
++      "engines": {
++        "node": ">=10"
++      }
++    },
+     "node_modules/slice-ansi": {
+       "version": "3.0.0",
+       "resolved": "https://registry.npmjs.org/slice-ansi/-/slice-ansi-3.0.0.tgz",
+@@ -4693,9 +4559,9 @@
+       }
+     },
+     "node_modules/socks": {
+-      "version": "2.8.3",
+-      "resolved": "https://registry.npmjs.org/socks/-/socks-2.8.3.tgz",
+-      "integrity": "sha512-l5x7VUUWbjVFbafGLxPWkYsHIhEvmF85tbIeFZWc8ZPtoMyybuEhL7Jye/ooC4/d48FgOjSJXgsF/AJPYCW8Zw==",
++      "version": "2.8.4",
++      "resolved": "https://registry.npmjs.org/socks/-/socks-2.8.4.tgz",
++      "integrity": "sha512-D3YaD0aRxR3mEcqnidIs7ReYJFVzWdd6fXJYUM8ixcQcJRGTka/b3saV0KflYhyVJXKhb947GndU35SxYNResQ==",
+       "dev": true,
+       "license": "MIT",
+       "dependencies": {
+@@ -4745,14 +4611,6 @@
+         "node": ">=0.10.0"
+       }
+     },
+-    "node_modules/source-map-js": {
+-      "version": "1.2.1",
+-      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
+-      "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==",
+-      "engines": {
+-        "node": ">=0.10.0"
+-      }
+-    },
+     "node_modules/source-map-support": {
+       "version": "0.5.21",
+       "resolved": "https://registry.npmjs.org/source-map-support/-/source-map-support-0.5.21.tgz",
+@@ -4945,6 +4803,44 @@
+         "fs-extra": "^10.0.0"
+       }
+     },
++    "node_modules/temp-file/node_modules/fs-extra": {
++      "version": "10.1.0",
++      "resolved": "https://registry.npmjs.org/fs-extra/-/fs-extra-10.1.0.tgz",
++      "integrity": "sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "graceful-fs": "^4.2.0",
++        "jsonfile": "^6.0.1",
++        "universalify": "^2.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/temp-file/node_modules/jsonfile": {
++      "version": "6.1.0",
++      "resolved": "https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz",
++      "integrity": "sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "universalify": "^2.0.0"
++      },
++      "optionalDependencies": {
++        "graceful-fs": "^4.1.6"
++      }
++    },
++    "node_modules/temp-file/node_modules/universalify": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
++      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "dev": true,
++      "license": "MIT",
++      "engines": {
++        "node": ">= 10.0.0"
++      }
++    },
+     "node_modules/tmp": {
+       "version": "0.2.3",
+       "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.2.3.tgz",
+@@ -4990,9 +4886,9 @@
+       }
+     },
+     "node_modules/typescript": {
+-      "version": "5.7.2",
+-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.7.2.tgz",
+-      "integrity": "sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==",
++      "version": "5.7.3",
++      "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.7.3.tgz",
++      "integrity": "sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==",
+       "dev": true,
+       "license": "Apache-2.0",
+       "bin": {
+@@ -5004,10 +4900,10 @@
+       }
+     },
+     "node_modules/undici-types": {
+-      "version": "6.20.0",
+-      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-6.20.0.tgz",
+-      "integrity": "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==",
+-      "devOptional": true,
++      "version": "6.19.8",
++      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-6.19.8.tgz",
++      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==",
++      "dev": true,
+       "license": "MIT"
+     },
+     "node_modules/unique-filename": {
+@@ -5037,13 +4933,13 @@
+       }
+     },
+     "node_modules/universalify": {
+-      "version": "2.0.1",
+-      "resolved": "https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz",
+-      "integrity": "sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==",
++      "version": "0.1.2",
++      "resolved": "https://registry.npmjs.org/universalify/-/universalify-0.1.2.tgz",
++      "integrity": "sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==",
+       "dev": true,
+       "license": "MIT",
+       "engines": {
+-        "node": ">= 10.0.0"
++        "node": ">= 4.0.0"
+       }
+     },
+     "node_modules/uri-js": {
+@@ -5086,64 +4982,6 @@
+         "node": ">=0.6.0"
+       }
+     },
+-    "node_modules/vite": {
+-      "version": "5.4.10",
+-      "resolved": "https://registry.npmjs.org/vite/-/vite-5.4.10.tgz",
+-      "integrity": "sha512-1hvaPshuPUtxeQ0hsVH3Mud0ZanOLwVTneA1EgbAM5LhaZEqyPWGRQ7BtaMvUrTDeEaC8pxtj6a6jku3x4z6SQ==",
+-      "dependencies": {
+-        "esbuild": "^0.21.3",
+-        "postcss": "^8.4.43",
+-        "rollup": "^4.20.0"
+-      },
+-      "bin": {
+-        "vite": "bin/vite.js"
+-      },
+-      "engines": {
+-        "node": "^18.0.0 || >=20.0.0"
+-      },
+-      "funding": {
+-        "url": "https://github.com/vitejs/vite?sponsor=1"
+-      },
+-      "optionalDependencies": {
+-        "fsevents": "~2.3.3"
+-      },
+-      "peerDependencies": {
+-        "@types/node": "^18.0.0 || >=20.0.0",
+-        "less": "*",
+-        "lightningcss": "^1.21.0",
+-        "sass": "*",
+-        "sass-embedded": "*",
+-        "stylus": "*",
+-        "sugarss": "*",
+-        "terser": "^5.4.0"
+-      },
+-      "peerDependenciesMeta": {
+-        "@types/node": {
+-          "optional": true
+-        },
+-        "less": {
+-          "optional": true
+-        },
+-        "lightningcss": {
+-          "optional": true
+-        },
+-        "sass": {
+-          "optional": true
+-        },
+-        "sass-embedded": {
+-          "optional": true
+-        },
+-        "stylus": {
+-          "optional": true
+-        },
+-        "sugarss": {
+-          "optional": true
+-        },
+-        "terser": {
+-          "optional": true
+-        }
+-      }
+-    },
+     "node_modules/wcwidth": {
+       "version": "1.0.1",
+       "resolved": "https://registry.npmjs.org/wcwidth/-/wcwidth-1.0.1.tgz",
+diff --git a/package.json b/package.json
+index 58e8fdc..7228147 100644
+--- a/package.json
++++ b/package.json
+@@ -7,9 +7,6 @@
+     "dev": "vite --host=0.0.0.0"
+   },
+   "main": "electron.js",
+-  "dependencies": {
+-    "vite": "^5.4.10"
+-  },
+   "devDependencies": {
+     "electron": "^33.2.1",
+     "electron-builder": "^25.1.8"
+diff --git a/webworker.mjs b/webworker.mjs
+index 98ccd8f..6c980ce 100644
+--- a/webworker.mjs
++++ b/webworker.mjs
+@@ -1,3 +1,5 @@
++const DEBUG_WORKER = true;
++
+ // webworker.mjs
+ import { loadPyodide } from "./pyodide/pyodide.mjs";
+ import letras from "./js/letras.js";
+@@ -6,6 +8,15 @@ let pyodideReadyPromise = loadPyodide();
+ 
+ let ctx = null;
+ 
++function hex(numero) {
++  let tmp = numero.toString(16);
++
++  if (tmp.length === 1) {
++    return "0" + tmp;
++  } else {
++    return tmp;
++  }
++}
+ 
+ class Motor {
+ 
+@@ -13,17 +24,10 @@ class Motor {
+     this.posicionUltimoPrint = 0
+     this.mantenerEjecucion = true;
+ 
+-    this.mouse_x = 64;
+-    this.mouse_y = 64;
+-    this.click = false;
+-
+-    this.izquierda = false;
+-    this.derecha = false;
+-    this.arriba = false;
+-    this.abajo = false;
++    this.reiniciar_variables()
+ 
+-    this.boton = false;
+-    this.boton_secundario = false;
++    //const canvasParaObtenerPixel = new OffscreenCanvas(1, 1);
++    //this.contextoParaObtenerPixel = canvasParaObtenerPixel.getContext('2d');
+ 
+     this.colores = {
+       0: "#000000",
+@@ -47,6 +51,23 @@ class Motor {
+ 
+   reiniciar() {
+     this.borrar();
++    this.reiniciar_variables();
++  }
++
++  reiniciar_variables() {
++    this.mouse_x = 64;
++    this.mouse_y = 64;
++    this.click = false;
++
++    this.izquierda = false;
++    this.derecha = false;
++    this.arriba = false;
++    this.abajo = false;
++
++    this.boton = false;
++    this.boton_secundario = false;
++
++    this.shift = false;
+   }
+ 
+   obtenerIndiceDeColor(numero) {
+@@ -63,18 +84,60 @@ class Motor {
+     const columna = indice % 16;
+     x = parseInt(x, 10);
+     y = parseInt(y, 10);
+-    // TODO: la imagen tiene que venir de otra forma
+-    ctx.drawImage(this.imagen, columna * 8, 0, 8, 8, x, y, 8, 8);
++
++    ctx.drawImage(this.imagen, 
++      columna * 8, 0,  // sx, sy
++      8, 8,            // s width, s height
++      x, y,            // dx, dy
++      8, 8             // d width, s height
++    );
+   }
+ 
+-  async actualizarTextura(textura) {
++  obtenerPixel(indice, x, y) {
++    const pixel = this.pixels;
++    const pos = (y * 128 + x) * 4;
++
++    const r = hex(pixel.data[pos + 0]);
++    const g = hex(pixel.data[pos + 1]);
++    const b = hex(pixel.data[pos + 2]);
++    const color = `#${r}${g}${b}`.toUpperCase();
++
++    // si es un pixel transparente retorna null.
++    if (color == "#FF00FF") {
++      return -1
++    }
++
++    // si es otro color, lo retorna de la paleta de colores
++    return Object.keys(this.colores).find(indice => this.colores[indice] === color);
++  }
++
++  async actualizarTextura(textura, ancho, alto) {
+     // Este método se llama al ejecutar el proyecto, y se utiliza
+     // para que la textura con sprites esté siempre actualizada.
+     this.imagen = await createImageBitmap(b64toBlob(textura));
++    const W = 128;
++    const H = 128;
++
++    const canvas = new OffscreenCanvas(W, H);
++    const ctx = canvas.getContext('2d');
++
++    ctx.fillStyle = "#FF00FF";
++    ctx.fillRect(0, 0, W, H);
++
++    ctx.drawImage(this.imagen, 
++      0, 0,  // sx, sy
++      W, H,  // s width, s height
++      0, 0,  // dx, dy
++      W, H   // d width, s height
++    );
++
++    const pixels = ctx.getImageData(0, 0, W, H);
++    this.pixels = pixels;
+   }
+ 
+   borrar() {
+-    ctx.clearRect(0, 0, 128, 128);
++    ctx.fillStyle = "#898787";
++    ctx.fillRect(0, 0, 128, 128);
+     this.posicionUltimoPrint = 0;
+   }
+ 
+@@ -178,16 +241,29 @@ class Motor {
+     this.posicionUltimoPrint = 0;
+   }
+ 
++  pintar(color) {
++    this.rectangulo(0, 0, 128, 128, color, true);
++    this.posicionUltimoPrint = 0;
++  }
++
+   sonido(indice) {
+     self.postMessage({ callback: "sonido", argumento: indice });
+   }
+ 
+   print(texto, color, x, y) {
++    const paso = 8;
+     let avanzarLineas = false;
++    let hacerScroll = false;
+     texto = `${texto}`.toLowerCase()
+ 
+     if (x === undefined || y === undefined) {
+       x = 0;
++
++      if (this.posicionUltimoPrint >= 128) {
++        this.posicionUltimoPrint = 120;
++        hacerScroll = true;
++      }
++
+       y = this.posicionUltimoPrint;
+       avanzarLineas = true;
+     }
+@@ -195,12 +271,11 @@ class Motor {
+     // si el print va a pasar la parte inferior de la pantalla, produce
+     // un salto de linea, desplazando toda la pantalla hacia arriba y luego
+     // continua.
+-    if (avanzarLineas) {
+-      if (this.posicionUltimoPrint + 10 >= 128) {
++    if (hacerScroll) {
+         const data = ctx.getImageData(0, 0, 128, 128);
+-        ctx.clearRect(0, 0, 128, 128);
+-        ctx.putImageData(data, 0, -10);
+-      }
++        ctx.putImageData(data, 0, -8);
++        ctx.fillStyle = "#898787";
++        ctx.fillRect(0, 120, 128, 8);
+     }
+ 
+     for (let i = 0; i < texto.length; i++) {
+@@ -219,9 +294,10 @@ class Motor {
+     }
+ 
+     if (avanzarLineas) {
+-      if (this.posicionUltimoPrint <= 110) {
+-        this.posicionUltimoPrint += 10;
+-      }
++      this.posicionUltimoPrint += paso;
++      //if (this.posicionUltimoPrint <= 128 -8 - paso) {
++        //this.posicionUltimoPrint += paso;
++      //}
+     }
+   }
+ 
+@@ -302,13 +378,17 @@ self.onmessage = async (event) => {
+       motor.boton_secundario = evento.boton_secundario;
+     }
+ 
++    if ('shift' in evento) {
++      motor.shift = evento.shift;
++    }
++
+     return;
+   }
+ 
+   if (event.data.id === "conectar-el-canvas") {
+     const canvas = event.data.canvas;
+ 
+-    ctx = canvas.getContext("2d");
++    ctx = canvas.getContext("2d", {willReadFrequently: true, alpha: false });
+ 
+     return;
+   }
+@@ -319,7 +399,7 @@ self.onmessage = async (event) => {
+     motor.mantenerEjecucion = true;
+ 
+     context.motor = motor;
+-    await context.motor.actualizarTextura(context.textura)
++    await context.motor.actualizarTextura(context.textura, context.anchoDeTextura, context.altoDeTextura)
+     context.__codigo = python;
+ 
+ 
+@@ -344,12 +424,18 @@ derecha = False
+ arriba = False
+ abajo = False
+ boton = False
++camara_x = 0
++camara_y = 0
+ boton_secundario = False
+ cuadro = 1
+ 
+-
++motor.reiniciar()
+ 
+ def linea(x, y, x1, y1, color):
++  x -= camara_x
++  y -= camara_y
++  x1 -= camara_x
++  y1 -= camara_y
+   motor.linea(x, y, x1, y1, color)
+ 
+ def azar(a=0, b=128):
+@@ -396,6 +482,16 @@ async def esperar(segundos=1):
+ 
+     if motor.mantenerEjecucion:
+       __actualizar_globales()
++
++      # Impone una pausa extra por si el usuario mantiene pulsada
++      # la tecla shift.
++      if motor.shift:
++        print("CAMARA LENTA ...", 0, 1, 2)
++        print("CAMARA LENTA ...", 7, 1, 1)
++        for x in range(10):
++          if motor.shift and motor.mantenerEjecucion:
++            await asyncio.sleep(1/10)
++
+       await asyncio.sleep(espera)
+       segundos -= espera
+     else:
+@@ -406,18 +502,29 @@ def pintar(color):
+   motor.pintar(color)
+ 
+ def circulo(x, y, radio, color, relleno):
++  x -= camara_x
++  y -= camara_y
++
+   motor.circulo(x, y, radio, color, relleno)
+ 
+ def borrar():
+-  pintar(5)
++  motor.borrar()
+ 
+ def distancia(x1, y1, x2, y2):
++  x1 -= camara_x
++  y1 -= camara_y
++  x2 -= camara_x
++  y2 -= camara_y
+   return motor.distancia(x1, y1, x2, y2)
+ 
+-def rectangulo(x, y, width, height, color, relleno):
+-  motor.rectangulo(x, y, width, height, color, relleno)
++def rectangulo(x, y, ancho, alto, color, relleno):
++  x -= camara_x
++  y -= camara_y
++  motor.rectangulo(x, y, ancho, alto, color, relleno)
+ 
+ def pixel(x, y, color):
++  x -= camara_x
++  y -= camara_y
+   motor.pixel(x, y, color)
+ 
+ print_original = print
+@@ -425,20 +532,29 @@ print_original = print
+ def print(mensaje, color=0, x=None, y=None):
+   motor.print(mensaje, color, x, y)
+ 
+-## TODO: ojo, faltan funciones para sonidos y dibujar
+ def dibujar(indice, x=64, y=64):
+   global cuadro
++
+   # si en lugar de un número se envía una lista, intenta hacer
+   # una animación tomando cuadros de animación de esa lista.
++
+   if type(indice).__name__ == "list":
+     i = cuadro % len(indice)
+     indice = indice[i]
+ 
+-  motor.dibujar(indice, x, y)
++  motor.dibujar(indice, x - camara_x, y - camara_y)
+ 
+ def sonido(indice=None):
+   motor.sonido(indice)
+ 
++def obtener_pixel(indice, x, y):
++  i = motor.obtenerPixel(indice, x, y)
++
++  if i == -1:
++    return None
++  else:
++    return i
++
+ # Esta segunda parte del script se encarga de tomar
+ # el código que escribió la persona que programó en
+ # retro-python y lo convierte en una versión de código
+@@ -472,9 +588,11 @@ async def __main():
+   global mouse_x, mouse_y, click
+   global izquierda, derecha, arriba, abajo
+   global boton, boton_secundario
+-  pass
++  global camara_x, camara_y
+ await __main()""")
+-    ast_funcion_main.body[0].body = nodo.body
++  
++    for x in nodo.body:
++      ast_funcion_main.body[0].body.append(x)
+ 
+     return ast_funcion_main
+ 
+@@ -512,6 +630,7 @@ if __terminar:
+   return
+ 
+ """)
++
+     incrementar_cuadro = ast.parse("global cuadro")
+     nodo.body.insert(0, incrementar_cuadro)
+ 
