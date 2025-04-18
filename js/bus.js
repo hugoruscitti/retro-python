@@ -1,4 +1,4 @@
-window.DEBUG_BUS = true;
+window.DEBUG_BUS = false;
 
 const EVENTOS = [
   "señal-comenzar-a-ejecutar",          // Inicia el programa.

@@ -2,7 +2,7 @@ import { enviarMensaje } from "../bus.js";
 
 function getPromiseAndResolve() {
   let resolve;
-  let promise = new Promise((res) => {
+  const promise = new Promise((res) => {
     resolve = res;
   });
   return { promise, resolve };
@@ -30,8 +30,11 @@ function requestResponse(worker, msg) {
   return promise;
 }
 
-const pyodideWorker = new Worker("./webworker.mjs", { type: "module" });
+const pyodideWorker = new Worker("./js/worker/webworker.mjs", { type: "module" });
 
+pyodideWorker.onerror = error  => {
+  throw error;
+}
 
 pyodideWorker.addEventListener("message", function listener(event) {
   if (event.data && event.data.callback === "notificar-ejecucion-de-linea") {

@@ -106,20 +106,18 @@ class Pantalla extends HTMLElement {
   conectarFuncionParaAjustarTamaño(canvas, contenedor) {
 
     function ajustarTamaño() {
-        let scale = Math.min(
-          contenedor.clientWidth / canvas.width,
-          contenedor.clientHeight / canvas.height
-        );
+      let scale = Math.min(
+        contenedor.clientWidth / canvas.width,
+        contenedor.clientHeight / canvas.height
+      );
 
       if (scale < 1) {
         return;
       }
 
-        scale = Math.floor(scale);
-        canvas.style.width = `${Math.round(scale * canvas.width)}px`;
-        canvas.style.height = `${Math.round(scale * canvas.height)}px`;
-      canvas.setAttribute("scale", scale);
-      }
+      scale = Math.floor(scale);
+      canvas.style.transform = `scale(${scale})`;
+    }
 
     // TODO: evitar exponer esta función acá, en lugar
     // de eso generar un evento y responder a el.
