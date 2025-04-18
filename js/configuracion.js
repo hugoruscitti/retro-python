@@ -2,7 +2,7 @@ import { enviarMensaje, recibirMensaje } from "./bus.js";
 
 //const HOST = "http://127.0.0.1:8000";
 const HOST = "https://retro-python-backend.pilas-engine.com.ar";
-const CONFIRMAR_CIERRE = false;
+const CONFIRMAR_CIERRE = true;
 const INICIAR_EN_MODO_VIM = false;
 
 class Configuracion extends HTMLElement {
