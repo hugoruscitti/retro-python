@@ -1,7 +1,6 @@
 import { recibirMensaje, enviarMensaje } from "./bus.js";
-import { debounce } from "./utils.js";
+import { debounce, obtenerDesdeLocalStorage } from "./utils.js";
 import { proyecto } from "./proyecto.js";
-import { INICIAR_EN_MODO_VIM } from "./configuracion.js";
 
 class Editor extends HTMLElement {
 
@@ -40,7 +39,7 @@ class Editor extends HTMLElement {
 
     recibirMensaje(this, "señal-activar-el-modo-vim", (data) => {
       if (data.enabled) {
-        this.iniciarModoVIM();
+        this.iniciarModoVIM(this.editor);
       } else {
         this.editor.setKeyboardHandler();
       }
@@ -93,8 +92,8 @@ class Editor extends HTMLElement {
 
   }
 
-  iniciarModoVIM() {
-    this.editor.setKeyboardHandler("ace/keyboard/vim");
+  iniciarModoVIM(editor) {
+    editor.setKeyboardHandler("ace/keyboard/vim");
 
     ace.config.loadModule("ace/keybinding/vim", function() {
       const Vim = require("ace/keyboard/vim").Vim
@@ -112,19 +111,24 @@ class Editor extends HTMLElement {
     const editor = ace.edit("editor", {
       mode: "ace/mode/python",
       value: initialCode,
-      theme: "ace/theme/dracula",
       showGutter: true,
       behavioursEnabled: false,
       fontFamily: "code",
       fontSize: "12pt"
     });
 
-    if (INICIAR_EN_MODO_VIM) {
-      this.iniciarModoVIM();
-    }
+    const configuracionGuardada = obtenerDesdeLocalStorage("configuración", {});
+    console.log(configuracionGuardada);
+
 
     editor.setHighlightActiveLine(false);
     editor.setShowPrintMargin(false);
+
+    if (configuracionGuardada.modoOscuro) {
+      editor.setTheme("ace/theme/dracula");
+    } else {
+      editor.setTheme("ace/theme/tomorrow");
+    }
 
     recibirMensaje(this, "señal-activar-modo-oscuro", (data) => {
       if (data.activado) {
@@ -148,6 +152,10 @@ class Editor extends HTMLElement {
       },
       bindKey: {mac: "cmd-s", win: "ctrl-s"}
     });
+
+    if (configuracionGuardada.modoVim) {
+      this.iniciarModoVIM(editor);
+    }
 
     function updateLines(e, renderer) {
       var textLayer = renderer.$textLayer;

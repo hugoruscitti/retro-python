@@ -1,14 +1,19 @@
 import { enviarMensaje, recibirMensaje } from "./bus.js";
+import { obtenerDesdeLocalStorage, guardarEnLocalStorage } from "./utils.js";
 
 //const HOST = "http://127.0.0.1:8000";
 const HOST = "https://retro-python-backend.pilas-engine.com.ar";
 const CONFIRMAR_CIERRE = true;
-const INICIAR_EN_MODO_VIM = false;
+
+
+let configuracionGuardada = obtenerDesdeLocalStorage("configuración", {});
+
 
 class Configuracion extends HTMLElement {
 
   connectedCallback() {
     this.crearHTML();
+    this.reflejarConfiguraciónEnElDOM();
     this.conectarEventos();
   }
 
@@ -52,16 +57,27 @@ class Configuracion extends HTMLElement {
         </div>
 
         <form method="dialog">
-          <button>Aplicar la configuración</button>
+          <button id="guardar">Aplicar la configuración</button>
         </form>
 
 </dialog>
   `;
   }
 
+  reflejarConfiguraciónEnElDOM() {
+    const switchVim = this.querySelector("#vim");
+    const switchModoOscuro = this.querySelector("#modo-oscuro");
+
+    switchVim.checked = configuracionGuardada.modoVim;
+    switchModoOscuro.checked = configuracionGuardada.modoOscuro;
+  }
+
   conectarEventos() {
     const boton = this.querySelector("#boton-configuracion");
     const dialogo = this.querySelector("#dialogo-configuracion");
+    const guardar = this.querySelector("#guardar");
+    const switchVim = this.querySelector("#vim");
+    const switchModoOscuro = this.querySelector("#modo-oscuro");
 
     boton.addEventListener("click", function() {
       dialogo.showModal();
@@ -73,17 +89,27 @@ class Configuracion extends HTMLElement {
     });
     */
 
-    this.querySelector("#vim").addEventListener("change", function(e) {
+    switchVim.addEventListener("change", function(e) {
       enviarMensaje(this, "señal-activar-el-modo-vim", { enabled: e.target.checked });
     });
 
-    this.querySelector("#modo-oscuro").addEventListener("change", function(e) {
+    switchModoOscuro.addEventListener("change", function(e) {
       enviarMensaje(this, "señal-activar-modo-oscuro", { activado: e.target.checked });
     });
 
+
+    guardar.addEventListener("click", function() {
+      configuracionGuardada = {
+        modoVim: switchVim.checked,
+        modoOscuro: switchModoOscuro.checked,
+      };
+      
+      guardarEnLocalStorage("configuración", configuracionGuardada);
+      console.log("Guardando la configuración en localStorage");
+    });
 
   }
 
 }
 
-export { Configuracion, HOST, CONFIRMAR_CIERRE, INICIAR_EN_MODO_VIM };
+export { Configuracion, HOST, CONFIRMAR_CIERRE };

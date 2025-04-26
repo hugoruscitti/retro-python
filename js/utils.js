@@ -47,4 +47,18 @@ async function esperar(segundos) {
   })
 }
 
-export { esperar, debounce, cargarProyecto, cargarEjemplo };
+function obtenerDesdeLocalStorage(clave, valorDefault) {
+  let datos = localStorage.getItem(clave);
+  if (datos) {
+    return JSON.parse(datos);
+  } else {
+    return valorDefault;
+  }
+}
+
+function guardarEnLocalStorage(clave, json) {
+  let datosComoString = JSON.stringify(json);
+  localStorage.setItem(clave, datosComoString);
+}
+
+export { esperar, debounce, cargarProyecto, cargarEjemplo, obtenerDesdeLocalStorage, guardarEnLocalStorage };
