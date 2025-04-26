@@ -127,6 +127,7 @@ camara_x = 0
 camara_y = 0
 boton_secundario = False
 cuadro = 1
+buffer = []
 
 motor.reiniciar()
 
@@ -159,6 +160,7 @@ def __actualizar_globales():
   global mouse_x, mouse_y, click
   global izquierda, derecha, arriba, abajo
   global boton, boton_secundario
+  global buffer
 
   mouse_x = motor.mouse_x
   mouse_y = motor.mouse_y
@@ -171,6 +173,7 @@ def __actualizar_globales():
   boton = motor.boton
   boton_secundario = motor.boton_secundario
   motor.actualizarPantalla()
+  buffer = motor.imageData.data
 
 async def esperar(segundos=1):
   espera = min(segundos, 1/30)
