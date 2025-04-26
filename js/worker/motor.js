@@ -377,10 +377,10 @@ class Motor {
           let si = ((y+8) * 128 + x) * 4;
           let di = (y * 128 + x) * 4;
 
-          data[si+0] = data[di+0];
-          data[si+1] = data[di+1];
-          data[si+2] = data[di+2];
-          data[si+3] = data[di+3];
+          data[di+0] = data[si+0];
+          data[di+1] = data[si+1];
+          data[di+2] = data[si+2];
+          data[di+3] = data[si+3];
         }
       }
 
