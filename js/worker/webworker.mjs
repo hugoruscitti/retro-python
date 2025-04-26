@@ -1,5 +1,5 @@
 /*jshint esversion: 8 */
-const CAPTURAR_ERRORES = false;
+const CAPTURAR_ERRORES = true;
 
 // webworker.mjs
 import { loadPyodide } from "../../pyodide/pyodide.mjs";
