@@ -26,16 +26,16 @@ binarios:
 	@echo "Para generar binarios primero se tiene que crear un nuevo tag"
 	@echo "siguiendo estos pasos:"
 	@echo " "
-	@echo " cat package.json | grep version"
+	@echo " 1) cat package.json | grep version"
 	@echo " "
 	@echo " (incrementar esta versión)"
 	@echo " "
-	@echo " ejecutar un comando como:"
+	@echo " 2) ejecutar un comando como:"
 	@echo " "
 	@echo " git tag 0.0.3"
 	@echo " git push --tags"
 	@echo " "
-	@echo " make crear-binarios"
+	@echo " 3) make crear-binarios"
 	@echo " "
 	@echo " y por último subirlos al sitio que indica el comando anterior."
 	@echo " "
@@ -46,8 +46,9 @@ crear-binarios:
 	@echo "Borrando binarios anteriores..."
 	rm -rf dist/retro-python*
 	@sleep 1
-	CSC_IDENTITY_AUTO_DISCOVERY=false time ./node_modules/.bin/electron-builder -mwl
+	CSC_IDENTITY_AUTO_DISCOVERY=false time ./node_modules/.bin/electron-builder -mwl --win=portable
 	@echo "${Y}los archivos generados están en el directorio 'dist'${N}"
+	zip --junk-paths -r dist/retro-python-windows-portable.zip dist/win-unpacked
 	ls dist/retro-python* | grep -v block
 	@echo "${Y}el siguiente paso es subirlos como release aquí https://github.com/hugoruscitti/retro-python/tags${N}"
 
