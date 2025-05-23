@@ -5,8 +5,13 @@ import { obtenerDesdeLocalStorage, guardarEnLocalStorage } from "./utils.js";
 const HOST = "https://retro-python-backend.pilas-engine.com.ar";
 const CONFIRMAR_CIERRE = true;
 
+function obtenerConfiguración() {
+  let configuraciónPorOmisión = {modoOscuro: true};
+  let configuracionGuardada = obtenerDesdeLocalStorage("configuración", configuraciónPorOmisión);
+  return configuracionGuardada;
+}
 
-let configuracionGuardada = obtenerDesdeLocalStorage("configuración", {});
+
 
 
 class Configuracion extends HTMLElement {
@@ -67,6 +72,7 @@ class Configuracion extends HTMLElement {
   reflejarConfiguraciónEnElDOM() {
     const switchVim = this.querySelector("#vim");
     const switchModoOscuro = this.querySelector("#modo-oscuro");
+    let configuracionGuardada = obtenerConfiguración();
 
     switchVim.checked = configuracionGuardada.modoVim;
     switchModoOscuro.checked = configuracionGuardada.modoOscuro;
@@ -112,4 +118,4 @@ class Configuracion extends HTMLElement {
 
 }
 
-export { Configuracion, HOST, CONFIRMAR_CIERRE };
+export { Configuracion, HOST, CONFIRMAR_CIERRE, obtenerConfiguración };

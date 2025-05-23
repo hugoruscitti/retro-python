@@ -1,6 +1,7 @@
 import { recibirMensaje, enviarMensaje } from "./bus.js";
 import { debounce, obtenerDesdeLocalStorage } from "./utils.js";
 import { proyecto } from "./proyecto.js";
+import { obtenerConfiguración } from "./configuracion.js";
 
 class Editor extends HTMLElement {
 
@@ -117,8 +118,7 @@ class Editor extends HTMLElement {
       fontSize: "12pt"
     });
 
-    const configuracionGuardada = obtenerDesdeLocalStorage("configuración", {});
-    console.log(configuracionGuardada);
+    const configuracionGuardada = obtenerConfiguración();
 
 
     editor.setHighlightActiveLine(false);
