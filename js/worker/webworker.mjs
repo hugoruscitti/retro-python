@@ -118,6 +118,8 @@ import asyncio
 mouse_x = 0
 mouse_y = 0
 click = False
+click_sin_repetir = False
+__tmp_click_anterior = False
 izquierda = False
 derecha = False
 arriba = False
@@ -161,10 +163,15 @@ def __actualizar_globales():
   global izquierda, derecha, arriba, abajo
   global boton, boton_secundario
   global buffer
+  global __tmp_click_anterior, click_sin_repetir
 
   mouse_x = motor.mouse_x
   mouse_y = motor.mouse_y
   click = motor.click
+
+  click_sin_repetir = click and not __tmp_click_anterior
+
+  __tmp_click_anterior = click
 
   izquierda = motor.izquierda
   derecha = motor.derecha
@@ -189,8 +196,8 @@ async def esperar(segundos=1):
       # Impone una pausa extra por si el usuario mantiene pulsada
       # la tecla shift.
       if motor.shift:
-        print("CAMARA LENTA ...", 0, 1, 2)
-        print("CAMARA LENTA ...", 7, 1, 1)
+        # Modo camara lenta, ten en ecuenta que el texto "camara lenta" que
+        # aparece en el canvas está en otro lado, buscá el método visit_While
         for x in range(10):
           if motor.shift and motor.mantenerEjecucion:
             await asyncio.sleep(1/10)
@@ -301,9 +308,6 @@ if True:
 
 
 
-
-
-
     ast_funcion_main = ast.parse("""
 async def __main():
   global cuadro
@@ -347,6 +351,12 @@ await __main()""")
     #else:
 
     pausa = ast.parse("""
+
+if motor.shift:
+  # Aquí se imprime el texto del modo cámara lenta porque
+  # se quiere imprimir justo antes de la pausa del bucle.
+  print(f"CAMARA LENTA ...", 0, 1, 2)
+  print("CAMARA LENTA ...", 7, 1, 1)
 __terminar = await esperar(1/60)
 
 if __terminar:

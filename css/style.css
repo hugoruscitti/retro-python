@@ -676,3 +676,9 @@ span.widget.stack-message {
   padding-right: 6px;
   pointer-events: auto;
 }
+
+
+/* Esto oculta el botón 'copiar' en el autocompletado del editor ace */
+.ace_tooltip .toolbar {
+  display: none;
+}

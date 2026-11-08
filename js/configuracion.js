@@ -105,7 +105,7 @@ class Configuracion extends HTMLElement {
 
 
     guardar.addEventListener("click", function() {
-      configuracionGuardada = {
+      let configuracionGuardada = {
         modoVim: switchVim.checked,
         modoOscuro: switchModoOscuro.checked,
       };
