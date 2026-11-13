@@ -11,6 +11,7 @@ all:
 	@echo "  ${G}make ejecutar${N}"
 	@echo "  ${G}make electron${N}"
 	@echo "  ${G}make binarios${N}"
+	@echo "  ${G}make deploy | publicar${N}"
 	@echo ""
 
 iniciar:
@@ -54,3 +55,21 @@ crear-binarios:
 
 electron:
 	./node_modules/.bin/electron .
+
+publicar: deploy
+
+
+deploy:
+	git push origin master
+	@echo " "
+	@echo "${G}"
+	@echo "Deberías ver la versión actualizada en:"
+	@echo " "
+	@echo "https://retro-python.com.ar"
+	@echo " "
+	@echo "(aunque puede demorar unos minutos)"
+	@echo " "
+	@echo "${N}"
+
+
+
