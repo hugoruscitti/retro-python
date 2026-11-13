@@ -290,22 +290,22 @@ class Transformador(ast.NodeTransformer):
   # Poner el código dentro de una función __main() es
   # importante porque esto permite que el script pueda
   # ser terminado con la sentencia "return".
+  #
+  # Esta función también agrega un efecto al reiniciar
+  # el programa, que puede ser un efecto de pantalla negra, o
+  # de interferencia como era antes.
+
   def visit_Module(self, nodo):
     super().generic_visit(nodo)
 
     nodo.body.insert(0, ast.parse("""
+
 if True:
-    for x in range(7):
-        for x in range(128):
-            for y in range(128):
-                pixel(x, y, 5+azar()%3)
-        await esperar(1/60)
+    pintar(0)
+    await esperar(1/10)
     borrar()
+
 """))
-    #nodo.body.insert(0, ast.parse("borrar()"))
-
-
-
 
 
     ast_funcion_main = ast.parse("""
