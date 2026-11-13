@@ -147,7 +147,7 @@ class Interprete extends HTMLElement {
       //e = e.replace(`File \"<exec>\", `, "");
 
       e = e.replace(/TypeError: (.*) takes (.*) positional arguments but (.*) was given/, "Error en los argumentos, la función $1 esperaba $2 argumentos, pero se llamó con $3");
-      e = e.replace(/NameError: name (.*) is not defined/, "La variable o función $1 no está definida")
+      e = e.replace(/NameError: name (.*) is not defined/, "La variable, clase o función $1 no está definida")
       e = e.replace(/Did you mean: (.*)?/, "¿Quisiste escribir $1");
       e = e.replace(/(.*), line (\d+), in __main/, "");
       e = e.replace(/(.*), line (\d+), in/, "");

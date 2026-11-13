@@ -68,11 +68,11 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
 
       <div class="editor-de-pixelart-consejo">
         Para dibujar este cuadro número <span id="cuadro">0</span>
-        podrías usar un código como este
-        <code>dibujar(<span id="cuadroEjemplo">0</span>, 64, 64)</code>.
+        podrías usar un código como este:
+
+        <code class="ba bg-black-05 db pa2">dibujar(<span id="cuadroEjemplo">0</span>, 64, 64)</code>
       </div>
 
-      <button id="alternar-fondo">Alternar fondo</button>
     `;
   }
 
@@ -84,7 +84,6 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
 
   conectarEventos() {
     const contenedor = this.querySelector("#retro-cuadros-de-textura-pixelart");
-    const boton = this.querySelector("#alternar-fondo");
     const cursor = this.querySelector("#cursor-de-textura");
     const cursorDeCuadro = this.querySelector("#cursor-de-cuadro");
     const canvas = this.querySelector("#textura")
@@ -175,9 +174,6 @@ class CuadrosDeTexturaPixelart extends HTMLElement {
       this.guardarCambiosEnLaTextura();
     });
 
-    boton.addEventListener("click", function() {
-      enviarMensaje(this, "señal-alternar-fondo-transparente", {});
-    });
   }
 
   obtenerPixelsDesdeArchivo(file) {

@@ -32,14 +32,24 @@ class PixelartColores extends HTMLElement {
     });
 
     this.innerHTML = `
-      <div id="retro-pixelart-colores">
+      <div id="retro-pixelart-colores" class="ml2">
         ${elementosColores.join("\n")}
       </div>
+
+      <div class="pa2">
+        <button id="alternar-fondo">Alternar fondo</button>
+      </div>
+      
     `;
   }
 
   conectarEventos() {
     const contenedor = this.querySelector("#retro-pixelart-colores");
+    const boton = this.querySelector("#alternar-fondo");
+
+    boton.addEventListener("click", function() {
+      enviarMensaje(this, "señal-alternar-fondo-transparente", {});
+    });
 
     contenedor.addEventListener("click", function(event) {
       const el = event.target;
