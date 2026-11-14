@@ -419,7 +419,6 @@ div#canvas-pixelart {
 }
 
 #retro-pixelart-colores {
-  margin-left: 5px;
   display: grid;
   grid-gap: 2px;
   grid-template-columns: repeat(4, 32px);
