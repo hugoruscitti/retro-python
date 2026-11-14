@@ -295,6 +295,18 @@ a {
 
 .ace_tooltip {
   white-space: normal !important;
+
+  background-color: #636363;
+  color: #fff;
+  font-size: small;
+  height: 25em;
+  overflow: scroll
+}
+
+.ace-dracula table {
+  color: white;
+  font-size: small;
+  margin-top: 1em;
 }
 
 .barra-de-botones {
